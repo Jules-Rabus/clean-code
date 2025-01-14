@@ -1,6 +1,8 @@
 node_modules
 dist
-build
 Dockerfile
 docker-compose.yml
-.env
+docker-compose.prod.yml
+.git
+.gitignore
+.idea

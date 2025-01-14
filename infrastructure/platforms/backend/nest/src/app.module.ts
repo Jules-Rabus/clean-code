@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaService } from '../prisma.service';
-import { BikesModule } from './bikes/bikes.module';
-
+import { BikesModule } from '@app/nest/src/bikes/bikes.module';
+//import SequelizeConnector from '../../../database/sequelize/sequelize';
 
 @Module({
   imports: [BikesModule],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

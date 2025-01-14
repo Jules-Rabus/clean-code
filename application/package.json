@@ -1,7 +1,6 @@
 {
     "private": true,
-    "type": "module",
-    "name": "application",
+    "name": "@app/application",
     "dependencies": {
       "@types/node": "^22.10.6"
     }

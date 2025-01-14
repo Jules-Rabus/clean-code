@@ -1,0 +1,21 @@
+{
+    "name": "@app/sequelize",
+    "private": true,
+    "version": "1.0.0",
+    "scripts": {
+        "migrate:up": "sequelize db:migrate",
+        "migrate:undo": "sequelize db:migrate:undo",
+        "make:migration": "sequelize migration:generate --name"
+    },
+    "dependencies": {
+        "reflect-metadata": "^0.2.2",
+        "sequelize": "^6.37.5",
+        "sequelize-typescript": "^2.1.6"
+    },
+    "devDependencies": {
+        "@types/node": "^22.13.0",
+        "@types/sequelize": "^4.28.20",
+        "@types/validator": "^13.12.2",
+        "sequelize-cli": "^6.6.2"
+    }
+}

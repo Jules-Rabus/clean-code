@@ -1,12 +1,20 @@
 {
+    "name": "app",
     "private": true,
     "workspaces": [
         "application",
         "domain",
-        "infrastructure/adapters/sequelize",
-        "infrastructure/adapters/mongoose",
+        "infrastructure/database/sequelize",
+        "infrastructure/database/mongoose",
         "infrastructure/platforms/backend/nest",
         "infrastructure/platforms/backend/express",
         "infrastructure/platforms/frontend/react"
-    ]
+    ],
+    "scripts": {
+        "build": "npm run build --workspaces",
+        "start:nest": "npm run start:nest --workspaces=nest",
+        "start:nest:dev": "npm run start:dev --workspaces=nest",
+        "start:express": "npm run start:express --workspaces=express",
+        "test": "npm run build --workspaces nest && npm run node --workspaces=nest"
+    }
 }

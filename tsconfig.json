@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-      "target": "esnext",
-      "module": "esnext",
+      "target": "ES2021",
+      "module": "commonjs",
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
       "exactOptionalPropertyTypes": true,
@@ -21,6 +21,9 @@
       "strictNullChecks": true,
       "strictPropertyInitialization": true,
       "useUnknownInCatchVariables": true,
-      "noErrorTruncation": true
+      "noErrorTruncation": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "forceConsistentCasingInFileNames": true,
     }
   }

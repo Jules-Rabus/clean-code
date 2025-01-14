@@ -1,41 +1,35 @@
 services:
-  nest:
-    build:
-      context: ./infrastructure/platforms/backend/nest
-      dockerfile: dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./infrastructure/platforms/backend/nest:/app
-    environment:
-      NODE_ENV: production
 
-  react:
-    build:
-      context: ./infrastructure/platforms/frontend/front-react
-      dockerfile: dockerfile
-    platform: linux/amd64
+  node:
+    build: .
     ports:
-      - "80:80"
-    volumes:
-      - ./infrastructure/platforms/frontend/front-react:/app
+      - '3001:3001'
     environment:
-      NODE_ENV: production
+      - PORT=${PORT:-3001}
+      - NODE_ENV=${NODE_ENV:-prod}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_USER=${POSTGRES_USER:-root}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-app}
+    volumes:
+      - .:/app
 
-  sql:
-    image: postgres:15
+  postgres:
+    image: postgres:17
     container_name: postgres_db
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: moto_management
+      POSTGRES_DB: app
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   mongo:
-    image: mongo:5
+    image: mongo:8.0
     container_name: mongo_db
     ports:
       - "27017:27017"
@@ -44,6 +38,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongo_data:/data/db
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:

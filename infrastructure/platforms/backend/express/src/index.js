@@ -1,6 +1,8 @@
-import express from 'express';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
 // Create an Express application
-const app = express();
+const app = (0, express_1.default)();
 // Set the port number for the server
 const port = 3000;
 // Define a route for the root path ('/')

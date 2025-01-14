@@ -1,7 +1,6 @@
 {
     "private": true,
-    "type": "module",
-    "name": "domain",
+    "name": "@app/domain",
     "dependencies": {
       "@types/node": "^22.10.6"
     }

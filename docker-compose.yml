@@ -1,49 +1,62 @@
 services:
-  nest:
-    build:
-      context: ./infrastructure/platforms/backend/nest
-      dockerfile: dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./infrastructure/platforms/backend/nest:/app
-    environment:
-      NODE_ENV: production
 
-  react:
-    build:
-      context: ./infrastructure/platforms/frontend/react
-      dockerfile: dockerfile
-    platform: linux/amd64
+  node:
+    image: node:latest
+    working_dir: /home/node/app
+    command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/backend/nest && npm run build && npm run start:dev"
     ports:
-      - "80:80"
-    volumes:
-      - ./infrastructure/platforms/frontend/react:/app
+      - '3001:3000'
     environment:
-      NODE_ENV: production
+      - PORT=${PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-development}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_USER=${POSTGRES_USER:-root}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-app_test}
+    volumes:
+      - ./application:/home/node/app/application
+      - ./domain:/home/node/app/domain
+      - ./infrastructure:/home/node/app/infrastructure
+      - ./package.json:/home/node/app/package.json
+      - ./package-lock.json:/home/node/app/package-lock.json
+      - ./.env:/home/node/app/.env
+    depends_on:
+      - postgres
+      - mongo
 
-  sql:
-    image: postgres:15
+  postgres:
+    image: postgres:17
     container_name: postgres_db
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5433:5432"
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: moto_management_test
+      POSTGRES_DB: app_test
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   mongo:
-    image: mongo:5
+    image: mongo:8.0
     container_name: mongo_db
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongo_data:/data/db
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
