@@ -19,7 +19,6 @@ export class LoginUseCase {
   ) {
 
     try {
-
       const user : User | null = await this.userRepository.findByEmail(email);
       if (!user) throw new UserNotFoundError;
 

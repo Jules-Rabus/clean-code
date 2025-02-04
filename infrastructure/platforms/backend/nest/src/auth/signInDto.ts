@@ -5,6 +5,6 @@ export class signInDto {
     @ApiProperty({ example: 'example@example.com' })
     email: string;
 
-    @ApiProperty({ example: 'password' })
+    @ApiProperty({ example: 'P@ssw0rd' })
     password: string;
 }

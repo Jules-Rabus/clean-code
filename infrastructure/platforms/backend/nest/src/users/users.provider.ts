@@ -5,33 +5,34 @@ import FindOneUserUseCase from '@app/application/useCases/users/FindOneUserUseCa
 import FindAllUserUseCase from '@app/application/useCases/users/FindAllUserUseCase';
 import SearchByEmailUserUseCase from '@app/application/useCases/users/SearchByEmailUseCase';
 
+import PasswordService from '@app/application/services/PasswordService';
 import SequelizeUserRepository from '@app/sequelize/repositories/User';
 
-export const CreateBikeUseCaseProvider = {
+export const CreateUserUseCaseProvider = {
   provide: CreateUserUseCase,
-  useFactory: (userRepository: SequelizeUserRepository) => new CreateUserUseCase(userRepository),
-  inject: [SequelizeUserRepository],
+  useFactory: (userRepository: SequelizeUserRepository, passwordService: PasswordService) => new CreateUserUseCase(userRepository, passwordService),
+  inject: [SequelizeUserRepository, PasswordService],
 };
 
-export const RemoveBikeUseCaseProvider = {
+export const RemoveUserUseCaseProvider = {
   provide: RemoveUserUseCase,
   useFactory: (userRepository: SequelizeUserRepository) => new RemoveUserUseCase(userRepository),
   inject: [SequelizeUserRepository],
 };
 
-export const UpdateBikeUseCaseProvider = {
+export const UpdateUserUseCaseProvider = {
   provide: UpdateUserUseCase,
   useFactory: (userRepository: SequelizeUserRepository) => new UpdateUserUseCase(userRepository),
   inject: [SequelizeUserRepository],
 };
 
-export const FindOneBikeUseCaseProvider = {
+export const FindOneUserUseCaseProvider = {
   provide: FindOneUserUseCase,
   useFactory: (userRepository: SequelizeUserRepository) => new FindOneUserUseCase(userRepository),
   inject: [SequelizeUserRepository],
 };
 
-export const FindAllBikeUseCaseProvider = {
+export const FindAllUserUseCaseProvider = {
   provide: FindAllUserUseCase,
   useFactory: (userRepository: SequelizeUserRepository) => new FindAllUserUseCase(userRepository),
   inject: [SequelizeUserRepository],
@@ -44,10 +45,11 @@ export const SearchByEmailUserUseCaseProvider = {
 };
 
 export default [
-  CreateBikeUseCaseProvider,
-  RemoveBikeUseCaseProvider,
-  UpdateBikeUseCaseProvider,
-  FindOneBikeUseCaseProvider,
-  FindAllBikeUseCaseProvider,
+  CreateUserUseCaseProvider,
+  RemoveUserUseCaseProvider,
+  UpdateUserUseCaseProvider,
+  FindOneUserUseCaseProvider,
+  FindAllUserUseCaseProvider,
   SearchByEmailUserUseCaseProvider,
+  PasswordService,
 ];

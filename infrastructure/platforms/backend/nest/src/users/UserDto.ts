@@ -15,7 +15,7 @@ export class UserDto implements Partial<User> {
     @ApiProperty({ example: 'Doe' })
     lastName: string;
 
-    @ApiProperty({ example: 'password' })
+    @ApiProperty({ example: 'P@ssw0rd' })
     password: string;
 
     @ApiProperty({ type: String, isArray: true, example: ['user'] })

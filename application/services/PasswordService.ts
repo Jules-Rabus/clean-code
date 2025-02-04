@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { PasswordHashError } from '@app/domain/errors/PasswordHashError';
 import { PasswordTooShortError } from "@app/domain/errors/PasswordTooShortError";
 import { PasswordDoesNotIncludeLowercaseLetterError } from "@app/domain/errors/PasswordDoesNotIncludeLowercaseLetterError";
@@ -14,7 +14,6 @@ export interface PasswordServiceInterface {
 export default class PasswordService implements PasswordServiceInterface {
 
   private readonly saltRounds: number = parseInt(process.env["PASSWORD_SALT_ROUNDS"] || "10");
-
 
   private validatePassword(value: string): void {
     if (value.length < 8) {
