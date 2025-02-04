@@ -3,6 +3,7 @@ import BikeModel from "@app/sequelize/models/Bike";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Maintenance from "@app/domain/entities/Maintenance";
 
+
 export default class Bike {
     public constructor(
         public vin: VinIdentifier,
@@ -14,8 +15,8 @@ export default class Bike {
         public isActive: boolean,
         public isDecommissioned: boolean,
         public maintenances: Maintenance[],
-        public createdAt: Date,
-        public updatedAt: Date,
+        public createdAt?: Date,
+        public updatedAt?: Date,
     ) {}
 
     static fromSequelizeModel(sequelizeBike: BikeModel): Bike {
@@ -28,7 +29,7 @@ export default class Bike {
             sequelizeBike.warrantyExpirationDate,
             sequelizeBike.isActive,
             sequelizeBike.isDecommissioned,
-            sequelizeBike.maintenances.map((maintenance) => Maintenance.fromSequelizeModel(maintenance)),
+            sequelizeBike.maintenances?.map((maintenance) => Maintenance.fromSequelizeModel(maintenance)) || [],
             sequelizeBike.createdAt,
             sequelizeBike.updatedAt,
         );

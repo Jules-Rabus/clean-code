@@ -6,6 +6,7 @@ import {
     Table,
     Default,
     Unique,
+    AllowNull,
 } from 'sequelize-typescript';
 
 import User from '@app/domain/entities/User';
@@ -24,15 +25,19 @@ export default class UserModel extends Model<User> {
     declare id: string;
 
     @Unique
+    @AllowNull(false)
     @Column(DataType.STRING)
     declare email: string;
 
+    @AllowNull(false)
     @Column(DataType.STRING)
     declare firstName: string;
 
+    @AllowNull(false)
     @Column(DataType.STRING)
     declare lastName: string;
 
+    @AllowNull(false)
     @Column(DataType.STRING)
     declare password: string;
 

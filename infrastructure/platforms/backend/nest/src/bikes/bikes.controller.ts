@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 
-import Bike from '@app/domain/entities/Bike';
 import VinIdentifier from '@app/domain/value-objects/VinIdentifier';
 import CreateBikeUseCase from '@app/application/useCases/bikes/CreateBikeUseCase';
 import RemoveBikeUseCase from '@app/application/useCases/bikes/RemoveBikeUseCase';
 import UpdateBikeUseCase from '@app/application/useCases/bikes/UpdateBikeUseCase';
 import FindOneBikeUseCase from '@app/application/useCases/bikes/FindOneBikeUseCase';
 import FindAllBikeUseCase from '@app/application/useCases/bikes/FindAllBikeUseCase';
+import { ApiBody, ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { BikeDto } from './BikeDto';
 
 @Controller('bikes')
 export class BikesController {
@@ -20,29 +21,45 @@ export class BikesController {
   ) {}
 
   @Post()
-  async create(@Body() bike: Bike) {
+  @ApiProperty(
+    {
+      type: BikeDto
+    }
+  )
+  @ApiCreatedResponse({ description: 'The record has been successfully created.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  async create(@Body() bike: BikeDto) {
     return this.CreateBikeUseCase.execute(bike);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() bike: Partial<Bike>) {
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiNotFoundResponse({ description: 'Bike not found.' })
+  @ApiBody({type: BikeDto})
+  @ApiResponse({type: BikeDto, status: 200})
+  async update(@Param('id') id: string, @Body() bike: Partial<BikeDto>) {
     const vin = new VinIdentifier(id);
     return this.UpdateBikeUseCase.execute(vin, bike);
   }
 
   @Delete(':id')
+  @ApiNotFoundResponse({ description: 'Bike not found.' })
+  @ApiResponse({ description: 'Bike removed', status: 204 })
   async remove(@Param('id') id: string) {
     const vin = new VinIdentifier(id);
     return this.RemoveBikeUseCase.execute(vin);
   }
 
   @Get(':id')
+  @ApiResponse({type: BikeDto, status: 200})
+  @ApiNotFoundResponse({ description: 'Bike not found.' })
   async findOne(@Param('id') id: string) {
     const vin = new VinIdentifier(id);
     return this.FindOneBikeUseCase.execute(vin);
   }
 
   @Get()
+  @ApiResponse({type: BikeDto, isArray: true, status: 200})
   async findAll() {
     return this.FindAllBikeUseCase.execute();
   }

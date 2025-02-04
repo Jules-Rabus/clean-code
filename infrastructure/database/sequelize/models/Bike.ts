@@ -6,6 +6,7 @@ import {
   PrimaryKey,
   Table,
   Unique,
+  AllowNull,
 } from 'sequelize-typescript';
 
 import Bike from '@app/domain/entities/Bike';
@@ -21,6 +22,7 @@ export default class BikeModel extends Model<Bike> {
 
     @PrimaryKey
     @Unique
+    @AllowNull(false)
     @Column(DataType.STRING)
     declare vin: string;
 

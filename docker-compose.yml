@@ -3,7 +3,7 @@ services:
   node:
     image: node:latest
     working_dir: /home/node/app
-    command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/backend/nest && npm run build && npm run start:dev"
+    command: bash -c "pwd && ls -la && npm install && npm run build && cd infrastructure/platforms/backend/nest && npm run start:dev"
     ports:
       - '3001:3000'
     environment:

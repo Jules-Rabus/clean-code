@@ -1,5 +1,6 @@
 import SequelizeBikeRepository from "@app/sequelize/repositories/Bike";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
+import Bike from "@app/domain/entities/Bike";
 
 export default class SearchByVinUseCase {
     
@@ -7,10 +8,10 @@ export default class SearchByVinUseCase {
         private readonly bikeRepository: SequelizeBikeRepository,
     ) {}
 
-    public async execute(vin: VinIdentifier): Promise<void> {
+    public async execute(vin: VinIdentifier): Promise<Bike[]> {
 
         // @TODO: Add validation logic here
 
-        this.bikeRepository.searchByVin(vin);
+        return this.bikeRepository.searchByVin(vin);
     }
 }

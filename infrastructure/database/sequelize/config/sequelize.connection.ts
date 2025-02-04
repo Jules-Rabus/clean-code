@@ -16,7 +16,7 @@ export default class SequelizeConnection {
 
     await SequelizeConnection.sync({
       alter: true,
-      force: true,
+      force: false,
     }).then(() => {
       console.log('Sequelize models synced');
     })

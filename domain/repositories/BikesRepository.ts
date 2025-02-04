@@ -1,5 +1,5 @@
-import Bike from "../entities/Bike";
-import VinIdentifier from "../value-objects/VinIdentifier";
+import Bike from "@app/domain/entities/Bike";
+import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 
 export default interface BikesRepository {
     create(bike: Bike): Promise<Bike>;

@@ -43,6 +43,7 @@ export default class SequelizeBikeRepository implements BikesRepository {
 
     async findAll(): Promise<Bike[]> {
         const bikes = await BikeModel.findAll();
+        console.log(bikes);
 
         return bikes.map((bike) => Bike.fromSequelizeModel(bike));
     }
