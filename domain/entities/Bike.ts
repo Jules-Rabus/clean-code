@@ -1,7 +1,7 @@
 
-import BikeModel from "../../infrastructure/database/sequelize/models/Bike";
-import VinIdentifier from "../value-objects/VinIdentifier";
-import Maintenance from "./Maintenance";
+import BikeModel from "@app/sequelize/models/Bike";
+import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
+import Maintenance from "@app/domain/entities/Maintenance";
 
 export default class Bike {
     public constructor(

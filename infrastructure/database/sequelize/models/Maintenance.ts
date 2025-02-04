@@ -21,8 +21,8 @@ import Maintenance from '@app/domain/entities/Maintenance';
 export default class MaintenanceModel extends Model<Maintenance> {
 
     @PrimaryKey
-    @Column(DataType.UUID)
     @Unique
+    @Column(DataType.UUID)
     declare id: string;
 
     @Column(DataType.DATE)

@@ -12,14 +12,18 @@ export default class SequelizeConnection {
       this.appEnvironment as AppEnvironment
     ] as SequelizeOptions;
 
-    console.log('sequelizeConfigOptionsTyped', sequelizeConfigOptionsTyped);
-
     const SequelizeConnection = new Sequelize(sequelizeConfigOptionsTyped);
 
     await SequelizeConnection.sync({
       alter: true,
-      force: false,
-    });
+      force: true,
+    }).then(() => {
+      console.log('Sequelize models synced');
+    })
+    .catch((error) => {
+      console.error('Error syncing Sequelize models');
+      console.error(error);
+    }); 
 
     return SequelizeConnection;
   }

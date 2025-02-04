@@ -8,7 +8,7 @@ const postgresConfiguration = {
   models: [`${__dirname}/../models/*.model.ts`],
 };
 
-const modelsPath = `${__dirname}/../models/*.model.ts`;
+const modelsPath = `${__dirname}/../models/*.ts`;
 
 const sequelizeConfigOptions = {
   dialect: postgresConfiguration.dialect,

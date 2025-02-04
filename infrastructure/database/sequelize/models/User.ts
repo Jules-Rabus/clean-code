@@ -23,8 +23,8 @@ export default class UserModel extends Model<User> {
     @Column(DataType.UUID)
     declare id: string;
 
-    @Column(DataType.STRING)
     @Unique
+    @Column(DataType.STRING)
     declare email: string;
 
     @Column(DataType.STRING)

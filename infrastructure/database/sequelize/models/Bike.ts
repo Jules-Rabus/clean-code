@@ -20,8 +20,8 @@ import MaintenanceModel from '@app/sequelize/models/Maintenance';
 export default class BikeModel extends Model<Bike> {
 
     @PrimaryKey
-    @Column(DataType.STRING)
     @Unique
+    @Column(DataType.STRING)
     declare vin: string;
 
     @Column(DataType.STRING)

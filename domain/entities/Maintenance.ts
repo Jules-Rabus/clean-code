@@ -1,5 +1,5 @@
 import Bike from "./Bike";
-import MaintenanceModel from "../../infrastructure/database/sequelize/models/Maintenance";
+import MaintenanceModel from "@app/sequelize/models/Maintenance";
 
 export default class Maintenance {
     public constructor(
