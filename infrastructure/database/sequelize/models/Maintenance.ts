@@ -1,4 +1,5 @@
 import {
+    AllowNull,
     BelongsTo,
     Column,
     DataType,
@@ -22,7 +23,8 @@ export default class MaintenanceModel extends Model<Maintenance> {
 
     @PrimaryKey
     @Unique
-    @Column(DataType.UUID)
+    @Column(DataType.UUIDV4)
+    @Column(DataType.UUIDV4)
     declare id: string;
 
     @Column(DataType.DATE)
@@ -35,8 +37,9 @@ export default class MaintenanceModel extends Model<Maintenance> {
     declare description: string;
 
     @ForeignKey (() => BikeModel)
-    @Column(DataType.STRING)
-    declare bikeId: string;
+    @AllowNull(false)
+    @Column
+    declare bikeVin: string;
 
     @BelongsTo(() => BikeModel)
     declare bike: BikeModel;

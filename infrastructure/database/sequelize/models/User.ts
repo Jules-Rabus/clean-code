@@ -21,7 +21,7 @@ export default class UserModel extends Model<User> {
 
     @PrimaryKey
     @Default(DataType.UUIDV4)
-    @Column(DataType.UUID)
+    @Column(DataType.UUIDV4)
     declare id: string;
 
     @Unique

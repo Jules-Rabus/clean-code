@@ -37,24 +37,24 @@ export class BikesController {
   @ApiNotFoundResponse({ description: 'Bike not found.' })
   @ApiBody({type: BikeDto})
   @ApiResponse({type: BikeDto, status: 200})
-  async update(@Param('id') id: string, @Body() bike: Partial<BikeDto>) {
-    const vin = new VinIdentifier(id);
+  async update(@Param('id') identifier: string, @Body() bike: Partial<BikeDto>) {
+    const vin = new VinIdentifier(identifier);
     return this.UpdateBikeUseCase.execute(vin, bike);
   }
 
   @Delete(':id')
   @ApiNotFoundResponse({ description: 'Bike not found.' })
   @ApiResponse({ description: 'Bike removed', status: 204 })
-  async remove(@Param('id') id: string) {
-    const vin = new VinIdentifier(id);
+  async remove(@Param('id') identifier: string) {
+    const vin = new VinIdentifier(identifier);
     return this.RemoveBikeUseCase.execute(vin);
   }
 
   @Get(':id')
   @ApiResponse({type: BikeDto, status: 200})
   @ApiNotFoundResponse({ description: 'Bike not found.' })
-  async findOne(@Param('id') id: string) {
-    const vin = new VinIdentifier(id);
+  async findOne(@Param('id') identifier: string) {
+    const vin = new VinIdentifier(identifier);
     return this.FindOneBikeUseCase.execute(vin);
   }
 

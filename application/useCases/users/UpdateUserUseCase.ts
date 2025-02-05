@@ -7,7 +7,7 @@ export default class UpdateUserUseCase {
         private readonly userRepository: SequelizeUserRepository,
     ) {}
 
-    public async execute(id: string, user: Partial<User>): Promise<User | null> {
-        return this.userRepository.update(id, user);
+    public async execute(identifier: string, user: Partial<User>): Promise<User | null> {
+        return this.userRepository.update(identifier, user);
     }
 }

@@ -3,22 +3,22 @@ import MaintenanceModel from "@app/sequelize/models/Maintenance";
 
 export default class Maintenance {
     public constructor(
-        public id: string,
+        public identifier: string,
         public startDate: Date,
         public endDate: Date,
         public description: string,
-        public bike: Bike,
-        public createdAt: Date,
-        public updatedAt: Date,
+        public bike?: Bike,
+        public createdAt?: Date,
+        public updatedAt?: Date,
     ) {}
 
-    static fromSequelizeModel(sequelizeMaintenance: MaintenanceModel): Maintenance {
+    static fromSequelizeModel(sequelizeMaintenance: MaintenanceModel, _includeRelations: boolean = true): Maintenance {
         return new Maintenance(
             sequelizeMaintenance.id,
             sequelizeMaintenance.startDate,
             sequelizeMaintenance.endDate,
             sequelizeMaintenance.description,
-            Bike.fromSequelizeModel(sequelizeMaintenance.bike),
+            _includeRelations ? Bike.fromSequelizeModel(sequelizeMaintenance.bike, false) : undefined,
             sequelizeMaintenance.createdAt,
             sequelizeMaintenance.updatedAt,
         );

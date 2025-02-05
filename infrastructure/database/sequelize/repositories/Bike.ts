@@ -6,17 +6,23 @@ import BikeNotFoundError from "@app/domain/errors/bikes/BikeNotFoundError";
 
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Bike from "@app/domain/entities/Bike";
+import IncidentModel from "@app/sequelize/models/Incident";
+import MaintenanceModel from "@app/sequelize/models/Maintenance";
 
 export default class SequelizeBikeRepository implements BikesRepository {
 
     async create(bike: Bike): Promise<Bike> {
-        const newBike = await BikeModel.create(bike);
+        const newBike = await BikeModel.create(bike, {
+            include: [ IncidentModel, MaintenanceModel ]
+        });
 
         return Bike.fromSequelizeModel(newBike);
     }
 
     async update(vin: VinIdentifier, bike: Partial<Bike>): Promise<Bike | null> {
-        const bikeToUpdate = await BikeModel.findByPk(vin.value);
+        const bikeToUpdate = await BikeModel.findByPk(vin.value, {
+            include: [ IncidentModel, MaintenanceModel ]
+        });
 
         if(!bikeToUpdate) throw new BikeNotFoundError();
 
@@ -34,7 +40,9 @@ export default class SequelizeBikeRepository implements BikesRepository {
     }
 
     async findOne(vin: VinIdentifier): Promise<Bike | null> {
-        const bike = await BikeModel.findByPk(vin.value);
+        const bike = await BikeModel.findByPk(vin.value, {
+            include: [ IncidentModel, MaintenanceModel ]
+        });
 
         if(!bike) throw new BikeNotFoundError();
 
@@ -42,8 +50,9 @@ export default class SequelizeBikeRepository implements BikesRepository {
     }
 
     async findAll(): Promise<Bike[]> {
-        const bikes = await BikeModel.findAll();
-        console.log(bikes);
+        const bikes = await BikeModel.findAll({
+            include: [ IncidentModel, MaintenanceModel  ]
+        });
 
         return bikes.map((bike) => Bike.fromSequelizeModel(bike));
     }

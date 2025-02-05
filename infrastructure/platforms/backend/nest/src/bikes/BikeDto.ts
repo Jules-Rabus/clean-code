@@ -1,4 +1,5 @@
 import Bike from "@app/domain/entities/Bike";
+import Incident from "@app/domain/entities/Incident";
 import Maintenance from "@app/domain/entities/Maintenance";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import { ApiProperty } from '@nestjs/swagger';
@@ -32,4 +33,7 @@ export class BikeDto implements Partial<Bike> {
 
     @ApiProperty({ type: Maintenance, isArray: true, example: [] })
     maintenances: Maintenance[];
+
+    @ApiProperty({ type: Incident, isArray: true, example: [] })
+    incidents: Incident[];
 }

@@ -1,6 +1,6 @@
-import { UnexpectedError } from "@app/domain/errors/UnexpectedError";
+import UnexpectedError from "@app/domain/errors/UnexpectedError";
 import PasswordService from "@app/application/services/PasswordService";
-import { UserNotFoundError } from "@app/domain/errors/UserNotFoundError";
+import UserNotFoundError from "@app/domain/errors/users/UserNotFoundError";
 import AuthenticationService from "@app/application/services/AuthenticationService";
 import SequelizeUserRepository from "@app/sequelize/repositories/User";
 import User from "@app/domain/entities/User";

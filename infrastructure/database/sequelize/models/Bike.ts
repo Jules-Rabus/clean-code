@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 
 import Bike from '@app/domain/entities/Bike';
+import IncidentModel from '@app/sequelize/models/Incident';
 import MaintenanceModel from '@app/sequelize/models/Maintenance';
 
 @Table({
@@ -49,4 +50,7 @@ export default class BikeModel extends Model<Bike> {
 
     @HasMany(() => MaintenanceModel)
     declare maintenances: MaintenanceModel[];
+
+    @HasMany(() => IncidentModel)
+    declare incidents: IncidentModel[];
 }

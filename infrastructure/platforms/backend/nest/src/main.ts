@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { CatchEverythingFilter } from './middlewares/http-error.interceptor';
 
 import SequelizeConnector from '@app/sequelize/sequelize';
 //import MongooseConnector from '@app/mongoose/mongoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new CatchEverythingFilter());
 
   const config = new DocumentBuilder()
   .setTitle('Bikes API')
@@ -18,6 +21,7 @@ async function bootstrap() {
 
   const sequelizeConnector = new SequelizeConnector();
   await sequelizeConnector.connect();
+
 
   //const mongooseConnector = new MongooseConnector();
   //await mongooseConnector.connect();

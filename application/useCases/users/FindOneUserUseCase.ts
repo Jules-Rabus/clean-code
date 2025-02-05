@@ -7,7 +7,7 @@ export default class FindOneUserUseCase {
         private readonly userRepository: SequelizeUserRepository,
     ) {}
 
-    public async execute(id: string): Promise<User | null> {
-        return this.userRepository.findOne(id);
+    public async execute(identifier: string): Promise<User | null> {
+        return this.userRepository.findOne(identifier);
     }
 }

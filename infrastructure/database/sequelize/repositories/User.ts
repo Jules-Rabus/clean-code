@@ -14,8 +14,8 @@ export default class SequelizeUserRepository implements UsersRepository {
         return User.fromSequelizeModel(newUser);
     }
 
-    async update(id: string, user: Partial<User>): Promise<User | null> {
-        const userToUpdate = await UserModel.findByPk(id);
+    async update(identifier: string, user: Partial<User>): Promise<User | null> {
+        const userToUpdate = await UserModel.findByPk(identifier);
 
         if(!userToUpdate) throw new UserNotFoundError();
 
@@ -24,16 +24,16 @@ export default class SequelizeUserRepository implements UsersRepository {
         return User.fromSequelizeModel(userToUpdate);
     }
 
-    async remove(id: string): Promise<void> {
-        const user = await UserModel.findByPk(id);
+    async remove(identifier: string): Promise<void> {
+        const user = await UserModel.findByPk(identifier);
 
         if(!user) throw new UserNotFoundError();
 
         await user.destroy();
     }
 
-    async findOne(id: string): Promise<User | null> {
-        const user = await UserModel.findByPk(id);
+    async findOne(identifier: string): Promise<User | null> {
+        const user = await UserModel.findByPk(identifier);
 
         if(!user) throw new UserNotFoundError();
 

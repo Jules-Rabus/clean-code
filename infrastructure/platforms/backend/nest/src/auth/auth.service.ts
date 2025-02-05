@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginUseCase } from '@app/application/useCases/LoginUseCase';
-import { UserNotFoundError } from '@app/domain/errors/UserNotFoundError';
-import { UnexpectedError } from '@app/domain/errors/UnexpectedError';
+import UnexpectedError from '@app/domain/errors/UnexpectedError';
 
 @Injectable()
 export class AuthService {

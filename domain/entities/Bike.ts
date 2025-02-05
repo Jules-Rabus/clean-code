@@ -2,7 +2,7 @@
 import BikeModel from "@app/sequelize/models/Bike";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Maintenance from "@app/domain/entities/Maintenance";
-
+import Incident from "@app/domain/entities/Incident";
 
 export default class Bike {
     public constructor(
@@ -15,11 +15,12 @@ export default class Bike {
         public isActive: boolean,
         public isDecommissioned: boolean,
         public maintenances: Maintenance[],
+        public incidents: Incident[],
         public createdAt?: Date,
         public updatedAt?: Date,
     ) {}
 
-    static fromSequelizeModel(sequelizeBike: BikeModel): Bike {
+    static fromSequelizeModel(sequelizeBike: BikeModel, _includeRelations: boolean = true): Bike {
         return new Bike(
             new VinIdentifier(sequelizeBike.vin),
             sequelizeBike.brand,
@@ -29,35 +30,10 @@ export default class Bike {
             sequelizeBike.warrantyExpirationDate,
             sequelizeBike.isActive,
             sequelizeBike.isDecommissioned,
-            sequelizeBike.maintenances?.map((maintenance) => Maintenance.fromSequelizeModel(maintenance)) || [],
+            sequelizeBike.maintenances?.map((maintenance) => Maintenance.fromSequelizeModel(maintenance, false)) || [],
+            sequelizeBike.incidents?.map((incident) => Incident.fromSequelizeModel(incident, false)) || [],
             sequelizeBike.createdAt,
             sequelizeBike.updatedAt,
         );
     }
-
-    /*static toDomain(prismaBike: PrismaBike): Bike {
-        return new Bike(
-            prismaBike.id,
-            prismaBike.name,
-            prismaBike.brand,
-            prismaBike.model,
-            prismaBike.price,
-            prismaBike.isActive,
-            prismaBike.createdAt,
-            prismaBike.updatedAt,
-        );
-    }
-
-    static toPrisma(domainBike: Bike): PrismaBike {
-        return {
-            id: domainBike.id,
-            name: domainBike.name,
-            brand: domainBike.brand,
-            model: domainBike.model,
-            price: domainBike.price,
-            isActive: domainBike.isActive,
-            createdAt: domainBike.createdAt,
-            updatedAt: domainBike.updatedAt,
-        };
-    }*/
 }
