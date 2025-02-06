@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import PartsRepository from '@app/domain/repositories/PartsRepository';
 import PartModel from '@app/sequelize/models/Part';
 import PartNotFoundError from '@app/domain/errors/parts/PartNotFoundError';
@@ -40,6 +42,18 @@ export default class SequelizePartRepository implements PartsRepository {
 
     async findAll(): Promise<Part[]> {
         const parts = await PartModel.findAll();
+
+        return parts.map((part) => Part.fromSequelizeModel(part));
+    }
+
+    async searchByReference(reference: string): Promise<Part[]> {
+        const parts = await PartModel.findAll({
+            where: {
+                reference: {
+                    [Op.like]: `%${reference}%`
+                }
+            }
+        });
 
         return parts.map((part) => Part.fromSequelizeModel(part));
     }

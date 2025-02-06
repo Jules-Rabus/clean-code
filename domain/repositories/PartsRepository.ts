@@ -6,4 +6,5 @@ export default interface PartsRepository {
     remove(identifier: string): Promise<void>;
     findOne(identifier: string): Promise<Part | null>;
     findAll(): Promise<Part[]>;
+    searchByReference(reference: string): Promise<Part[]>;
 }

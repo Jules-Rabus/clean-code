@@ -3,6 +3,7 @@ import PartModel from "@app/sequelize/models/Part";
 export default class Part {
     public constructor(
         public identifier: string,
+        public reference: string,
         public name: string,
         public description: string,
         public stockQuantity: number,
@@ -15,6 +16,7 @@ export default class Part {
     static fromSequelizeModel(sequelizeParts: PartModel): Part {
         return new Part(
             sequelizeParts.id,
+            sequelizeParts.reference,
             sequelizeParts.name,
             sequelizeParts.description,
             sequelizeParts.stockQuantity,

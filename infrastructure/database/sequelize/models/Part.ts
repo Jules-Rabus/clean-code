@@ -27,6 +27,10 @@ export default class PartModel extends Model<Part> {
     @Column(DataType.UUIDV4)
     declare id: string;
 
+    @AllowNull(false)
+    @Column(DataType.STRING)
+    declare reference: string;
+
     @Column(DataType.STRING)
     declare name: string;
 

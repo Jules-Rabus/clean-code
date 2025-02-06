@@ -11,4 +11,4 @@ import SequelizeUserRepository from '@app/sequelize/repositories/User';
     SequelizeUserRepository,
   ],
 })
-export class UserModule {}
+export class UsersModule {}

@@ -1,7 +1,6 @@
 import { Controller, Get, Res, HttpStatus, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { Response } from 'express';
 
-
 import VinIdentifier from '@app/domain/value-objects/VinIdentifier';
 import CreateBikeUseCase from '@app/application/useCases/bikes/CreateBikeUseCase';
 import RemoveBikeUseCase from '@app/application/useCases/bikes/RemoveBikeUseCase';
@@ -9,7 +8,7 @@ import UpdateBikeUseCase from '@app/application/useCases/bikes/UpdateBikeUseCase
 import FindOneBikeUseCase from '@app/application/useCases/bikes/FindOneBikeUseCase';
 import FindAllBikeUseCase from '@app/application/useCases/bikes/FindAllBikeUseCase';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { BikeDto } from './BikeDto';
+import { BikeDto, UpdateBikeDto } from './BikeDto';
 import BikeNotFoundError from '@app/domain/errors/bikes/BikeNotFoundError';
 
 @Controller('bikes')
@@ -25,11 +24,7 @@ export class BikesController {
   ) {}
 
   @Post()
-  @ApiProperty(
-    {
-      type: BikeDto
-    }
-  )
+  @ApiProperty({type: BikeDto})
   @ApiCreatedResponse({ description: 'The record has been successfully created.' })
   async create(@Body() bike: BikeDto, @Res() response: Response) {
     const createdBike = await this.CreateBikeUseCase.execute(bike);
@@ -40,15 +35,14 @@ export class BikesController {
   @ApiNotFoundResponse({ description: 'Bike not found.' })
   @ApiBody({type: BikeDto})
   @ApiResponse({type: BikeDto, status: HttpStatus.OK})
-  async update(@Param('id') identifier: string, @Body() bike: Partial<BikeDto>, @Res() response: Response) {
+  async update(@Param('id') identifier: string, @Body() bike: UpdateBikeDto, @Res() response: Response) {
     try {
       const vin = new VinIdentifier(identifier);
       const updatedBike = await this.UpdateBikeUseCase.execute(vin, bike);
       return updatedBike;
     } catch (error) {
-      if (error instanceof BikeNotFoundError) {
-        return response.sendStatus(HttpStatus.NOT_FOUND);
-      }
+      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+      
       throw error;
     }
   }
@@ -62,9 +56,8 @@ export class BikesController {
       await this.RemoveBikeUseCase.execute(vin);
       return response.status(HttpStatus.NO_CONTENT);
     } catch (error) {
-      if (error instanceof BikeNotFoundError) {
-        return response.sendStatus(HttpStatus.NOT_FOUND);
-      }
+      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+    
       throw error;
     }
   }
@@ -78,9 +71,8 @@ export class BikesController {
       const bike = await this.FindOneBikeUseCase.execute(vin);
       return bike;
     } catch (error) {
-      if (error instanceof BikeNotFoundError) {
-        return response.sendStatus(HttpStatus.NOT_FOUND);
-      }
+      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+    
       throw error;
     }
   }

@@ -10,40 +10,72 @@ export class BikeDto implements Partial<Bike> {
     
     @ApiProperty({type: String, example: '1HGCM82633A004352'})
     @IsUUID(4)
-    vin: VinIdentifier;
+    readonly vin: VinIdentifier;
 
     @ApiProperty({ example: 'Yamaha' })
     @IsString()
-    brand: string;
+    readonly brand: string;
 
     @ApiProperty({ example: 'R1' })
     @IsString()
-    model: string;
+    readonly model: string;
 
     @ApiProperty({ example: 10000 })
     @IsNumber()
     @Min(0)
-    mileage: number;
+    readonly mileage: number;
 
     @ApiProperty({ example: '2021-01-01' })
     @IsDateString()
-    purchaseDate: Date;
+    readonly purchaseDate: Date;
 
     @ApiProperty({ example: '2023-01-01' })
     @IsDateString()
-    warrantyExpirationDate: Date;
+    readonly warrantyExpirationDate: Date;
 
     @ApiProperty({ example: true })
     @IsBoolean()
-    isActive: boolean;
+    readonly isActive: boolean;
 
     @ApiProperty({ example: false })
     @IsBoolean()
-    isDecommissioned: boolean;
+    readonly isDecommissioned: boolean;
 
     @ApiProperty({ type: Maintenance, isArray: true, example: [] })
-    maintenances: Maintenance[];
+    readonly maintenances: Maintenance[];
 
     @ApiProperty({ type: Incident, isArray: true, example: [] })
-    incidents: Incident[];
+    readonly incidents: Incident[];
+}
+
+export class UpdateBikeDto implements Partial<Bike> {
+
+    @ApiProperty({ example: 'Yamaha' })
+    @IsString()
+    readonly brand?: string;
+
+    @ApiProperty({ example: 'R1' })
+    @IsString()
+    readonly model?: string;
+
+    @ApiProperty({ example: 10000 })
+    @IsNumber()
+    @Min(0)
+    readonly mileage?: number;
+
+    @ApiProperty({ example: '2021-01-01' })
+    @IsDateString()
+    readonly purchaseDate?: Date;
+
+    @ApiProperty({ example: '2023-01-01' })
+    @IsDateString()
+    readonly warrantyExpirationDate?: Date;
+
+    @ApiProperty({ example: true })
+    @IsBoolean()
+    readonly isActive?: boolean;
+
+    @ApiProperty({ example: false })
+    @IsBoolean()
+    readonly isDecommissioned?: boolean;
 }
