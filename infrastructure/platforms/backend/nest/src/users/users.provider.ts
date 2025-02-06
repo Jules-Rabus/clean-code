@@ -22,8 +22,8 @@ export const RemoveUserUseCaseProvider = {
 
 export const UpdateUserUseCaseProvider = {
   provide: UpdateUserUseCase,
-  useFactory: (userRepository: SequelizeUserRepository) => new UpdateUserUseCase(userRepository),
-  inject: [SequelizeUserRepository],
+  useFactory: (userRepository: SequelizeUserRepository, passwordService: PasswordService) => new UpdateUserUseCase(userRepository, passwordService),
+  inject: [SequelizeUserRepository, PasswordService],
 };
 
 export const FindOneUserUseCaseProvider = {

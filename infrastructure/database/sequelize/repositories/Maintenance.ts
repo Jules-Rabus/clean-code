@@ -11,7 +11,7 @@ export default class SequelizeMaintenanceRepository implements MaintenancesRepos
     async create(maintenance: Maintenance): Promise<Maintenance> {
         const newMaintenance = await MaintenanceModel.create(maintenance);
 
-        return Maintenance.fromSequelizeModel(newMaintenance);
+        return Maintenance.fromSequelizeModel(newMaintenance, false);
     }
 
     async update(identifier: string, maintenance: Partial<Maintenance>): Promise<Maintenance | null> {
@@ -21,7 +21,7 @@ export default class SequelizeMaintenanceRepository implements MaintenancesRepos
 
         await maintenanceToUpdate.update(maintenance);
 
-        return Maintenance.fromSequelizeModel(maintenanceToUpdate);
+        return Maintenance.fromSequelizeModel(maintenanceToUpdate, false);
     }
 
     async remove(identifier: string): Promise<void> {

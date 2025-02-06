@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 
 import UsersRepository from "@app/domain/repositories/UsersRepository";
 import UserModel from "@app/sequelize/models/User";
-import UserNotFoundError from "@app/domain/errors/bikes/UserNotFoundError";
+import UserNotFoundError from "@app/domain/errors/users/UserNotFoundError";
 
 import User from "@app/domain/entities/User";
 

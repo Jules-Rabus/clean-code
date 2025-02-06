@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginUseCase } from '@app/application/useCases/LoginUseCase';
-import UnexpectedError from '@app/domain/errors/UnexpectedError';
+import LoginUseCase from '@app/application/useCases/LoginUseCase';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +10,6 @@ export class AuthService {
         return await this.loginUseCase.execute(email, password);
     }
     catch (error) {
-        console.log(error);
         throw new UnauthorizedException();
     }
   }

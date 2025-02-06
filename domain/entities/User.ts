@@ -1,4 +1,5 @@
 import UserModel from "@app/sequelize/models/User";
+import { Role } from "@app/domain/value-objects/Role";
 
 export default class User {
     public constructor(
@@ -7,9 +8,8 @@ export default class User {
         public firstName: string,
         public lastName: string,
         public password: string,
-        public roles: string[],
+        public roles: Role[],
         public isActive: boolean,
-        public isEmailVerified: boolean,
         public createdAt?: Date,
         public updatedAt?: Date,
     ) {}
@@ -23,7 +23,6 @@ export default class User {
             sequelizeUser.password,
             sequelizeUser.roles,
             sequelizeUser.isActive,
-            sequelizeUser.isEmailVerified,
             sequelizeUser.createdAt,
             sequelizeUser.updatedAt,
         );

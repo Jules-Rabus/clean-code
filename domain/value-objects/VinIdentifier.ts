@@ -17,4 +17,6 @@ export default class VinIdentifier {
     public equals(other: VinIdentifier): boolean {
         return this.value === other.value;
     }
+
+    public static REGEX: RegExp = /^[A-HJ-NPR-Z0-9]{17}$/;
 }

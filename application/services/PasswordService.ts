@@ -1,10 +1,10 @@
 import * as bcrypt from 'bcrypt';
 import { PasswordHashError } from '@app/domain/errors/PasswordHashError';
-import { PasswordTooShortError } from "@app/domain/errors/PasswordTooShortError";
-import { PasswordDoesNotIncludeLowercaseLetterError } from "@app/domain/errors/PasswordDoesNotIncludeLowercaseLetterError";
-import { PasswordDoesNotIncludeNumberError } from "@app/domain/errors/PasswordDoesNotIncludeNumberError";
-import { PasswordDoesNotIncludeSymbolError } from "@app/domain/errors/PasswordDoesNotIncludeSymbolError";
-import { PasswordDoesNotIncludeUppercaseLetterError } from "@app/domain/errors/PasswordDoesNotIncludeUppercaseLetterError";
+import { PasswordTooShortError } from "@app/domain/errors/users/PasswordTooShortError";
+import { PasswordDoesNotIncludeLowercaseLetterError } from "@app/domain/errors/users/PasswordDoesNotIncludeLowercaseLetterError";
+import { PasswordDoesNotIncludeNumberError } from "@app/domain/errors/users/PasswordDoesNotIncludeNumberError";
+import { PasswordDoesNotIncludeSymbolError } from "@app/domain/errors/users/PasswordDoesNotIncludeSymbolError";
+import { PasswordDoesNotIncludeUppercaseLetterError } from "@app/domain/errors/users/PasswordDoesNotIncludeUppercaseLetterError";
 
 export interface PasswordServiceInterface {
   hashPassword: (plainPassword: string) => Promise<string>;

@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 
 import User from '@app/domain/entities/User';
+import { Role } from '@app/domain/value-objects/Role';
   
 @Table({
     tableName: 'users',
@@ -42,11 +43,8 @@ export default class UserModel extends Model<User> {
     declare password: string;
 
     @Column(DataType.ARRAY(DataType.STRING))
-    declare roles: string[];
+    declare roles: Role[];
 
     @Column(DataType.BOOLEAN)
     declare isActive: boolean;
-
-    @Column(DataType.BOOLEAN)
-    declare isEmailVerified: boolean;
 }

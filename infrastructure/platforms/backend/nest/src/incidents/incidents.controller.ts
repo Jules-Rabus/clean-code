@@ -1,4 +1,5 @@
 import { Controller, Get, Post, HttpStatus, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import CreateIncidentUseCase from '@app/application/useCases/incidents/CreateIncidentUseCase';
@@ -7,11 +8,11 @@ import UpdateIncidentUseCase from '@app/application/useCases/incidents/UpdateInc
 import FindOneIncidentUseCase from '@app/application/useCases/incidents/FindOneIncidentUseCase';
 import FindAllIncidentUseCase from '@app/application/useCases/incidents/FindAllIncidentUseCase';
 import SearchByBikeUseCase from '@app/application/useCases/incidents/SearchByBikeUseCase';
-import { ApiBody, ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { IncidentDto } from './IncidentDto';
+import { IncidentDto, UpdateIncidentDto } from './IncidentDto';
 import IncidentNotFoundError from '@app/domain/errors/incidents/IncidentNotFoundError';
 
 @Controller('incidents')
+@ApiBearerAuth()
 export class IncidentsController {
   
     constructor(
@@ -24,29 +25,24 @@ export class IncidentsController {
     ) {}
 
     @Post()
-    @ApiProperty(
-        {
-        type: IncidentDto
-        }
-    )
+    @ApiProperty({type: IncidentDto})
     @ApiCreatedResponse({ description: 'The record has been successfully created.' })
-    @ApiForbiddenResponse({ description: 'Forbidden.' })
     async create(@Body() incident: IncidentDto, @Res() response: Response) {
-        return response.status(HttpStatus.CREATED).json(this.CreateIncidentUseCase.execute(incident));
+        const createdIncident = await this.CreateIncidentUseCase.execute(incident);
+        return response.status(HttpStatus.CREATED).json(createdIncident);
     }
 
     @Patch(':id')
-    @ApiForbiddenResponse({ description: 'Forbidden.' })
     @ApiNotFoundResponse({ description: 'Incident not found.' })
     @ApiBody({type: IncidentDto})
     @ApiResponse({type: IncidentDto, status: HttpStatus.OK})
-    async update(@Param('id') identifier: string, @Body() incident: Partial<IncidentDto>, @Res() response: Response) {
+    async update(@Param('id') identifier: string, @Body() incident: UpdateIncidentDto, @Res() response: Response) {
         try {
-            return this.UpdateIncidentUseCase.execute(identifier, incident);
+            const updatedIncident = await this.UpdateIncidentUseCase.execute(identifier, incident);
+            return response.status(HttpStatus.OK).json(updatedIncident);
         } catch (error) {
-            if (error instanceof IncidentNotFoundError) {
-                return response.status(HttpStatus.NOT_FOUND);
-            }
+            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+            
             throw error;
         }
     }
@@ -59,9 +55,8 @@ export class IncidentsController {
             await this.RemoveIncidentUseCase.execute(identifier);
             return response.status(HttpStatus.NO_CONTENT);
         } catch (error) {
-            if (error instanceof IncidentNotFoundError) {
-                return response.status(HttpStatus.NOT_FOUND);
-            }
+            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+            
             throw error;
         }
     }
@@ -71,11 +66,11 @@ export class IncidentsController {
     @ApiNotFoundResponse({ description: 'Incident not found.' })
     async findOne(@Param('id') identifier: string, @Res() response: Response) {
         try {
-            return this.FindOneIncidentUseCase.execute(identifier);
+            const incident = await this.FindOneIncidentUseCase.execute(identifier);
+            return response.status(HttpStatus.OK).json(incident);
         } catch (error) {
-            if (error instanceof IncidentNotFoundError) {
-                return response.status(HttpStatus.NOT_FOUND);
-            }
+            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
+            
             throw error;
         }
     }

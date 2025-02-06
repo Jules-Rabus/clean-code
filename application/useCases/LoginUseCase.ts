@@ -5,7 +5,7 @@ import AuthenticationService from "@app/application/services/AuthenticationServi
 import SequelizeUserRepository from "@app/sequelize/repositories/User";
 import User from "@app/domain/entities/User";
 
-export class LoginUseCase {
+export default class LoginUseCase {
 
     public constructor(
       private readonly passwordService: PasswordService,

@@ -8,23 +8,19 @@ import BikeModel from '@app/sequelize/models/Bike';
 export default class SequelizeIncidentRepository implements IncidentsRepository {
 
     async create(incident: Incident): Promise<Incident> {
-        const newIncident = await IncidentModel.create(incident, {
-            include: [ BikeModel ]
-        });
+        const newIncident = await IncidentModel.create(incident);
 
-        return Incident.fromSequelizeModel(newIncident);
+        return Incident.fromSequelizeModel(newIncident, false);
     }
 
     async update(identifier: string, incident: Partial<Incident>): Promise<Incident | null> {
-        const incidentToUpdate = await IncidentModel.findByPk(identifier, {
-            include: [ BikeModel ]
-        });
+        const incidentToUpdate = await IncidentModel.findByPk(identifier);
 
         if(!incidentToUpdate) throw new IncidentNotFoundError();
 
         await incidentToUpdate.update(incident);
 
-        return Incident.fromSequelizeModel(incidentToUpdate);
+        return Incident.fromSequelizeModel(incidentToUpdate, false);
     }
 
     async remove(identifier: string): Promise<void> {

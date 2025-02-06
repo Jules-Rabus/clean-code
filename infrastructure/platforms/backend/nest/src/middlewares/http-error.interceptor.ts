@@ -6,21 +6,27 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { ForeignKeyConstraintError, UniqueConstraintError } from 'sequelize';
+import { ValidationError } from 'sequelize';
   
 @Catch()
 export class CatchEverythingFilter implements ExceptionFilter {
-  
+        
     catch(exception: any, host: ArgumentsHost): void {
-        console.debug(exception);
-
 
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
 
-        console.log("exception.name: ", exception.name);
+        if (exception instanceof ForeignKeyConstraintError) {
+           response.status(HttpStatus.BAD_REQUEST).json(exception.name);
+        }
 
-        if (exception.name === 'ValidationError') {
-            response.sendStatus(HttpStatus.BAD_REQUEST);
+        if (exception instanceof UniqueConstraintError) {
+            response.status(HttpStatus.CONFLICT).json(exception.name);
+        }
+
+        if(exception instanceof ValidationError) {
+            response.status(HttpStatus.BAD_REQUEST).json(exception.name);
         }
 
         response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
