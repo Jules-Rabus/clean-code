@@ -1,6 +1,7 @@
 services:
 
   node:
+    container_name: nest
     image: node:latest
     working_dir: /home/node/app
     command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/backend/nest && npm run start:dev"
@@ -22,7 +23,9 @@ services:
     volumes:
       - ./application:/home/node/app/application
       - ./domain:/home/node/app/domain
-      - ./infrastructure:/home/node/app/infrastructure
+      - ./infrastructure/adapter:/home/node/app/infrastructure/adapter
+      - ./infrastructure/database:/home/node/app/infrastructure/database
+      - ./infrastructure/platforms/backend/nest:/home/node/app/infrastructure/platforms/backend/nest
       - ./package.json:/home/node/app/package.json
       - ./package-lock.json:/home/node/app/package-lock.json
       - ./.env:/home/node/app/.env
@@ -50,6 +53,25 @@ services:
       - "127.0.0.1:27018:27017"
     volumes:
       - mongo_data:/data/db
+
+  next:
+    container_name: next
+    image: node:latest
+    working_dir: /home/node/app
+    command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/frontend/react && npm run dev"
+    ports:
+      - '3002:3000'
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-development}
+    volumes:
+      - ./infrastructure/platforms/frontend/react:/home/node/app/infrastructure/platforms/frontend/react
+      - ./package.json:/home/node/app/package.json
+      - ./package-lock.json:/home/node/app/package-lock.json
+      - ./.env:/home/node/app/.env
+    depends_on:
+      - node
+
 
   adminer:
     image: adminer
