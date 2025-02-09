@@ -25,7 +25,7 @@ import UpdatePartUseCase from "@app/application/useCases/parts/UpdatePartUseCase
 import FindOnePartUseCase from "@app/application/useCases/parts/FindOnePartUseCase";
 import FindAllPartUseCase from "@app/application/useCases/parts/FindAllPartUseCase";
 import SearchByReferenceUseCase from "@app/application/useCases/parts/SearchByReferenceUseCase";
-import { PartDto, UpdatePartDto } from "./PartDto";
+import { PartDto, UpdatePartDto } from "@app/application/dto/PartDto";
 
 @Controller("parts")
 @ApiBearerAuth()

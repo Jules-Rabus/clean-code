@@ -25,7 +25,7 @@ import {
   ApiProperty,
   ApiResponse,
 } from "@nestjs/swagger";
-import { BikeDto, UpdateBikeDto } from "./BikeDto";
+import { BikeDto, UpdateBikeDto } from "@app/application/dto/BikeDto";
 
 @Controller("bikes")
 @ApiBearerAuth()

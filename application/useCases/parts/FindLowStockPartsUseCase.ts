@@ -1,5 +1,5 @@
 import SequelizePartRepository from "@app/sequelize/repositories/Part";
-import Part from '@app/domain/entities/Part';
+import Part from "@app/domain/entities/Part";
 
 export default class FindLowStockPartsUseCase {
   public constructor(

@@ -10,7 +10,7 @@ export default class FindOneMaintenanceUseCase {
   public async execute(identifier: string): Promise<Maintenance> {
     const maintenance = await this.maintenanceRepository.findOne(identifier);
 
-    if(maintenance instanceof MaintenanceNotFoundError) {
+    if (maintenance instanceof MaintenanceNotFoundError) {
       throw new MaintenanceNotFoundError();
     }
 

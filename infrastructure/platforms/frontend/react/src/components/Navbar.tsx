@@ -27,6 +27,14 @@ export default function Navbar() {
                         </Link>
                     </NavigationMenuItem>
 
+                    <NavigationMenuItem>
+                        <Link href="/login" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Connexion
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+
                     {/* Menu déroulant pour la gestion des motos */}
                     <NavigationMenuItem>
                         <NavigationMenuTrigger className={navigationMenuTriggerStyle()}>

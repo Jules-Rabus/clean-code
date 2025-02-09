@@ -25,7 +25,10 @@ import UpdateIncidentUseCase from "@app/application/useCases/incidents/UpdateInc
 import FindOneIncidentUseCase from "@app/application/useCases/incidents/FindOneIncidentUseCase";
 import FindAllIncidentUseCase from "@app/application/useCases/incidents/FindAllIncidentUseCase";
 import SearchByBikeUseCase from "@app/application/useCases/incidents/SearchByBikeUseCase";
-import { IncidentDto, UpdateIncidentDto } from "./IncidentDto";
+import {
+  IncidentDto,
+  UpdateIncidentDto,
+} from "@app/application/dto/IncidentDto";
 
 @Controller("incidents")
 @ApiBearerAuth()

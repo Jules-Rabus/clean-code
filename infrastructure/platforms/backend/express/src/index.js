@@ -1,20 +1,38 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-// Create an Express application
+const express_1 = require("express");
+const cors_1 = require("cors");
+const bike_routes_1 = require("@app/express/src/routes/bike.routes");
+const user_routes_1 = require("@app/express/src/routes/user.routes");
+const incident_routes_1 = require("@app/express/src/routes/incident.routes");
+const maintenance_routes_1 = require("@app/express/src/routes/maintenance.routes");
+const parts_routes_1 = require("@app/express/src/routes/parts.routes");
+const sequelize_1 = require("@app/sequelize/sequelize");
+const mongoose_1 = require("@app/mongoose/mongoose");
 const app = (0, express_1.default)();
-// Set the port number for the server
-const port = 3000;
-// Define a route for the root path ('/')
+const port = process.env.PORT || 3000;
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use('/bikes', bike_routes_1.default);
+app.use('/users', user_routes_1.default);
+app.use('/incidents', incident_routes_1.default);
+app.use('/maintenance', maintenance_routes_1.default);
+app.use('/parts', parts_routes_1.default);
 app.get('/', (req, res) => {
-    // Send a response to the client
     res.send('Hello, TypeScript + Node.js + Express!');
 });
-// Start the server and listen on the specified port
-app.listen(port, () => {
-    // Log a message when the server is successfully running
-    console.log(`Server is running on http://localhost:${port}`);
-});
+async function start() {
+    try {
+        const sequelizeConnector = new sequelize_1.default();
+        await sequelizeConnector.connect();
+        const mongooseConnector = new mongoose_1.default();
+        await mongooseConnector.connect();
+    }
+    catch (error) {
+        console.error('Error while initializing database:', error);
+    }
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
+}
+start();

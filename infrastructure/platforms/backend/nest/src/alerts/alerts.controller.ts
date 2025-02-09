@@ -8,7 +8,7 @@ import {
   ApiNotFoundResponse,
   ApiResponse,
 } from "@nestjs/swagger";
-import { AlertDto } from "./AlertDto";
+import { AlertDto } from "@app/application/dto/AlertDto";
 
 @Controller("alerts")
 @ApiBearerAuth()

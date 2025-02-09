@@ -18,13 +18,15 @@ export default class SequelizeIncidentRepository
     identifier: string,
     incident: Partial<Incident>,
   ): Promise<Incident | IncidentNotFoundError> {
-    const incidentToUpdate = await IncidentModel.findByPk(identifier);
+    const incidentToUpdate = await IncidentModel.findByPk(identifier, {
+      include: [BikeModel],
+    });
 
     if (!incidentToUpdate) return new IncidentNotFoundError();
 
     await incidentToUpdate.update(incident);
 
-    return Incident.fromSequelizeModel(incidentToUpdate, false);
+    return Incident.fromSequelizeModel(incidentToUpdate);
   }
 
   async remove(identifier: string): Promise<number | IncidentNotFoundError> {

@@ -13,6 +13,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new CatchEverythingFilter());
+  // enable cors with * for all origins
+  app.enableCors({ origin: "*" });
 
   const config = new DocumentBuilder()
     .setTitle("Bikes API")

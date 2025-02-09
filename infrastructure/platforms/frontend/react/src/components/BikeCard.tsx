@@ -13,11 +13,13 @@ export default function BikeCard({ bike }: BikeCardProps) {
             ? bike.vin.value
             : bike.vin;
 
-    const purchaseDate = new Date(bike.purchaseDate).toLocaleDateString("fr-FR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const formatDate = (date: string) => {
+        return new Date(date).toLocaleDateString("fr-FR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    }
 
     return (
         <Card className="shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -31,14 +33,27 @@ export default function BikeCard({ bike }: BikeCardProps) {
                     <strong>VIN:</strong> {vinDisplay}
                 </p>
                 <p className="text-sm text-gray-600">
+                    <strong>Nombre de kilomètres</strong> {bike.mileage} km
+                </p>
+                <p className="text-sm text-gray-600">
+                    <strong>Statut:</strong> {bike.isActive ? "Actif" : "Inactif"}
+                </p>
+                <p className="text-sm text-gray-600">
                     <strong>Kilométrage:</strong> {bike.mileage} km
                 </p>
                 <p className="text-sm text-gray-600">
                     <strong>Immatriculation:</strong> {bike.registrationNumber}
                 </p>
                 <p className="text-sm text-gray-600">
-                    <strong>Date d&apos;achat:</strong> {purchaseDate}
+                    <strong>Date d&apos;achat:</strong> {formatDate(bike.purchaseDate)}
                 </p>
+                <p className="text-sm text-gray-600"> 
+                    <strong>Garantie:</strong> {bike.warrantyExpirationDate ? formatDate(bike.warrantyExpirationDate) : "Aucune"}
+                </p>
+                <p className="text-sm text-gray-600">
+                    <strong>Nombre d'incident:</strong> {bike.incidents.length}
+                </p>
+
             </CardContent>
         </Card>
     );

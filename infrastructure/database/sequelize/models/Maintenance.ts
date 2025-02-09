@@ -9,7 +9,6 @@ import {
   Model,
   PrimaryKey,
   Table,
-  Unique,
 } from "sequelize-typescript";
 
 import BikeModel from "@app/sequelize/models/Bike";
@@ -36,6 +35,10 @@ export default class MaintenanceModel extends Model<Maintenance> {
 
   @Column(DataType.STRING)
   declare description: string;
+
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  declare isDone: boolean;
 
   @ForeignKey(() => BikeModel)
   @AllowNull(false)

@@ -7,6 +7,7 @@ export default class Maintenance {
     public startDate: Date,
     public endDate: Date,
     public description: string,
+    public isDone: boolean,
     public bike?: Bike,
     public createdAt?: Date,
     public updatedAt?: Date,
@@ -21,6 +22,7 @@ export default class Maintenance {
       sequelizeMaintenance.startDate,
       sequelizeMaintenance.endDate,
       sequelizeMaintenance.description,
+      sequelizeMaintenance.isDone,
       _includeRelations
         ? Bike.fromSequelizeModel(sequelizeMaintenance.bike, false)
         : undefined,
