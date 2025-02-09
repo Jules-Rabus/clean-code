@@ -5,7 +5,10 @@ import FindOnePartUseCase from "@app/application/useCases/parts/FindOnePartUseCa
 import FindAllPartUseCase from "@app/application/useCases/parts/FindAllPartUseCase";
 import SearchByReferenceUseCase from "@app/application/useCases/parts/SearchByReferenceUseCase";
 
+import CreateAlertUseCase from "@app/application/useCases/alerts/CreateAlertUseCase";
+
 import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import MongooseAlertRepository from "@app/mongoose/repositories/Alert";
 
 export const CreatePartUseCaseProvider = {
   provide: CreatePartUseCase,
@@ -23,9 +26,11 @@ export const RemovePartUseCaseProvider = {
 
 export const UpdatePartUseCaseProvider = {
   provide: UpdatePartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) =>
-    new UpdatePartUseCase(PartRepository),
-  inject: [SequelizePartRepository],
+  useFactory: (
+    PartRepository: SequelizePartRepository,
+    CreateAlertUseCase: CreateAlertUseCase,
+  ) => new UpdatePartUseCase(PartRepository, CreateAlertUseCase),
+  inject: [SequelizePartRepository, CreateAlertUseCase],
 };
 
 export const FindOnePartUseCaseProvider = {
@@ -49,6 +54,13 @@ export const SearchByReferenceUseCaseProvider = {
   inject: [SequelizePartRepository],
 };
 
+export const CreateAlertUseCaseProvider = {
+  provide: CreateAlertUseCase,
+  useFactory: (alertRepository: MongooseAlertRepository) =>
+    new CreateAlertUseCase(alertRepository),
+  inject: [MongooseAlertRepository],
+};
+
 export default [
   CreatePartUseCaseProvider,
   RemovePartUseCaseProvider,
@@ -56,4 +68,6 @@ export default [
   FindOnePartUseCaseProvider,
   FindAllPartUseCaseProvider,
   SearchByReferenceUseCaseProvider,
+  CreateAlertUseCaseProvider,
+  MongooseAlertRepository,
 ];

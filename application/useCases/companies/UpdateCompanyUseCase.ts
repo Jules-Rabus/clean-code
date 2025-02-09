@@ -8,10 +8,13 @@ export default class UpdateCompanyUseCase {
   ) {}
 
   public async execute(
-    id: string,
+    identifier: string,
     company: Partial<Company>,
   ): Promise<Company> {
-    const updatedCompany = await this.companyRepository.update(id, company);
+    const updatedCompany = await this.companyRepository.update(
+      identifier,
+      company,
+    );
 
     if (updatedCompany instanceof CompanyNotFoundError) {
       throw new CompanyNotFoundError();

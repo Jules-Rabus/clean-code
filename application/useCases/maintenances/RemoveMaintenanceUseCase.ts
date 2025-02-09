@@ -6,8 +6,8 @@ export default class RemoveMaintenanceUseCase {
     private readonly maintenanceRepository: SequelizeMaintenanceRepository,
   ) {}
 
-  public async execute(id: string): Promise<number> {
-    const deletedResult = await this.maintenanceRepository.remove(id);
+  public async execute(identifier: string): Promise<number> {
+    const deletedResult = await this.maintenanceRepository.remove(identifier);
 
     if (deletedResult instanceof MaintenanceNotFoundError) {
       throw new MaintenanceNotFoundError();

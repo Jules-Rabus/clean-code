@@ -7,8 +7,8 @@ export default class FindOneIncidentUseCase {
     private readonly incidentRepository: SequelizeIncidentRepository,
   ) {}
 
-  public async execute(id: string): Promise<Incident> {
-    const incident = await this.incidentRepository.findOne(id);
+  public async execute(identifier: string): Promise<Incident> {
+    const incident = await this.incidentRepository.findOne(identifier);
 
     if (incident instanceof IncidentNotFoundError) {
       throw new IncidentNotFoundError();

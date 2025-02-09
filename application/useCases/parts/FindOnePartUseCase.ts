@@ -7,8 +7,8 @@ export default class FindOnePartUseCase {
     private readonly partRepository: SequelizePartRepository,
   ) {}
 
-  public async execute(id: string): Promise<Part> {
-    const part = await this.partRepository.findOne(id);
+  public async execute(identifier: string): Promise<Part> {
+    const part = await this.partRepository.findOne(identifier);
 
     if (part instanceof PartNotFoundError) {
       throw new PartNotFoundError();

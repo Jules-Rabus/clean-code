@@ -7,8 +7,8 @@ export default class RemoveIncidentUseCase {
     private readonly incidentRepository: SequelizeIncidentRepository,
   ) {}
 
-  public async execute(id: string): Promise<number> {
-    const deletedResult = await this.incidentRepository.remove(id);
+  public async execute(identifier: string): Promise<number> {
+    const deletedResult = await this.incidentRepository.remove(identifier);
 
     if (deletedResult instanceof IncidentNotFoundError) {
       throw new IncidentNotFoundError();

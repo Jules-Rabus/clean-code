@@ -7,7 +7,7 @@ export default class Company {
     public readonly email: string,
     public readonly address: string,
     public readonly phone: string,
-    public readonly bikes?: Bike[],
+    public readonly bikes?: Partial<Bike>[],
     public readonly createdAt?: Date,
     public readonly updatedAt?: Date,
   ) {}

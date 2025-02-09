@@ -21,20 +21,17 @@ const CompanySchema = new Schema<Company>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       type: String,
       required: true,
     },
-
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+    bikes: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true },
 );

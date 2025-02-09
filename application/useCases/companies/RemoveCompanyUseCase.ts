@@ -6,8 +6,8 @@ export default class RemoveCompanyUseCase {
     private readonly companyRepository: MongooseCompanyRepository,
   ) {}
 
-  public async execute(id: string): Promise<number> {
-    const deletedCompany = await this.companyRepository.remove(id);
+  public async execute(identifier: string): Promise<number> {
+    const deletedCompany = await this.companyRepository.remove(identifier);
 
     if (deletedCompany instanceof CompanyNotFoundError) {
       throw new CompanyNotFoundError();

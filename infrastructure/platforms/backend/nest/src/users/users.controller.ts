@@ -26,7 +26,6 @@ import {
   ApiResponse,
 } from "@nestjs/swagger";
 import { UserDto, UpdateUserDto } from "./UserDto";
-import { Public } from "@app/nest/src/auth/decorators/public.decorator";
 
 @Controller("users")
 @ApiBearerAuth()

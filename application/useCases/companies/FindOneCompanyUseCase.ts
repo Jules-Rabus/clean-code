@@ -7,8 +7,8 @@ export default class FindOneCompanyUseCase {
     private readonly companyRepository: MongooseCompanyRepository,
   ) {}
 
-  public async execute(id: string): Promise<Company> {
-    const company = await this.companyRepository.findOne(id);
+  public async execute(identifier: string): Promise<Company> {
+    const company = await this.companyRepository.findOne(identifier);
 
     if (company instanceof CompanyNotFoundError) {
       throw new CompanyNotFoundError();
