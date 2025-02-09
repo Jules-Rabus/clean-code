@@ -1,3 +1,3 @@
 export class TokenGenerationError extends Error {
-    public override readonly name = "TokenGenerationError";
+  public override readonly name = "TokenGenerationError";
 }

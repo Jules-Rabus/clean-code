@@ -10,76 +10,77 @@ import IncidentModel from "@app/sequelize/models/Incident";
 import MaintenanceModel from "@app/sequelize/models/Maintenance";
 
 export default class SequelizeBikeRepository implements BikesRepository {
+  async create(bike: Bike): Promise<Bike> {
+    const newBike = await BikeModel.create(bike, {
+      include: [IncidentModel, MaintenanceModel],
+    });
 
-    async create(bike: Bike): Promise<Bike> {
-        const newBike = await BikeModel.create(bike, {
-            include: [ IncidentModel, MaintenanceModel ]
-        });
+    return Bike.fromSequelizeModel(newBike);
+  }
 
-        return Bike.fromSequelizeModel(newBike);
-    }
+  async update(
+    vin: VinIdentifier,
+    bike: Partial<Bike>,
+  ): Promise<Bike | BikeNotFoundError> {
+    const bikeToUpdate = await BikeModel.findByPk(vin.value, {
+      include: [IncidentModel, MaintenanceModel],
+    });
 
-    async update(vin: VinIdentifier, bike: Partial<Bike>): Promise<Bike | BikeNotFoundError> {
-        const bikeToUpdate = await BikeModel.findByPk(vin.value, {
-            include: [ IncidentModel, MaintenanceModel ]
-        });
+    if (!bikeToUpdate) return new BikeNotFoundError();
 
-        if(!bikeToUpdate) return new BikeNotFoundError();
+    await bikeToUpdate.update(bike);
 
-        await bikeToUpdate.update(bike);
+    return Bike.fromSequelizeModel(bikeToUpdate);
+  }
 
-        return Bike.fromSequelizeModel(bikeToUpdate);
-    }
+  async remove(vin: VinIdentifier): Promise<number | BikeNotFoundError> {
+    const deletedBike = await BikeModel.destroy({ where: { vin: vin.value } });
 
-    async remove(vin: VinIdentifier): Promise<number | BikeNotFoundError> {
-        const deletedBike = await BikeModel.destroy({ where: { vin: vin.value } });
+    if (deletedBike === 0) return new BikeNotFoundError();
 
-        if(deletedBike === 0) return new BikeNotFoundError();
+    return deletedBike;
+  }
 
-        return deletedBike;
-    }
+  async findOne(vin: VinIdentifier): Promise<Bike | BikeNotFoundError> {
+    const bike = await BikeModel.findByPk(vin.value, {
+      include: [IncidentModel, MaintenanceModel],
+    });
 
-    async findOne(vin: VinIdentifier): Promise<Bike | BikeNotFoundError> {
-        const bike = await BikeModel.findByPk(vin.value, {
-            include: [ IncidentModel, MaintenanceModel ]
-        });
+    if (!bike) return new BikeNotFoundError();
 
-        if(!bike) return new BikeNotFoundError();
+    return Bike.fromSequelizeModel(bike);
+  }
 
-        return Bike.fromSequelizeModel(bike);
-    }
+  async findAll(): Promise<Bike[]> {
+    const bikes = await BikeModel.findAll({
+      include: [IncidentModel, MaintenanceModel],
+    });
 
-    async findAll(): Promise<Bike[]> {
-        const bikes = await BikeModel.findAll({
-            include: [ IncidentModel, MaintenanceModel  ]
-        });
+    return bikes.map((bike) => Bike.fromSequelizeModel(bike));
+  }
 
-        return bikes.map((bike) => Bike.fromSequelizeModel(bike));
-    }
-
-    async searchByVin(vin: VinIdentifier): Promise<Bike[]> {
-        /*const bikes = await BikeModel.findAll({
+  async searchByVin(vin: VinIdentifier): Promise<Bike[]> {
+    /*const bikes = await BikeModel.findAll({
             where: {
                 vin: {
                     [Op.like]: `%${vin.value}%`
                 }
             }
         });*/
-        const bikes: any[] = []; // @TODO: Implement search by vin
+    const bikes: any[] = []; // @TODO: Implement search by vin
 
-        return bikes.map((bike) => Bike.fromSequelizeModel(bike));
-    }
+    return bikes.map((bike) => Bike.fromSequelizeModel(bike));
+  }
 
-    async searchByModel(model: string): Promise<Bike[]> {
-        const bikes = await BikeModel.findAll({
-            where: {
-                model: {
-                    [Op.like]: `%${model}%`
-                }
-            }
-        });
+  async searchByModel(model: string): Promise<Bike[]> {
+    const bikes = await BikeModel.findAll({
+      where: {
+        model: {
+          [Op.like]: `%${model}%`,
+        },
+      },
+    });
 
-        return bikes.map((bike) => Bike.fromSequelizeModel(bike));
-    }
-
+    return bikes.map((bike) => Bike.fromSequelizeModel(bike));
+  }
 }

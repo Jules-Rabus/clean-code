@@ -1,3 +1,3 @@
 export class UnauthorizedError extends Error {
-    public override readonly name = "UnauthorizedError";
-  }
+  public override readonly name = "UnauthorizedError";
+}

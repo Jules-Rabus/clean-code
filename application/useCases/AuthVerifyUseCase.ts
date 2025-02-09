@@ -4,24 +4,21 @@ import SequelizeUserRepository from "@app/sequelize/repositories/User";
 import { UnauthorizedError } from "@app/domain/errors/UnauthorizedError";
 
 export default class AuthVerifyUseCase {
+  public constructor(
+    private readonly authenticationService: AuthenticationService,
+    private readonly userRepository: SequelizeUserRepository,
+  ) {}
 
-    public constructor(
-      private readonly authenticationService: AuthenticationService,
-      private readonly userRepository: SequelizeUserRepository,
-    ) {}
+  public async execute(token: string) {
+    const userId =
+      await this.authenticationService.verifyAuthenticationToken(token);
 
-    public async execute(
-        token: string
-    ) {
-        const userId = await this.authenticationService.verifyAuthenticationToken(token);
-        
-        if(userId instanceof UnauthorizedError) throw UnauthorizedError;
+    if (userId instanceof UnauthorizedError) throw UnauthorizedError;
 
-        const user = await this.userRepository.findOne(userId);
+    const user = await this.userRepository.findOne(userId);
 
-        if (user instanceof UserNotFoundError) throw new UserNotFoundError();
+    if (user instanceof UserNotFoundError) throw new UserNotFoundError();
 
-        return user;
-    }
-
+    return user;
+  }
 }

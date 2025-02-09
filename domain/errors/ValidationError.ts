@@ -1,3 +1,3 @@
 export default class ValidationError extends Error {
-    public override name = "ValidationError";
+  public override name = "ValidationError";
 }

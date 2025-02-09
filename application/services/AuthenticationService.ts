@@ -3,11 +3,17 @@ import { TokenGenerationError } from "@app/domain/errors/TokenGenerationError";
 import * as jwt from "jsonwebtoken";
 
 export interface AuthenticationServiceInterface {
-  readonly createAuthenticationToken: (userIdentifier: string) => Promise<string>;
-  readonly verifyAuthenticationToken: (authenticationToken: string) => Promise<string | UnauthorizedError>;
+  readonly createAuthenticationToken: (
+    userIdentifier: string,
+  ) => Promise<string>;
+  readonly verifyAuthenticationToken: (
+    authenticationToken: string,
+  ) => Promise<string | UnauthorizedError>;
 }
 
-export default class AuthenticationService implements AuthenticationServiceInterface {
+export default class AuthenticationService
+  implements AuthenticationServiceInterface
+{
   private readonly jwtSecret: string;
   private readonly jwtExpiresIn: number;
 
@@ -23,14 +29,19 @@ export default class AuthenticationService implements AuthenticationServiceInter
       const token = jwt.sign(payload, this.jwtSecret, options);
       return token;
     } catch (error) {
-        throw new TokenGenerationError();
+      throw new TokenGenerationError();
     }
   }
 
-  async verifyAuthenticationToken(authenticationToken: string): Promise<string | UnauthorizedError> {
+  async verifyAuthenticationToken(
+    authenticationToken: string,
+  ): Promise<string | UnauthorizedError> {
     try {
-      const decoded = jwt.verify(authenticationToken, this.jwtSecret) as jwt.JwtPayload;
-      
+      const decoded = jwt.verify(
+        authenticationToken,
+        this.jwtSecret,
+      ) as jwt.JwtPayload;
+
       if (!decoded || !decoded["id"]) {
         return new UnauthorizedError();
       }

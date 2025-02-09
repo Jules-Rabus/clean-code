@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcrypt';
-import { PasswordHashError } from '@app/domain/errors/PasswordHashError';
+import * as bcrypt from "bcrypt";
+import { PasswordHashError } from "@app/domain/errors/PasswordHashError";
 import { PasswordTooShortError } from "@app/domain/errors/users/PasswordTooShortError";
 import { PasswordDoesNotIncludeLowercaseLetterError } from "@app/domain/errors/users/PasswordDoesNotIncludeLowercaseLetterError";
 import { PasswordDoesNotIncludeNumberError } from "@app/domain/errors/users/PasswordDoesNotIncludeNumberError";
@@ -8,12 +8,16 @@ import { PasswordDoesNotIncludeUppercaseLetterError } from "@app/domain/errors/u
 
 export interface PasswordServiceInterface {
   hashPassword: (plainPassword: string) => Promise<string>;
-  verifyPassword: (plainPassword: string, hashedPassword: string) => Promise<boolean>;
+  verifyPassword: (
+    plainPassword: string,
+    hashedPassword: string,
+  ) => Promise<boolean>;
 }
 
 export default class PasswordService implements PasswordServiceInterface {
-
-  private readonly saltRounds: number = parseInt(process.env["PASSWORD_SALT_ROUNDS"] || "10");
+  private readonly saltRounds: number = parseInt(
+    process.env["PASSWORD_SALT_ROUNDS"] || "10",
+  );
 
   private validatePassword(value: string): void {
     if (value.length < 8) {
@@ -39,11 +43,16 @@ export default class PasswordService implements PasswordServiceInterface {
       const hashedPassword = await bcrypt.hash(plainPassword, this.saltRounds);
       return hashedPassword;
     } catch (error) {
-        throw new PasswordHashError(error instanceof Error ? error.message : String(error));
+      throw new PasswordHashError(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 
-  async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  async verifyPassword(
+    plainPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
     return bcrypt.compare(plainPassword, hashedPassword);
   }
 }

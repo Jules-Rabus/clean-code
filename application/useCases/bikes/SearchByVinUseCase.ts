@@ -3,15 +3,13 @@ import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Bike from "@app/domain/entities/Bike";
 
 export default class SearchByVinUseCase {
-    
-    public constructor(
-        private readonly bikeRepository: SequelizeBikeRepository,
-    ) {}
+  public constructor(
+    private readonly bikeRepository: SequelizeBikeRepository,
+  ) {}
 
-    public async execute(vin: VinIdentifier): Promise<Bike[]> {
+  public async execute(vin: VinIdentifier): Promise<Bike[]> {
+    // @TODO: Add validation logic here
 
-        // @TODO: Add validation logic here
-
-        return this.bikeRepository.searchByVin(vin);
-    }
+    return this.bikeRepository.searchByVin(vin);
+  }
 }

@@ -9,40 +9,45 @@ import SequelizePartRepository from "@app/sequelize/repositories/Part";
 
 export const CreatePartUseCaseProvider = {
   provide: CreatePartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new CreatePartUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new CreatePartUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
 
 export const RemovePartUseCaseProvider = {
   provide: RemovePartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new RemovePartUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new RemovePartUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
 
 export const UpdatePartUseCaseProvider = {
   provide: UpdatePartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new UpdatePartUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new UpdatePartUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
 
 export const FindOnePartUseCaseProvider = {
   provide: FindOnePartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new FindOnePartUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new FindOnePartUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
 
 export const FindAllPartUseCaseProvider = {
   provide: FindAllPartUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new FindAllPartUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new FindAllPartUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
 
 export const SearchByReferenceUseCaseProvider = {
   provide: SearchByReferenceUseCase,
-  useFactory: (PartRepository: SequelizePartRepository) => new SearchByReferenceUseCase(PartRepository),
+  useFactory: (PartRepository: SequelizePartRepository) =>
+    new SearchByReferenceUseCase(PartRepository),
   inject: [SequelizePartRepository],
 };
-
 
 export default [
   CreatePartUseCaseProvider,

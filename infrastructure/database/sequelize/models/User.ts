@@ -1,52 +1,51 @@
 import {
-    Column,
-    DataType,
-    Model,
-    PrimaryKey,
-    Table,
-    Default,
-    Unique,
-    AllowNull,
-    IsUUID,
-} from 'sequelize-typescript';
+  Column,
+  DataType,
+  Model,
+  PrimaryKey,
+  Table,
+  Default,
+  Unique,
+  AllowNull,
+  IsUUID,
+} from "sequelize-typescript";
 
-import User from '@app/domain/entities/User';
-import { Role } from '@app/domain/value-objects/Role';
-  
+import User from "@app/domain/entities/User";
+import { Role } from "@app/domain/value-objects/Role";
+
 @Table({
-    tableName: 'users',
-    modelName: 'User',
-    timestamps: true,
-    underscored: true,
+  tableName: "users",
+  modelName: "User",
+  timestamps: true,
+  underscored: true,
 })
 export default class UserModel extends Model<User> {
+  @Default(DataType.UUIDV4)
+  @IsUUID(4)
+  @PrimaryKey
+  @Column
+  declare identifier: string;
 
-    @Default(DataType.UUIDV4)
-    @IsUUID(4)
-    @PrimaryKey
-    @Column
-    declare identifier: string;
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  declare email: string;
 
-    @Unique
-    @AllowNull(false)
-    @Column(DataType.STRING)
-    declare email: string;
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  declare firstName: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING)
-    declare firstName: string;
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  declare lastName: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING)
-    declare lastName: string;
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  declare password: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING)
-    declare password: string;
+  @Column(DataType.ARRAY(DataType.STRING))
+  declare roles: Role[];
 
-    @Column(DataType.ARRAY(DataType.STRING))
-    declare roles: Role[];
-
-    @Column(DataType.BOOLEAN)
-    declare isActive: boolean;
+  @Column(DataType.BOOLEAN)
+  declare isActive: boolean;
 }

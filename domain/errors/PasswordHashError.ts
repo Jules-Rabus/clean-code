@@ -1,3 +1,3 @@
 export class PasswordHashError extends Error {
-    public override readonly name = "PasswordHashError";
-  }
+  public override readonly name = "PasswordHashError";
+}

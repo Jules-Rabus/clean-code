@@ -4,50 +4,62 @@ import { CompanyModel } from "../models/Company";
 import CompanyNotFoundError from "@app/domain/errors/companies/CompanyNotFoundError";
 
 export default class MongooseCompanyRepository implements CompanyRepository {
-    
-    public async create(company: Company): Promise<Company> {
-        const newCompany = await CompanyModel.create(company);
+  public async create(company: Company): Promise<Company> {
+    const newCompany = await CompanyModel.create(company);
 
-        return Company.fromMongoModel(newCompany);
+    return Company.fromMongoModel(newCompany);
+  }
+
+  public async update(
+    identifier: string,
+    company: Partial<Company>,
+  ): Promise<Company | CompanyNotFoundError> {
+    const updatedCompany = await CompanyModel.findOneAndUpdate(
+      { identifier },
+      company,
+      { new: true },
+    );
+
+    if (!updatedCompany) {
+      return new CompanyNotFoundError();
     }
 
-    public async update(identifier: string, company: Partial<Company>): Promise<Company | CompanyNotFoundError>{
-        const updatedCompany = await CompanyModel.findOneAndUpdate({ identifier }, company, { new: true });
+    return Company.fromMongoModel(updatedCompany);
+  }
 
-        if(!updatedCompany) {
-            return new CompanyNotFoundError();
-        }
-        
-        return Company.fromMongoModel(updatedCompany);
+  public async remove(
+    identifier: string,
+  ): Promise<number | CompanyNotFoundError> {
+    const deletedCompany = await CompanyModel.deleteOne({ identifier });
+
+    if (!deletedCompany || deletedCompany.deletedCount === 0) {
+      return new CompanyNotFoundError();
     }
 
-    public async remove(identifier: string): Promise<number | CompanyNotFoundError> {
-        const deletedCompany = await CompanyModel.deleteOne({ identifier });
+    return deletedCompany.deletedCount;
+  }
 
-        if(!deletedCompany || deletedCompany.deletedCount === 0) {
-            return new CompanyNotFoundError();
-        }
+  public async findOne(
+    identifier: string,
+  ): Promise<Company | CompanyNotFoundError> {
+    const company = await CompanyModel.findOne({ identifier });
 
-        return deletedCompany.deletedCount;
+    if (!company) {
+      return new CompanyNotFoundError();
     }
 
-    public async findOne(identifier: string): Promise<Company | CompanyNotFoundError> {
-        const company = await CompanyModel.findOne({ identifier });
+    return Company.fromMongoModel(company);
+  }
 
-        if(!company) {
-            return new CompanyNotFoundError();
-        }
+  public async findAll(): Promise<Company[]> {
+    return CompanyModel.find();
+  }
 
-        return Company.fromMongoModel(company);
-    }
+  public async searchByName(name: string): Promise<Company[]> {
+    const companies = await CompanyModel.find({
+      name: { $regex: name, $options: "i" },
+    });
 
-    public async findAll(): Promise<Company[]> {
-        return CompanyModel.find();
-    }
-
-    public async searchByName(name: string): Promise<Company[]> {
-        const companies = await CompanyModel.find({ name: { $regex: name, $options: 'i' } });
-
-        return companies.map((company) => Company.fromMongoModel(company));
-    }
+    return companies.map((company) => Company.fromMongoModel(company));
+  }
 }

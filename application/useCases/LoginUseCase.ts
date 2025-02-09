@@ -5,29 +5,30 @@ import AuthenticationService from "@app/application/services/AuthenticationServi
 import SequelizeUserRepository from "@app/sequelize/repositories/User";
 
 export default class LoginUseCase {
+  public constructor(
+    private readonly passwordService: PasswordService,
+    private readonly authenticationService: AuthenticationService,
+    private readonly userRepository: SequelizeUserRepository,
+  ) {}
 
-    public constructor(
-      private readonly passwordService: PasswordService,
-      private readonly authenticationService: AuthenticationService,
-      private readonly userRepository: SequelizeUserRepository,
-    ) {}
-
-  public async execute(
-    email: string,
-    password: string
-  ) {
-
+  public async execute(email: string, password: string) {
     try {
       const user = await this.userRepository.findByEmail(email);
-      if (user instanceof UserNotFoundError) throw new UserNotFoundError;
+      if (user instanceof UserNotFoundError) throw new UserNotFoundError();
 
-      const passwordValid = await this.passwordService.verifyPassword(password, user.password);
-      if (!passwordValid) throw new UserNotFoundError;
+      const passwordValid = await this.passwordService.verifyPassword(
+        password,
+        user.password,
+      );
+      if (!passwordValid) throw new UserNotFoundError();
 
-      return await this.authenticationService.createAuthenticationToken(user.identifier);
-
+      return await this.authenticationService.createAuthenticationToken(
+        user.identifier,
+      );
     } catch (error) {
-      throw new UnexpectedError(error instanceof Error ? error.message : String(error));
+      throw new UnexpectedError(
+        error instanceof Error ? error.message : String(error),
+      );
     }
   }
 }

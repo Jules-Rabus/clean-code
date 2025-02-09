@@ -1,12 +1,11 @@
-import SequelizeConnection from '@app/sequelize/config/sequelize.connection';
+import SequelizeConnection from "@app/sequelize/config/sequelize.connection";
 
 export default class SequelizeConnector {
   async connect(): Promise<void> {
-    try{
+    try {
       await new SequelizeConnection().initialize();
-    }
-    catch(error){
-      console.error('Error connecting to the database : sequelize');
+    } catch (error) {
+      console.error("Error connecting to the database : sequelize");
       throw error;
     }
   }
