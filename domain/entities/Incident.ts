@@ -14,7 +14,7 @@ export default class Incident {
 
     static fromSequelizeModel(sequelizeIncident: IncidentModel, _includeRelations: boolean = true): Incident {
         return new Incident(
-            sequelizeIncident.id,
+            sequelizeIncident.identifier,
             sequelizeIncident.date,
             sequelizeIncident.description,
             sequelizeIncident.isResolved,

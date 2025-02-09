@@ -1,8 +1,7 @@
 import Incident from '@app/domain/entities/Incident';
-import Bike from '@app/domain/entities/Bike';
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDateString, IsString, IsUUID, Matches, Min, MinLength } from 'class-validator';
+import { IsBoolean, IsDateString, IsString, Matches, MinLength } from 'class-validator';
 import VinIdentifier from '@app/domain/value-objects/VinIdentifier';
 
 export class IncidentDto implements Partial<Incident> {

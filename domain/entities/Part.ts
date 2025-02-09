@@ -15,7 +15,7 @@ export default class Part {
 
     static fromSequelizeModel(sequelizeParts: PartModel): Part {
         return new Part(
-            sequelizeParts.id,
+            sequelizeParts.identifier,
             sequelizeParts.reference,
             sequelizeParts.name,
             sequelizeParts.description,

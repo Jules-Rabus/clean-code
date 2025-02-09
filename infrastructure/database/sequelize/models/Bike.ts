@@ -21,9 +21,9 @@ import MaintenanceModel from '@app/sequelize/models/Maintenance';
 })
 export default class BikeModel extends Model<Bike> {
 
-    @PrimaryKey
     @Unique
     @AllowNull(false)
+    @PrimaryKey
     @Column(DataType.STRING)
     declare vin: string;
 

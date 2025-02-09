@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import SequelizeConnector from '@app/sequelize/sequelize';
 import { ValidationPipe } from '@nestjs/common';
 import { CatchEverythingFilter } from './middlewares/http-error.interceptor';
-//import MongooseConnector from '@app/mongoose/mongoose';
+import MongooseConnector from '@app/mongoose/mongoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,8 +26,8 @@ async function bootstrap() {
   await sequelizeConnector.connect();
 
 
-  //const mongooseConnector = new MongooseConnector();
-  //await mongooseConnector.connect();
+  const mongooseConnector = new MongooseConnector();
+  await mongooseConnector.connect();
 
   await app.listen(process.env['PORT'] ?? 3000);
 }

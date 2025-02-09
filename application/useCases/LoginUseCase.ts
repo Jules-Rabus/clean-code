@@ -3,7 +3,6 @@ import PasswordService from "@app/application/services/PasswordService";
 import UserNotFoundError from "@app/domain/errors/users/UserNotFoundError";
 import AuthenticationService from "@app/application/services/AuthenticationService";
 import SequelizeUserRepository from "@app/sequelize/repositories/User";
-import User from "@app/domain/entities/User";
 
 export default class LoginUseCase {
 
@@ -19,8 +18,8 @@ export default class LoginUseCase {
   ) {
 
     try {
-      const user : User | null = await this.userRepository.findByEmail(email);
-      if (!user) throw new UserNotFoundError;
+      const user = await this.userRepository.findByEmail(email);
+      if (user instanceof UserNotFoundError) throw new UserNotFoundError;
 
       const passwordValid = await this.passwordService.verifyPassword(password, user.password);
       if (!passwordValid) throw new UserNotFoundError;

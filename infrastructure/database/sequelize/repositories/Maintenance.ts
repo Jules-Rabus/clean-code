@@ -14,28 +14,28 @@ export default class SequelizeMaintenanceRepository implements MaintenancesRepos
         return Maintenance.fromSequelizeModel(newMaintenance, false);
     }
 
-    async update(identifier: string, maintenance: Partial<Maintenance>): Promise<Maintenance | null> {
+    async update(identifier: string, maintenance: Partial<Maintenance>): Promise<Maintenance | MaintenanceNotFoundError> {
         const maintenanceToUpdate = await MaintenanceModel.findByPk(identifier);
 
-        if(!maintenanceToUpdate) throw new MaintenanceNotFoundError();
+        if(!maintenanceToUpdate) return new MaintenanceNotFoundError();
 
         await maintenanceToUpdate.update(maintenance);
 
         return Maintenance.fromSequelizeModel(maintenanceToUpdate, false);
     }
 
-    async remove(identifier: string): Promise<void> {
-        const maintenance = await MaintenanceModel.findByPk(identifier);
+    async remove(identifier: string): Promise<number | MaintenanceNotFoundError> {
+        const deletedMaintenance = await MaintenanceModel.destroy({ where: { identifier } });
 
-        if(!maintenance) throw new MaintenanceNotFoundError();
+        if(deletedMaintenance === 0) return new MaintenanceNotFoundError();
 
-        await maintenance.destroy();
+        return deletedMaintenance;
     }
 
-    async findOne(identifier: string): Promise<Maintenance | null> {
+    async findOne(identifier: string): Promise<Maintenance | MaintenanceNotFoundError> {
         const maintenance = await MaintenanceModel.findByPk(identifier);
 
-        if(!maintenance) throw new MaintenanceNotFoundError();
+        if(!maintenance) return new MaintenanceNotFoundError();
 
         return Maintenance.fromSequelizeModel(maintenance);
     }

@@ -13,30 +13,30 @@ export default class SequelizeIncidentRepository implements IncidentsRepository 
         return Incident.fromSequelizeModel(newIncident, false);
     }
 
-    async update(identifier: string, incident: Partial<Incident>): Promise<Incident | null> {
+    async update(identifier: string, incident: Partial<Incident>): Promise<Incident | IncidentNotFoundError> {
         const incidentToUpdate = await IncidentModel.findByPk(identifier);
 
-        if(!incidentToUpdate) throw new IncidentNotFoundError();
+        if(!incidentToUpdate) return new IncidentNotFoundError();
 
         await incidentToUpdate.update(incident);
 
         return Incident.fromSequelizeModel(incidentToUpdate, false);
     }
 
-    async remove(identifier: string): Promise<void> {
-        const incident = await IncidentModel.findByPk(identifier);
+    async remove(identifier: string): Promise<number | IncidentNotFoundError> {
+        const deletedUser = await IncidentModel.destroy({ where: { identifier } });
 
-        if(!incident) throw new IncidentNotFoundError();
+        if(deletedUser === 0) return new IncidentNotFoundError();
 
-        await incident.destroy();
+        return deletedUser;
     }
 
-    async findOne(identifier: string): Promise<Incident | null> {
+    async findOne(identifier: string): Promise<Incident | IncidentNotFoundError> {
         const incident = await IncidentModel.findByPk(identifier, {
             include: [ BikeModel ]
         });
 
-        if(!incident) throw new IncidentNotFoundError();
+        if(!incident) return new IncidentNotFoundError();
 
         return Incident.fromSequelizeModel(incident);
     }

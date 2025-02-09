@@ -16,7 +16,7 @@ export default class User {
 
     static fromSequelizeModel(sequelizeUser: UserModel): User {
         return new User(
-            sequelizeUser.id,
+            sequelizeUser.identifier,
             sequelizeUser.email,
             sequelizeUser.firstName,
             sequelizeUser.lastName,

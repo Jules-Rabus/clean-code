@@ -1,7 +1,7 @@
 import Part from '@app/domain/entities/Part';
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlpha, IsBoolean, IsDateString, IsString, IsUUID, Matches, Min, MinLength } from 'class-validator';
+import {  IsDateString, IsString, Min } from 'class-validator';
 
 export class PartDto implements Partial<Part> {
 
@@ -13,7 +13,6 @@ export class PartDto implements Partial<Part> {
 
     @ApiProperty({ example: 'Front wheel' })
     @IsString()
-    @IsAlpha('fr-FR')
     declare readonly name: string;
 
     @ApiProperty({ example: '145xba' })
@@ -44,7 +43,6 @@ export class UpdatePartDto implements Partial<Part> {
 
     @ApiProperty({ example: 'Front wheel' })
     @IsString()
-    @IsAlpha('fr-FR')
     declare readonly name?: string;
 
     @ApiProperty({ example: '145xba' })

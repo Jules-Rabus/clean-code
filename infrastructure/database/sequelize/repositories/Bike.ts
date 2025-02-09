@@ -19,32 +19,32 @@ export default class SequelizeBikeRepository implements BikesRepository {
         return Bike.fromSequelizeModel(newBike);
     }
 
-    async update(vin: VinIdentifier, bike: Partial<Bike>): Promise<Bike | null> {
+    async update(vin: VinIdentifier, bike: Partial<Bike>): Promise<Bike | BikeNotFoundError> {
         const bikeToUpdate = await BikeModel.findByPk(vin.value, {
             include: [ IncidentModel, MaintenanceModel ]
         });
 
-        if(!bikeToUpdate) throw new BikeNotFoundError();
+        if(!bikeToUpdate) return new BikeNotFoundError();
 
         await bikeToUpdate.update(bike);
 
         return Bike.fromSequelizeModel(bikeToUpdate);
     }
 
-    async remove(vin: VinIdentifier): Promise<void> {
-        const bike = await BikeModel.findByPk(vin.value);
+    async remove(vin: VinIdentifier): Promise<number | BikeNotFoundError> {
+        const deletedBike = await BikeModel.destroy({ where: { vin: vin.value } });
 
-        if(!bike) throw new BikeNotFoundError();
+        if(deletedBike === 0) return new BikeNotFoundError();
 
-        await bike.destroy();
+        return deletedBike;
     }
 
-    async findOne(vin: VinIdentifier): Promise<Bike | null> {
+    async findOne(vin: VinIdentifier): Promise<Bike | BikeNotFoundError> {
         const bike = await BikeModel.findByPk(vin.value, {
             include: [ IncidentModel, MaintenanceModel ]
         });
 
-        if(!bike) throw new BikeNotFoundError();
+        if(!bike) return new BikeNotFoundError();
 
         return Bike.fromSequelizeModel(bike);
     }

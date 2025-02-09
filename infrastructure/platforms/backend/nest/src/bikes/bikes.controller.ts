@@ -9,7 +9,6 @@ import FindOneBikeUseCase from '@app/application/useCases/bikes/FindOneBikeUseCa
 import FindAllBikeUseCase from '@app/application/useCases/bikes/FindAllBikeUseCase';
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { BikeDto, UpdateBikeDto } from './BikeDto';
-import BikeNotFoundError from '@app/domain/errors/bikes/BikeNotFoundError';
 
 @Controller('bikes')
 @ApiBearerAuth()
@@ -33,48 +32,28 @@ export class BikesController {
 
   @Patch(':id')
   @ApiNotFoundResponse({ description: 'Bike not found.' })
-  @ApiBody({type: BikeDto})
+  @ApiBody({type: UpdateBikeDto})
   @ApiResponse({type: BikeDto, status: HttpStatus.OK})
-  async update(@Param('id') identifier: string, @Body() bike: UpdateBikeDto, @Res() response: Response) {
-    try {
-      const vin = new VinIdentifier(identifier);
-      const updatedBike = await this.UpdateBikeUseCase.execute(vin, bike);
-      return updatedBike;
-    } catch (error) {
-      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-      
-      throw error;
-    }
+  async update(@Param('id') identifier: string, @Body() bike: UpdateBikeDto) {
+    const vin = new VinIdentifier(identifier);
+    return await this.UpdateBikeUseCase.execute(vin, bike);
   }
 
   @Delete(':id')
   @ApiNotFoundResponse({ description: 'Bike not found.' })
   @ApiResponse({ description: 'Bike removed', status: HttpStatus.NO_CONTENT })
   async remove(@Param('id') identifier: string, @Res() response: Response) {
-    try {
-      const vin = new VinIdentifier(identifier);
-      await this.RemoveBikeUseCase.execute(vin);
-      return response.status(HttpStatus.NO_CONTENT);
-    } catch (error) {
-      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-    
-      throw error;
-    }
+    const vin = new VinIdentifier(identifier);
+    await this.RemoveBikeUseCase.execute(vin);
+    return response.status(HttpStatus.NO_CONTENT).json();
   }
 
   @Get(':id')
   @ApiResponse({type: BikeDto, status: HttpStatus.OK})
   @ApiNotFoundResponse({ description: 'Bike not found.' })
-  async findOne(@Param('id') identifier: string, @Res() response: Response) {
-    try {
-      const vin = new VinIdentifier(identifier);
-      const bike = await this.FindOneBikeUseCase.execute(vin);
-      return bike;
-    } catch (error) {
-      if (error instanceof BikeNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-    
-      throw error;
-    }
+  async findOne(@Param('id') identifier: string) {
+    const vin = new VinIdentifier(identifier);
+    return await this.FindOneBikeUseCase.execute(vin);
   }
     
 

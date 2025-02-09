@@ -9,7 +9,6 @@ import FindOneIncidentUseCase from '@app/application/useCases/incidents/FindOneI
 import FindAllIncidentUseCase from '@app/application/useCases/incidents/FindAllIncidentUseCase';
 import SearchByBikeUseCase from '@app/application/useCases/incidents/SearchByBikeUseCase';
 import { IncidentDto, UpdateIncidentDto } from './IncidentDto';
-import IncidentNotFoundError from '@app/domain/errors/incidents/IncidentNotFoundError';
 
 @Controller('incidents')
 @ApiBearerAuth()
@@ -34,45 +33,25 @@ export class IncidentsController {
 
     @Patch(':id')
     @ApiNotFoundResponse({ description: 'Incident not found.' })
-    @ApiBody({type: IncidentDto})
+    @ApiBody({type: UpdateIncidentDto})
     @ApiResponse({type: IncidentDto, status: HttpStatus.OK})
-    async update(@Param('id') identifier: string, @Body() incident: UpdateIncidentDto, @Res() response: Response) {
-        try {
-            const updatedIncident = await this.UpdateIncidentUseCase.execute(identifier, incident);
-            return response.status(HttpStatus.OK).json(updatedIncident);
-        } catch (error) {
-            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+    async update(@Param('id') identifier: string, @Body() incident: UpdateIncidentDto) {
+        return await this.UpdateIncidentUseCase.execute(identifier, incident);
     }
 
     @Delete(':id')
     @ApiNotFoundResponse({ description: 'Incident not found.' })
     @ApiResponse({ description: 'Incident removed', status: HttpStatus.NO_CONTENT })
     async remove(@Param('id') identifier: string, @Res() response: Response) {
-        try {
-            await this.RemoveIncidentUseCase.execute(identifier);
-            return response.status(HttpStatus.NO_CONTENT);
-        } catch (error) {
-            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+        await this.RemoveIncidentUseCase.execute(identifier);
+        return response.status(HttpStatus.NO_CONTENT).json();
     }
 
     @Get(':id')
     @ApiResponse({type: IncidentDto, status: HttpStatus.OK})
     @ApiNotFoundResponse({ description: 'Incident not found.' })
     async findOne(@Param('id') identifier: string, @Res() response: Response) {
-        try {
-            const incident = await this.FindOneIncidentUseCase.execute(identifier);
-            return response.status(HttpStatus.OK).json(incident);
-        } catch (error) {
-            if (error instanceof IncidentNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+        return await this.FindOneIncidentUseCase.execute(identifier);
     }
 
     @Get()

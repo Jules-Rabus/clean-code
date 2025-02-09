@@ -14,28 +14,28 @@ export default class SequelizeUserRepository implements UsersRepository {
         return User.fromSequelizeModel(newUser);
     }
 
-    async update(identifier: string, user: Partial<User>): Promise<User | null> {
+    async update(identifier: string, user: Partial<User>): Promise<User | UserNotFoundError> {
         const userToUpdate = await UserModel.findByPk(identifier);
 
-        if(!userToUpdate) throw new UserNotFoundError();
+        if(!userToUpdate) return new UserNotFoundError();
 
         await userToUpdate.update(user);
 
         return User.fromSequelizeModel(userToUpdate);
     }
 
-    async remove(identifier: string): Promise<void> {
-        const user = await UserModel.findByPk(identifier);
+    async remove(identifier: string): Promise<number | UserNotFoundError> {
+        const deletedUser = await UserModel.destroy({ where: { identifier } });
 
-        if(!user) throw new UserNotFoundError();
+        if(deletedUser === 0) return new UserNotFoundError();
 
-        await user.destroy();
+        return deletedUser;
     }
 
-    async findOne(identifier: string): Promise<User | null> {
+    async findOne(identifier: string): Promise<User | UserNotFoundError> {
         const user = await UserModel.findByPk(identifier);
 
-        if(!user) throw new UserNotFoundError();
+        if(!user) return new UserNotFoundError();
 
         return User.fromSequelizeModel(user);
     }
@@ -46,14 +46,14 @@ export default class SequelizeUserRepository implements UsersRepository {
         return users.map((user) => User.fromSequelizeModel(user));
     }
 
-    async findByEmail(email: string): Promise<User | null> {
+    async findByEmail(email: string): Promise<User | UserNotFoundError> {
         const user = await UserModel.findOne({
             where: {
                 email
             }
         });
 
-        if(!user) throw new UserNotFoundError();
+        if(!user) return new UserNotFoundError();
 
         return User.fromSequelizeModel(user);
     }

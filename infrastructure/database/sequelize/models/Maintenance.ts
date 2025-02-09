@@ -3,7 +3,9 @@ import {
     BelongsTo,
     Column,
     DataType,
+    Default,
     ForeignKey,
+    IsUUID,
     Model,
     PrimaryKey,
     Table,
@@ -21,11 +23,11 @@ import Maintenance from '@app/domain/entities/Maintenance';
 })
 export default class MaintenanceModel extends Model<Maintenance> {
 
+    @Default(DataType.UUIDV4)
+    @IsUUID(4)
     @PrimaryKey
-    @Unique
-    @Column(DataType.UUIDV4)
-    @Column(DataType.UUIDV4)
-    declare id: string;
+    @Column
+    declare identifier: string;
 
     @Column(DataType.DATE)
     declare startDate: Date;   

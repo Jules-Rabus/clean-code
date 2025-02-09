@@ -13,7 +13,7 @@ export default class Technician {
 
     static fromSequelizeModel(sequelizeTechnician: TechnicianModel): Technician {
         return new Technician(
-            sequelizeTechnician.id,
+            sequelizeTechnician.identifier,
             sequelizeTechnician.firstName,
             sequelizeTechnician.lastName,
             sequelizeTechnician.email,

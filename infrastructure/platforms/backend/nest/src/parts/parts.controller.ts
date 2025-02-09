@@ -9,7 +9,6 @@ import FindOnePartUseCase from '@app/application/useCases/parts/FindOnePartUseCa
 import FindAllPartUseCase from '@app/application/useCases/parts/FindAllPartUseCase';
 import SearchByReferenceUseCase from '@app/application/useCases/parts/SearchByReferenceUseCase';
 import { PartDto, UpdatePartDto } from './PartDto';
-import PartNotFoundError from '@app/domain/errors/parts/PartNotFoundError';
 
 @Controller('parts')
 @ApiBearerAuth()
@@ -34,58 +33,36 @@ export class PartsController {
 
     @Patch(':id')
     @ApiNotFoundResponse({ description: 'Part not found.' })
-    @ApiBody({type: PartDto})
+    @ApiBody({type: UpdatePartDto})
     @ApiResponse({type: PartDto, status: HttpStatus.OK})
-    async update(@Param('id') identifier: string, @Body() part: UpdatePartDto, @Res() response: Response) {
-        try {
-            const updatedPart = await this.UpdatePartUseCase.execute(identifier, part);
-            return response.status(HttpStatus.OK).json(updatedPart);
-        } catch (error) {
-            if (error instanceof PartNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+    async update(@Param('id') identifier: string, @Body() part: UpdatePartDto) {
+        return await this.UpdatePartUseCase.execute(identifier, part);
     }
 
     @Delete(':id')
     @ApiNotFoundResponse({ description: 'Part not found.' })
     @ApiResponse({ description: 'Part removed', status: HttpStatus.NO_CONTENT })
     async remove(@Param('id') identifier: string, @Res() response: Response) {
-        try {
-            await this.RemovePartUseCase.execute(identifier);
-            return response.status(HttpStatus.NO_CONTENT);
-        } catch (error) {
-            if (error instanceof PartNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+        await this.RemovePartUseCase.execute(identifier);
+        return response.status(HttpStatus.NO_CONTENT).json();
     }
 
     @Get(':id')
     @ApiNotFoundResponse({ description: 'Part not found.' })
     @ApiResponse({type: PartDto, status: HttpStatus.OK})
-    async findOne(@Param('id') identifier: string, @Res() response: Response) {
-        try {
-            const part = await this.FindOnePartUseCase.execute(identifier);
-            return response.status(HttpStatus.OK).json(part);
-        } catch (error) {
-            if (error instanceof PartNotFoundError) return response.sendStatus(HttpStatus.NOT_FOUND);
-            
-            throw error;
-        }
+    async findOne(@Param('id') identifier: string) {
+        return await this.FindOnePartUseCase.execute(identifier);
     }
 
     @Get()
     @ApiResponse({type: PartDto, status: HttpStatus.OK})
-    async findAll(@Res() response: Response) {
-        const parts = await this.FindAllPartUseCase.execute();
-        return response.status(HttpStatus.OK).json(parts);
+    async findAll() {
+        return await this.FindAllPartUseCase.execute();
     }
 
     @Get('searchByReference/:reference')
     @ApiResponse({type: PartDto, status: HttpStatus.OK, isArray: true})
-    async searchByReference(@Param('reference') reference: string, @Res() response: Response) {
-        const parts = await this.SearchByReferenceUseCase.execute(reference);
-        return response.status(HttpStatus.OK).json(parts);
+    async searchByReference(@Param('reference') reference: string) {
+        return await this.SearchByReferenceUseCase.execute(reference);
     }
 }

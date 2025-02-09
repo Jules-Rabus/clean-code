@@ -14,28 +14,28 @@ export default class SequelizePartRepository implements PartsRepository {
         return Part.fromSequelizeModel(newPart);
     }
 
-    async update(identifier: string, part: Partial<Part>): Promise<Part | null> {
+    async update(identifier: string, part: Partial<Part>): Promise<Part | PartNotFoundError> {
         const partToUpdate = await PartModel.findByPk(identifier);
 
-        if(!partToUpdate) throw new PartNotFoundError();
+        if(!partToUpdate) return new PartNotFoundError();
 
         await partToUpdate.update(part);
 
         return Part.fromSequelizeModel(partToUpdate);
     }
 
-    async remove(identifier: string): Promise<void> {
-        const part = await PartModel.findByPk(identifier);
+    async remove(identifier: string): Promise<number | PartNotFoundError> {
+        const deletedPart = await PartModel.destroy({ where: { identifier } });
 
-        if(!part) throw new PartNotFoundError();
+        if(deletedPart === 0) return new PartNotFoundError();
 
-        await part.destroy();
+        return deletedPart;
     }
 
-    async findOne(identifier: string): Promise<Part | null> {
+    async findOne(identifier: string): Promise<Part | PartNotFoundError> {
         const part = await PartModel.findByPk(identifier);
 
-        if(!part) throw new PartNotFoundError();
+        if(!part) return new PartNotFoundError();
 
         return Part.fromSequelizeModel(part);
     }

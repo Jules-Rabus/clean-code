@@ -1,5 +1,6 @@
 import SequelizeIncidentRepository from "@app/sequelize/repositories/Incident";
 import Incident from "@app/domain/entities/Incident";
+import IncidentNotFoundError from "@app/domain/errors/incidents/IncidentNotFoundError";
 
 export default class FindOneIncidentUseCase {
     
@@ -7,7 +8,14 @@ export default class FindOneIncidentUseCase {
         private readonly incidentRepository: SequelizeIncidentRepository,
     ) {}
 
-    public async execute(id: string): Promise<Incident | null> {
-        return this.incidentRepository.findOne(id);
+    public async execute(id: string): Promise<Incident> {
+        
+        const incident = await this.incidentRepository.findOne(id);
+
+        if(incident instanceof IncidentNotFoundError) {
+            throw new IncidentNotFoundError();
+        }
+
+        return incident;
     }
 }

@@ -14,7 +14,7 @@ export default class Maintenance {
 
     static fromSequelizeModel(sequelizeMaintenance: MaintenanceModel, _includeRelations: boolean = true): Maintenance {
         return new Maintenance(
-            sequelizeMaintenance.id,
+            sequelizeMaintenance.identifier,
             sequelizeMaintenance.startDate,
             sequelizeMaintenance.endDate,
             sequelizeMaintenance.description,

@@ -6,6 +6,8 @@ import {
     Table,
     Unique,
     AllowNull,
+    Default,
+    IsUUID,
 } from 'sequelize-typescript';
 
 import Technician from '@app/domain/entities/Technician';
@@ -19,11 +21,11 @@ underscored: true,
 
 export default class TechnicianModel extends Model<Technician> {
 
+    @Default(DataType.UUIDV4)
+    @IsUUID(4)
     @PrimaryKey
-    @Unique
-    @AllowNull(false)
-    @Column(DataType.STRING)
-    declare id: string;
+    @Column
+    declare identifier: string;
 
     @Column(DataType.STRING)
     declare firstName: string;

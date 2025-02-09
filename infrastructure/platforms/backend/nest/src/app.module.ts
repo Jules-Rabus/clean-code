@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { BikesModule } from '@app/nest/src/bikes/bikes.module';
 import { UsersModule } from '@app/nest/src/users/users.module';
 import { IncidentsModule } from './incidents/incidents.module';
+import { CompaniesModule } from './company/companies.module';
 import { PartsModule } from './parts/parts.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [BikesModule, UsersModule, IncidentsModule, PartsModule, AuthModule],
+  imports: [BikesModule, UsersModule, IncidentsModule, PartsModule, CompaniesModule, AuthModule],
   controllers: [],
   providers: [],
 })

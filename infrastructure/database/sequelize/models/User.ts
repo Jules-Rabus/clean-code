@@ -7,6 +7,7 @@ import {
     Default,
     Unique,
     AllowNull,
+    IsUUID,
 } from 'sequelize-typescript';
 
 import User from '@app/domain/entities/User';
@@ -20,10 +21,11 @@ import { Role } from '@app/domain/value-objects/Role';
 })
 export default class UserModel extends Model<User> {
 
-    @PrimaryKey
     @Default(DataType.UUIDV4)
-    @Column(DataType.UUIDV4)
-    declare id: string;
+    @IsUUID(4)
+    @PrimaryKey
+    @Column
+    declare identifier: string;
 
     @Unique
     @AllowNull(false)

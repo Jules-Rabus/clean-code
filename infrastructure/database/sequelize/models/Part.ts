@@ -7,6 +7,7 @@ import {
     Unique,
     AllowNull,
     Default,
+    IsUUID,
 } from 'sequelize-typescript';
 
 import Part from '@app/domain/entities/Part';
@@ -20,12 +21,11 @@ underscored: true,
 
 export default class PartModel extends Model<Part> {
 
-    @PrimaryKey
-    @Unique
-    @AllowNull(false)
     @Default(DataType.UUIDV4)
-    @Column(DataType.UUIDV4)
-    declare id: string;
+    @IsUUID(4)
+    @PrimaryKey
+    @Column
+    declare identifier: string;
 
     @AllowNull(false)
     @Column(DataType.STRING)
