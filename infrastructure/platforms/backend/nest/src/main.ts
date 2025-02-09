@@ -3,9 +3,10 @@ import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 
 import SequelizeConnector from "@app/sequelize/sequelize";
+import MongooseConnector from "@app/mongoose/mongoose";
+
 import { ValidationPipe } from "@nestjs/common";
 import { CatchEverythingFilter } from "./middlewares/http-error.interceptor";
-import MongooseConnector from "@app/mongoose/mongoose";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
