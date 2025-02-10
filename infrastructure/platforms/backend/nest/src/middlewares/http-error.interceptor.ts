@@ -1,4 +1,5 @@
 import NotFoundError from "@app/domain/errors/NotFoundError";
+import { BadRequestException } from "@nestjs/common";
 import {
   ExceptionFilter,
   Catch,
@@ -26,6 +27,8 @@ export class CatchEverythingFilter implements ExceptionFilter {
       response.status(HttpStatus.BAD_REQUEST).json(exception.message);
     } else if (exception instanceof NotFoundError) {
       response.status(HttpStatus.NOT_FOUND).json(exception.name);
+    } else if (exception instanceof BadRequestException) {
+      response.status(HttpStatus.BAD_REQUEST).json(exception.message);
     } else {
       const httpStatus =
         exception instanceof HttpException

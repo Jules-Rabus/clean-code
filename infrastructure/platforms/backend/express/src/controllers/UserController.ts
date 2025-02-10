@@ -40,38 +40,10 @@ export class UserController {
     }
   }
 
-  async signIn(req: Request, res: Response): Promise<void> {
-    try {
-      const { email, password } = req.body;
-      const user = await this.usersRepository.findByEmail(email);
-      if (!user) {
-        res.status(404).json({ error: "User not found" });
-        return;
-      }
-
-      // const valid = await bcrypt.compare(password, user.password);
-      // if (!valid) {
-      //   res.status(401).json({ error: "Invalid credentials" });
-      //   return;
-      // }
-
-      // const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-
-      res.status(200).json({
-        message: "Login successful",
-        user,
-        // token
-      });
-    } catch (error) {
-      console.error("Error in UserController.signIn:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
-
   async getUsers(res: Response): Promise<void> {
     try {
       const users = await this.usersRepository.findAll();
-      res.json(users);
+      res.status(200).json(users);
     } catch (error) {
       console.error("Error in UserController.getUsers:", error);
       res.status(500).json({ error: "Internal server error" });

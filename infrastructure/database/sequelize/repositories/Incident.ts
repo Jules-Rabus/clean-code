@@ -4,6 +4,7 @@ import IncidentNotFoundError from "@app/domain/errors/incidents/IncidentNotFound
 
 import Incident from "@app/domain/entities/Incident";
 import BikeModel from "@app/sequelize/models/Bike";
+import UserModel from "../models/User";
 
 export default class SequelizeIncidentRepository
   implements IncidentsRepository
@@ -19,7 +20,7 @@ export default class SequelizeIncidentRepository
     incident: Partial<Incident>,
   ): Promise<Incident | IncidentNotFoundError> {
     const incidentToUpdate = await IncidentModel.findByPk(identifier, {
-      include: [BikeModel],
+      include: [BikeModel, UserModel],
     });
 
     if (!incidentToUpdate) return new IncidentNotFoundError();
@@ -39,7 +40,7 @@ export default class SequelizeIncidentRepository
 
   async findOne(identifier: string): Promise<Incident | IncidentNotFoundError> {
     const incident = await IncidentModel.findByPk(identifier, {
-      include: [BikeModel],
+      include: [BikeModel, UserModel],
     });
 
     if (!incident) return new IncidentNotFoundError();
@@ -49,7 +50,7 @@ export default class SequelizeIncidentRepository
 
   async findAll(): Promise<Incident[]> {
     const incidents = await IncidentModel.findAll({
-      include: [BikeModel],
+      include: [BikeModel, UserModel],
     });
 
     return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
@@ -57,15 +58,10 @@ export default class SequelizeIncidentRepository
 
   async searchByBikeVin(vin: string): Promise<Incident[]> {
     const incidents = await IncidentModel.findAll({
-      include: [
-        {
-          model: BikeModel,
-          where: { vin },
-        },
-      ],
+      include: [BikeModel, UserModel],
+      where: { bike: vin },
     });
       
-
     return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
   }
 }

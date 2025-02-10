@@ -1,7 +1,7 @@
 import Alert from "../entities/alert";
 import AlertNotFoundError from "../errors/alerts/AlertNotFoundError";
 
-export default interface AlertRepository {
+export default interface AlertsRepository {
   create(alert: Alert): Promise<Alert>;
   update(
     id: string,

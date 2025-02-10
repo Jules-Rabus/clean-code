@@ -36,6 +36,7 @@ export default class BikeModel extends Model<Bike> {
   @Column(DataType.INTEGER)
   declare mileage: number;
 
+  @AllowNull(false)
   @Column(DataType.STRING)
   declare registrationNumber: string;
 

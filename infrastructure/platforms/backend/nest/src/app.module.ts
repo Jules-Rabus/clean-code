@@ -6,6 +6,7 @@ import { CompaniesModule } from "./company/companies.module";
 import { AlertsModule } from "./alerts/alerts.module";
 import { PartsModule } from "./parts/parts.module";
 import { MaintenancesModule } from "./maintenances/maintenances.module";
+import { TripsModule } from "./trips/trips.module";
 import { AuthModule } from "./auth/auth.module";
 
 @Module({
@@ -17,6 +18,7 @@ import { AuthModule } from "./auth/auth.module";
     CompaniesModule,
     AlertsModule,
     MaintenancesModule,
+    TripsModule,
     AuthModule,
   ],
   controllers: [],

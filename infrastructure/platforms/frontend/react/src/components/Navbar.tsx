@@ -59,9 +59,16 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/maintenance" legacyBehavior passHref>
+                                    <Link href="/maintenances" legacyBehavior passHref>
                                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                             Entretiens
+                                        </NavigationMenuLink>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/incidents" legacyBehavior passHref>
+                                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                            Incidents
                                         </NavigationMenuLink>
                                     </Link>
                                 </li>
@@ -69,13 +76,6 @@ export default function Navbar() {
                                     <Link href="/parts" legacyBehavior passHref>
                                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                             Pièces détachées
-                                        </NavigationMenuLink>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/trials" legacyBehavior passHref>
-                                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                            Essais
                                         </NavigationMenuLink>
                                     </Link>
                                 </li>
@@ -88,6 +88,22 @@ export default function Navbar() {
                         <Link href="/users" legacyBehavior passHref>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Utilisateurs
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                        <Link href="/trips" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Trips
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                        <Link href="/companies" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Entreprises
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>

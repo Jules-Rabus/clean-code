@@ -8,5 +8,6 @@ export default class CreateAlertUseCase {
 
   public async execute(alert: Alert): Promise<Alert> {
     return this.alertRepository.create(alert);
+    // @TODO : send notification to users
   }
 }

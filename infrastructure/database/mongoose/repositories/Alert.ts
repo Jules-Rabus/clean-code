@@ -1,5 +1,5 @@
 import Alert from "@app/domain/entities/alert";
-import AlertRepository from "@app/domain/repositories/AlertRepository";
+import AlertRepository from "@app/domain/repositories/AlertsRepository";
 import { AlertModel } from "../models/Alert";
 import AlertNotFoundError from "@app/domain/errors/alerts/AlertNotFoundError";
 import SequelizePartRepository from "@app/sequelize/repositories/Part";

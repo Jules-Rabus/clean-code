@@ -13,6 +13,7 @@ import {
 
 import Incident from "@app/domain/entities/Incident";
 import BikeModel from "@app/sequelize/models/Bike";
+import UserModel from "./User";
 
 @Table({
   tableName: "incidents",
@@ -34,8 +35,19 @@ export default class IncidentModel extends Model<Incident> {
   @Column(DataType.STRING)
   declare description: string;
 
+  @Column(DataType.INTEGER)
+  declare cost: number;
+
   @Column(DataType.BOOLEAN)
   declare isResolved: boolean;
+
+  @BelongsTo(() => UserModel)
+  declare user: UserModel;
+
+  @ForeignKey(() => UserModel)
+  @AllowNull(false)
+  @Column
+  declare userId: string;
 
   @BelongsTo(() => BikeModel)
   declare bike: BikeModel;

@@ -8,10 +8,12 @@ import {
   Unique,
   AllowNull,
   IsUUID,
+  HasMany,
 } from "sequelize-typescript";
 
 import User from "@app/domain/entities/User";
 import { Role } from "@app/domain/value-objects/Role";
+import IncidentModel from "./Incident";
 
 @Table({
   tableName: "users",
@@ -48,4 +50,7 @@ export default class UserModel extends Model<User> {
 
   @Column(DataType.BOOLEAN)
   declare isActive: boolean;
+
+  @HasMany(() => IncidentModel)
+  declare incidents: IncidentModel[];
 }

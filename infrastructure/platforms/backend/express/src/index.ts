@@ -6,6 +6,7 @@ import incidentRoutes from "@app/express/src/routes/incident.routes";
 import maintenanceRoutes from "@app/express/src/routes/maintenance.routes";
 import partsRoutes from "@app/express/src/routes/parts.routes";
 import authRoutes from "@app/express/src/routes/auth.routes";
+import alertRouter from "@app/express/src/routes/alert.routes";
 
 import SequelizeConnector from "@app/sequelize/sequelize";
 import MongooseConnector from "@app/mongoose/mongoose";
@@ -20,9 +21,10 @@ app.use(express.json());
 app.use("/bikes", bikeRoutes);
 app.use("/users", userRoutes);
 app.use("/incidents", incidentRoutes);
-app.use("/maintenance", maintenanceRoutes);
+app.use("/maintenances", maintenanceRoutes);
 app.use("/parts", partsRoutes);
 app.use("/auth", authRoutes);
+app.use("/alerts", alertRouter);
 
 async function start(): Promise<void> {
   try {

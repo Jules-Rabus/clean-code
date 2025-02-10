@@ -8,12 +8,76 @@ export interface Bike {
   warrantyExpirationDate: string | null;
   ownerId: string;
   isActive: boolean;
-  isInMaintenance: boolean;
   isDecommissioned: boolean;
-  nextMaintenanceMileage: number | null;
-  nextMaintenanceDate: string | null;
   maintenances: Maintenance[];
   incidents: Incident[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  identifier: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  roles: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Maintenance {
+  identifier: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  isDone: boolean;
+  bike: Bike;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Company {
+  identifier: string;
+  name: string;
+  email: string;
+  address: string;
+  phone: string;
+  bikes: Bike[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Incident {
+  identifier: string;
+  date: string;
+  description: string;
+  cost: number;
+  isResolved: boolean;
+  bike: Bike;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Part {
+  identifier: string;
+  reference: string;
+  name: string;
+  description: string;
+  stockQuantity: number;
+  minStockLevel: number;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Trip {
+  identifier: string;
+  startDate: string;
+  endDate: string;
+  bike: Bike;
+  user: User;
   createdAt: string;
   updatedAt: string;
 }

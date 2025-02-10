@@ -1,3 +1,4 @@
+import Incident from "@app/domain/entities/Incident";
 import User from "@app/domain/entities/User";
 import { Role } from "@app/domain/value-objects/Role";
 import { ApiProperty } from "@nestjs/swagger";
@@ -40,6 +41,9 @@ export class UserDto implements Partial<User> {
   @ApiProperty({ example: true })
   @IsBoolean()
   readonly isActive: boolean;
+
+  @ApiProperty({ type: Incident, isArray: true, example: [] })
+  readonly incidents: Incident[];
 }
 
 export class UpdateUserDto implements Partial<User> {
