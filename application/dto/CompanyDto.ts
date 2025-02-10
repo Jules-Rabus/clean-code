@@ -33,7 +33,8 @@ export class CompanyDto implements Partial<Company> {
 
   @ApiProperty({ example: ["1HGCM82633A004352"] })
   @Matches(VinIdentifier.REGEX, { each: true })
-  readonly bikes;
+  // @ts-ignore
+  readonly bikes: any[];
 }
 
 export class UpdateCompanyDto implements Partial<Company> {

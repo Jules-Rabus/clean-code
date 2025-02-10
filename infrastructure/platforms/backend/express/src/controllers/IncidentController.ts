@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import SequelizeIncidentRepository from "@app/sequelize/repositories/Incident";
-import CreateIncidentUseCase from "@app/application/useCases/Incidents/CreateIncidentUseCase";
-import FindAllIncidentUseCase from "@app/application/useCases/Incidents/FindAllIncidentUseCase";
-import FindOneIncidentUseCase from "@app/application/useCases/Incidents/FindOneIncidentUseCase";
-import UpdateIncidentUseCase from "@app/application/useCases/Incidents/UpdateIncidentUseCase";
-import RemoveIncidentUseCase from "@app/application/useCases/Incidents/RemoveIncidentUseCase";
-import SearchByBikeUseCase from "@app/application/useCases/Incidents/SearchByBikeUseCase";
+import CreateIncidentUseCase from "@app/application/useCases/incidents/CreateIncidentUseCase";
+import FindAllIncidentUseCase from "@app/application/useCases/incidents/FindAllIncidentUseCase";
+import FindOneIncidentUseCase from "@app/application/useCases/incidents/FindOneIncidentUseCase";
+import UpdateIncidentUseCase from "@app/application/useCases/incidents/UpdateIncidentUseCase";
+import RemoveIncidentUseCase from "@app/application/useCases/incidents/RemoveIncidentUseCase";
+import SearchByBikeUseCase from "@app/application/useCases/incidents/SearchByBikeUseCase";
 
 export class IncidentController {
   private createIncidentUseCase: CreateIncidentUseCase;

@@ -16,7 +16,10 @@
         "build": "npm run build --workspaces",
         "start:nest": "npm run start:nest --workspaces=nest",
         "start:nest:dev": "npm run start:dev --workspaces=nest",
-        "start:express": "npm run start:express --workspaces=express",
+        "start:express": "npm run express --workspaces=express",
+        "start:express:dev": "npm run dev --workspaces=express",
+        "start:next": "npm run start --workspaces=next",
+        "start:next:dev": "npm run dev --workspaces=next",
         "test": "npm run build --workspaces nest && npm run node --workspaces=nest"
     },
     "devDependencies": {

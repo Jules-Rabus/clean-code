@@ -58,21 +58,20 @@ export default class SequelizeMaintenanceRepository
       include: [BikeModel],
     });
 
-    return maintenances.map((maintenance) =>
+    return maintenances.map((maintenance: MaintenanceModel) =>
       Maintenance.fromSequelizeModel(maintenance),
     );
   }
 
   async searchByBikeVin(vin: string): Promise<Maintenance[]> {
-    /*const maintenances = await MaintenanceModel.findAll({
-            where: {
-                bike: {
-                    [Op.like]: `%${vin}%`
-                }
-            }
-        });
-        */
-    const maintenances: any[] = []; // @TODO: Implement search by bike vin
+    const maintenances = await MaintenanceModel.findAll({
+      include: [
+        {
+          model: BikeModel,
+          where: { vin },
+        },
+      ],
+    });
 
     return maintenances.map((maintenance) =>
       Maintenance.fromSequelizeModel(maintenance),

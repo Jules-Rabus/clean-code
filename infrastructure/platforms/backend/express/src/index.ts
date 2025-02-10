@@ -5,12 +5,13 @@ import userRoutes from "@app/express/src/routes/user.routes";
 import incidentRoutes from "@app/express/src/routes/incident.routes";
 import maintenanceRoutes from "@app/express/src/routes/maintenance.routes";
 import partsRoutes from "@app/express/src/routes/parts.routes";
+import authRoutes from "@app/express/src/routes/auth.routes";
 
 import SequelizeConnector from "@app/sequelize/sequelize";
 import MongooseConnector from "@app/mongoose/mongoose";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env['PORT'] || 3000;
 
 app.use(cors());
 
@@ -21,10 +22,7 @@ app.use("/users", userRoutes);
 app.use("/incidents", incidentRoutes);
 app.use("/maintenance", maintenanceRoutes);
 app.use("/parts", partsRoutes);
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, TypeScript + Node.js + Express!");
-});
+app.use("/auth", authRoutes);
 
 async function start(): Promise<void> {
   try {

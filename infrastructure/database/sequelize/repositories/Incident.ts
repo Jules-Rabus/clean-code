@@ -52,20 +52,20 @@ export default class SequelizeIncidentRepository
       include: [BikeModel],
     });
 
-    return incidents.map((incident) => Incident.fromSequelizeModel(incident));
+    return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
   }
 
   async searchByBikeVin(vin: string): Promise<Incident[]> {
-    /*const incidents = await IncidentModel.findAll({
-            where: {
-                bike: {
-                    [Op.like]: `%${vin}%`
-                }
-            }
-        });
-        */
-    const incidents: any[] = []; // @TODO: Implement search by bike vin
+    const incidents = await IncidentModel.findAll({
+      include: [
+        {
+          model: BikeModel,
+          where: { vin },
+        },
+      ],
+    });
+      
 
-    return incidents.map((incident) => Incident.fromSequelizeModel(incident));
+    return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
   }
 }

@@ -1,12 +1,11 @@
 services:
 
-  node:
-    container_name: nest
-    image: node:latest
-    working_dir: /home/node/app
-    command: bash -c "pwd && ls -la && npm install && npx tsc && cd infrastructure/platforms/backend/nest && npm run start:dev"
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfile.nest
     ports:
-      - '3001:3000'
+      - "3001:3000"
     environment:
       - PORT=${PORT:-3000}
       - NODE_ENV=${NODE_ENV:-development}
@@ -20,18 +19,38 @@ services:
       - MONGO_USER=${MONGO_USER:-root}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
       - MONGO_DB=${MONGO_DB:-app_test}
-    volumes:
-      - ./application:/home/node/app/application
-      - ./domain:/home/node/app/domain
-      - ./infrastructure/adapter:/home/node/app/infrastructure/adapter
-      - ./infrastructure/database:/home/node/app/infrastructure/database
-      - ./infrastructure/platforms/backend/nest:/home/node/app/infrastructure/platforms/backend/nest
-      - ./package.json:/home/node/app/package.json
-      - ./package-lock.json:/home/node/app/package-lock.json
-      - ./.env:/home/node/app/.env
-    depends_on:
-      - postgres
-      - mongo
+
+  express:
+    build:
+      context: .
+      dockerfile: Dockerfile.express
+    container_name: express_service
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-development}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_USER=${POSTGRES_USER:-root}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-app_test}
+      - MONGO_HOST=${MONGO_HOST:-mongo}
+      - MONGO_PORT=${MONGO_PORT:-27017}
+      - MONGO_USER=${MONGO_USER:-root}
+      - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
+      - MONGO_DB=${MONGO_DB:-app_test}
+
+  next:
+    build:
+      context: .
+      dockerfile: Dockerfile.next
+    container_name: next_service
+    platform: linux/amd64
+    ports:
+      - "80:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
 
   postgres:
     image: postgres:17
@@ -56,54 +75,6 @@ services:
       - "127.0.0.1:27018:27017"
     volumes:
       - mongo_data:/data/db
-
-  next:
-    container_name: next
-    image: node:latest
-    working_dir: /home/node/app
-    command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/frontend/react && npm run dev"
-    ports:
-      - '3002:3000'
-    environment:
-      - PORT=${PORT:-3000}
-      - NODE_ENV=${NODE_ENV:-development}
-    volumes:
-      - ./infrastructure/platforms/frontend/react:/home/node/app/infrastructure/platforms/frontend/react
-      - ./package.json:/home/node/app/package.json
-      - ./package-lock.json:/home/node/app/package-lock.json
-      - ./.env:/home/node/app/.env
-    depends_on:
-      - node
-
-  express:
-    container_name: express
-    image: node:latest
-    working_dir: /home/node/app
-    command: bash -c "pwd && ls -la && npm install && cd infrastructure/platforms/backend/express && npm run dev"
-    ports:
-      - '3003:3000'
-    environment:
-      - PORT=${PORT:-3000}
-      - NODE_ENV=${NODE_ENV:-development}
-      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
-      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
-      - POSTGRES_USER=${POSTGRES_USER:-root}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
-      - POSTGRES_DB=${POSTGRES_DB:-app_test}
-      - MONGO_HOST=${MONGO_HOST:-mongo}
-      - MONGO_PORT=${MONGO_PORT:-27017}
-      - MONGO_USER=${MONGO_USER:-root}
-      - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
-      - MONGO_DB=${MONGO_DB:-app_test}
-    volumes:
-      - ./application:/home/node/app/application
-      - ./domain:/home/node/app/domain
-      - ./infrastructure/adapter:/home/node/app/infrastructure/adapter
-      - ./infrastructure/database:/home/node/app/infrastructure/database
-      - ./infrastructure/platforms/backend/express:/home/node/app/infrastructure/platforms/backend/express
-      - ./package.json:/home/node/app/package.json
-      - ./package-lock.json:/home/node/app/package-lock.json
-      - ./.env:/home/node/app/.env
 
   adminer:
     image: adminer

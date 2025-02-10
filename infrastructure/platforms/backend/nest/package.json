@@ -7,8 +7,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "node": "node dist/infrastructure/platforms/backend/nest/src/main.js"
+    "start:prod": "node dist/main"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.4",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.2",
-    "@nestjs/schematics": "^11.0.0"
+    "@nestjs/schematics": "^11.0.0",
+    "@types/express": "^5.0.0"
   }
 }

@@ -1,0 +1,20 @@
+FROM node:23-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json* tsconfig.json ./
+
+COPY ./application ./application
+COPY ./domain ./domain
+COPY ./infrastructure/platforms/backend/nest ./infrastructure/platforms/backend/nest
+COPY ./infrastructure/database ./infrastructure/database
+
+RUN npm install
+
+RUN npx tsc
+
+RUN cd /app/infrastructure/platforms/backend/nest && npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:nest:dev"]

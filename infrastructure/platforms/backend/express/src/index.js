@@ -7,10 +7,11 @@ const user_routes_1 = require("@app/express/src/routes/user.routes");
 const incident_routes_1 = require("@app/express/src/routes/incident.routes");
 const maintenance_routes_1 = require("@app/express/src/routes/maintenance.routes");
 const parts_routes_1 = require("@app/express/src/routes/parts.routes");
+const auth_routes_1 = require("@app/express/src/routes/auth.routes");
 const sequelize_1 = require("@app/sequelize/sequelize");
 const mongoose_1 = require("@app/mongoose/mongoose");
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3000;
+const port = process.env['PORT'] || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/bikes", bike_routes_1.default);
@@ -18,9 +19,7 @@ app.use("/users", user_routes_1.default);
 app.use("/incidents", incident_routes_1.default);
 app.use("/maintenance", maintenance_routes_1.default);
 app.use("/parts", parts_routes_1.default);
-app.get("/", (req, res) => {
-    res.send("Hello, TypeScript + Node.js + Express!");
-});
+app.use("/auth", auth_routes_1.default);
 async function start() {
     try {
         const sequelizeConnector = new sequelize_1.default();

@@ -68,7 +68,7 @@ export class UserController {
     }
   }
 
-  async getUsers(req: Request, res: Response): Promise<void> {
+  async getUsers(res: Response): Promise<void> {
     try {
       const users = await this.usersRepository.findAll();
       res.json(users);

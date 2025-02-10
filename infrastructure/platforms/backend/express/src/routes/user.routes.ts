@@ -14,8 +14,8 @@ router.post("/signin", async (req, res) => {
   console.log("POST /users/signin");
 });
 
-router.get("/", async (req, res) => {
-  await userController.getUsers(req, res);
+router.get("/", async (res) => {
+  await userController.getUsers(res);
   console.log("GET /users");
 });
 
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
   console.log(`GET /users/${req.params.id}`);
 });
 
-router.put("/:id", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   await userController.updateUser(req, res);
   console.log(`PUT /users/${req.params.id}`);
 });

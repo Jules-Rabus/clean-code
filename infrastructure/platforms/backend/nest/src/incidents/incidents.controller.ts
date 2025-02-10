@@ -77,7 +77,7 @@ export class IncidentsController {
   @Get(":id")
   @ApiResponse({ type: IncidentDto, status: HttpStatus.OK })
   @ApiNotFoundResponse({ description: "Incident not found." })
-  async findOne(@Param("id") identifier: string, @Res() response: Response) {
+  async findOne(@Param("id") identifier: string) {
     return await this.FindOneIncidentUseCase.execute(identifier);
   }
 

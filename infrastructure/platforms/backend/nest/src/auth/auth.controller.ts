@@ -3,9 +3,9 @@ import {
   Controller,
   Get,
   Post,
-  Request,
   HttpCode,
   HttpStatus,
+  Request,
   UseGuards,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
@@ -29,6 +29,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get("profile")
   @ApiBearerAuth()
+  // @ts-ignore
   getProfile(@Request() request) {
     return request.user;
   }

@@ -6,3 +6,6 @@ docker-compose.prod.yml
 .git
 .gitignore
 .idea
+
+/**/node_modules/
+/**/dist/

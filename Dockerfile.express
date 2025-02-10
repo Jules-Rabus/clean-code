@@ -1,0 +1,18 @@
+FROM node:23-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json* tsconfig.json ./
+
+COPY ./application ./application
+COPY ./domain ./domain
+COPY ./infrastructure/platforms/backend/express ./infrastructure/platforms/backend/express
+COPY ./infrastructure/database ./infrastructure/database
+
+RUN npm install
+
+#RUN npx tsc
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:express:dev"]

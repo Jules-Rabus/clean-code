@@ -11,7 +11,7 @@ router.get("/", (req, res) => incidentController.getIncidents(req, res));
 
 router.get("/:id", (req, res) => incidentController.getIncident(req, res));
 
-router.put("/:id", (req, res) => incidentController.updateIncident(req, res));
+router.patch("/:id", (req, res) => incidentController.updateIncident(req, res));
 
 router.delete("/:id", (req, res) =>
   incidentController.removeIncident(req, res),

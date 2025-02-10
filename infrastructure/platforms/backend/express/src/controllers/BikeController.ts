@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import SequelizeBikeRepository from "@app/sequelize/repositories/Bike";
-import CreateBikeUseCase from "@app/application/useCases/Bikes/CreateBikeUseCase";
-import FindAllBikeUseCase from "@app/application/useCases/Bikes/FindAllBikeUseCase";
-import FindOneBikeUseCase from "@app/application/useCases/Bikes/FindOneBikeUseCase";
-import UpdateBikeUseCase from "@app/application/useCases/Bikes/UpdateBikeUseCase";
-import RemoveBikeUseCase from "@app/application/useCases/Bikes/RemoveBikeUseCase";
+import CreateBikeUseCase from "@app/application/useCases/bikes/CreateBikeUseCase";
+import FindAllBikeUseCase from "@app/application/useCases/bikes/FindAllBikeUseCase";
+import FindOneBikeUseCase from "@app/application/useCases/bikes/FindOneBikeUseCase";
+import UpdateBikeUseCase from "@app/application/useCases/bikes/UpdateBikeUseCase";
+import RemoveBikeUseCase from "@app/application/useCases/bikes/RemoveBikeUseCase";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 
 export class BikeController {
