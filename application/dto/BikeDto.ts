@@ -29,6 +29,10 @@ export class BikeDto implements Partial<Bike> {
   @Min(0)
   readonly mileage: number;
 
+  @ApiProperty({ example: "AB123CD" })
+  @IsString()
+  readonly registrationNumber: string;
+
   @ApiProperty({ example: "2021-01-01" })
   @IsDateString()
   readonly purchaseDate: Date;
@@ -68,6 +72,11 @@ export class UpdateBikeDto implements Partial<Bike> {
   @Min(0)
   @IsOptional()
   readonly mileage?: number;
+
+  @ApiProperty({ example: "AB123CD" })
+  @IsString()
+  @IsOptional()
+  readonly registrationNumber: string;
 
   @ApiProperty({ example: "2021-01-01" })
   @IsDateString()

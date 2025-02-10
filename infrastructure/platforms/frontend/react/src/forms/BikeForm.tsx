@@ -25,8 +25,11 @@ const bikeFormSchema = z.object({
         z.number().min(0, { message: "Le kilométrage doit être positif." })
     ),
     registrationNumber: z.string().min(1, { message: "L&apos;immatriculation est requise." }),
+    warrantyExpirationDate: z.string().min(1, { message: "La date d&apos;expiration de la garantie est requise." }),
     purchaseDate: z.string().min(1, { message: "La date d&apos;achat est requise." }),
     ownerId: z.string().min(1, { message: "Le propriétaire est requis." }),
+    isActive: z.boolean(),
+    isDecommissioned: z.boolean(),
 });
 
 export type BikeFormData = z.infer<typeof bikeFormSchema>;
@@ -36,17 +39,20 @@ export interface BikeFormProps {
 }
 
 export default function BikeForm({ onSubmit }: BikeFormProps) {
-    const [owners, setOwners] = useState<{ id: string; name: string }[]>([]);
+    const [owners, setOwners] = useState<{ id: string; firstName: string; lastName: string }[]>([]);
     const form = useForm<BikeFormData>({
         resolver: zodResolver(bikeFormSchema),
         defaultValues: {
-            vin: "",
-            brand: "",
-            model: "",
-            mileage: 0,
-            registrationNumber: "",
+            vin: "1HGCM82633A004352",
+            brand: "Yamaha",
+            model: "R1",
+            mileage: 100,
+            registrationNumber: "AB123CD",
+            warrantyExpirationDate: new Date().toISOString().split("T")[0],
             purchaseDate: new Date().toISOString().split("T")[0],
             ownerId: "",
+            isActive: true,
+            isDecommissioned: false,
         },
     });
 
@@ -54,7 +60,11 @@ export default function BikeForm({ onSubmit }: BikeFormProps) {
     useEffect(() => {
         async function fetchOwners() {
             try {
-                const res = await fetch("http://localhost:3001/users/");
+                const res = await fetch("http://localhost:3001/users/",{
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+                    },
+                  });
                 if (res.ok) {
                     const data = await res.json();
                     setOwners(data);
@@ -144,6 +154,21 @@ export default function BikeForm({ onSubmit }: BikeFormProps) {
                         </FormItem>
                     )}
                 />
+
+                <FormField
+                    control={form.control}
+                    name="warrantyExpirationDate"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Date d&apos;expiration de la garantie</FormLabel>
+                            <FormControl>
+                                <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <FormField
                     control={form.control}
                     name="purchaseDate"
@@ -172,7 +197,7 @@ export default function BikeForm({ onSubmit }: BikeFormProps) {
                                     <option value="">Sélectionnez un propriétaire</option>
                                     {owners.map((owner) => (
                                         <option key={owner.id} value={owner.id}>
-                                            {owner.name}
+                                            {owner.firstName} {owner.lastName}
                                         </option>
                                     ))}
                                 </select>

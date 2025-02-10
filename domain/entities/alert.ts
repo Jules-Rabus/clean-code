@@ -8,6 +8,8 @@ export default class Alert {
     public readonly description: string,
     public part?: string | Part,
     public readonly identifier?: string,
+    public readonly createdAt?: Date,
+    public readonly updatedAt?: Date
   ) {}
 
   static async fromMongoModel(
@@ -22,6 +24,8 @@ export default class Alert {
         ? await this.findPart(mongoAlert.part, partRepository)
         : mongoAlert.part,
       mongoAlert.identifier,
+      mongoAlert.createdAt,
+      mongoAlert.updatedAt,
     );
   }
 
@@ -29,7 +33,6 @@ export default class Alert {
     partIdentifier: string,
     partRepository: SequelizePartRepository,
   ): Promise<Part> {
-    console.log(partIdentifier);
     const part = await partRepository.findOne(partIdentifier);
 
     if (part instanceof PartNotFoundError) {

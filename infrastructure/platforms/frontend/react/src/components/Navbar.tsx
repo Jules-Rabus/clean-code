@@ -12,6 +12,8 @@ import {
     NavigationMenuViewport,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { PortToggle } from "@/components/PortToogle";
+import { AlertsPopover } from "@/components/AlertsPopOver";
 
 export default function Navbar() {
     return (
@@ -93,6 +95,8 @@ export default function Navbar() {
                 <NavigationMenuIndicator />
                 <NavigationMenuViewport />
             </NavigationMenu>
+            <AlertsPopover />
+            <PortToggle/>
         </header>
     );
 }

@@ -7,9 +7,14 @@ export default function NewBikePage() {
 
     const handleBikeSubmit = async (data: BikeFormData) => {
         try {
-            const response = await fetch("http://localhost:3001/bikes/", {
+            const port = parseInt(localStorage.getItem("port") || "3001", 10);
+            const response = await fetch(`http://localhost:${port}/bikes`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+                },
+                
                 body: JSON.stringify(data),
             });
             if (response.ok) {

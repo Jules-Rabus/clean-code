@@ -7,6 +7,7 @@ import {
   Table,
   Unique,
   AllowNull,
+  Default,
 } from "sequelize-typescript";
 
 import Bike from "@app/domain/entities/Bike";
@@ -35,15 +36,20 @@ export default class BikeModel extends Model<Bike> {
   @Column(DataType.INTEGER)
   declare mileage: number;
 
+  @Column(DataType.STRING)
+  declare registrationNumber: string;
+
   @Column(DataType.DATE)
   declare purchaseDate: Date;
 
   @Column(DataType.DATE)
   declare warrantyExpirationDate: Date;
 
+  @Default(true)
   @Column(DataType.BOOLEAN)
   declare isActive: boolean;
 
+  @Default(false)
   @Column(DataType.BOOLEAN)
   declare isDecommissioned: boolean;
 

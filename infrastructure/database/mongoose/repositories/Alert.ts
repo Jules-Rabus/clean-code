@@ -40,7 +40,6 @@ export default class MongooseAlertRepository implements AlertRepository {
 
   public async findAll(): Promise<Alert[]> {
     const alerts = await AlertModel.find();
-
     return await Promise.all(
       alerts.map(async (alert) =>
         Alert.fromMongoModel(alert, new SequelizePartRepository()),

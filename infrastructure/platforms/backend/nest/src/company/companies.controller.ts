@@ -25,7 +25,7 @@ import UpdateCompanyUseCase from "@app/application/useCases/companies/UpdateComp
 import FindOneCompanyUseCase from "@app/application/useCases/companies/FindOneCompanyUseCase";
 import FindAllCompanyUseCase from "@app/application/useCases/companies/FindAllCompanyUseCase";
 import SearchByNameUseCase from "@app/application/useCases/companies/SearchByNameUseCase";
-import { CompanyDto, UpdateCompanyDto } from "./CompanyDto";
+import { CompanyDto, UpdateCompanyDto } from "@app/application/dto/CompanyDto";
 
 @Controller("companies")
 @ApiBearerAuth()

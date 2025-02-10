@@ -27,6 +27,14 @@ export interface BikeFormData {
   purchaseDate: string;
 }
 
+export interface Alert {
+  title: string;
+  description: string;
+  part: any;
+  identifier: string;
+  createdAt: string;
+}
+
 export interface BikeFormProps {
   onSubmit: (data: BikeFormData) => void;
 }

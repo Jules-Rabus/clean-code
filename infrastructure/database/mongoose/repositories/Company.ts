@@ -52,7 +52,9 @@ export default class MongooseCompanyRepository implements CompanyRepository {
   }
 
   public async findAll(): Promise<Company[]> {
-    return CompanyModel.find();
+    const companies = await CompanyModel.find();
+
+    return companies.map((company) => Company.fromMongoModel(company));
   }
 
   public async searchByName(name: string): Promise<Company[]> {

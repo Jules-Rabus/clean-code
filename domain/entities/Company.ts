@@ -16,6 +16,7 @@ export default class Company {
     mongoCompany: any,
     _includeRelations: boolean = true,
   ): Company {
+    console.log("should be a mongo company", mongoCompany);
     return new Company(
       mongoCompany.identifier,
       mongoCompany.name,

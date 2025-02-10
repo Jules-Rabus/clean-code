@@ -4,25 +4,21 @@ import { useEffect, useState } from "react";
 import { Bike } from "@/types";
 import BikeCard from "@/components/BikeCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PortToggle } from "@/components/PortToogle";
 
 export default function BikesPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost";
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [port, setPort] = useState<number>(3000);
-  const togglePort = () => {
-    setPort((prevPort) => (prevPort === 3000 ? 3001 : 3000));
-  };
 
   useEffect(() => {
     setLoading(true);
     async function fetchBikes() {
       try {
+        const port = parseInt(localStorage.getItem("port") || "3001", 10);
         const res = await fetch(`${baseUrl}:${port}/bikes`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
         });
         if (!res.ok) throw new Error("Erreur lors de la récupération des données");
         const data = await res.json();
@@ -34,11 +30,10 @@ export default function BikesPage() {
       }
     }
     fetchBikes();
-  }, [port]);
+  }, [baseUrl]);
 
   return (
     <div className="container mx-auto p-8">
-      <PortToggle port={port} onToggle={togglePort} />
       <h1 className="text-4xl font-bold mb-6">Liste des Motos</h1>
       {loading ? (
         <div className="flex justify-center items-center h-32">
