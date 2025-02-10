@@ -6,10 +6,6 @@ import { IsDateString, IsOptional, IsString, Min } from "class-validator";
 export class PartDto implements Partial<Part> {
   readonly identifier: string;
 
-  @ApiProperty({ example: "2021-01-01" })
-  @IsDateString()
-  readonly date: Date;
-
   @ApiProperty({ example: "Front wheel" })
   @IsString()
   declare readonly name: string;
@@ -35,10 +31,6 @@ export class PartDto implements Partial<Part> {
 }
 
 export class UpdatePartDto implements Partial<Part> {
-  @ApiProperty({ example: "2021-01-01" })
-  @IsDateString()
-  @IsOptional()
-  readonly date?: Date;
 
   @ApiProperty({ example: "Front wheel" })
   @IsString()

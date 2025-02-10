@@ -55,6 +55,7 @@ export interface Incident {
   description: string;
   cost: number;
   isResolved: boolean;
+  user: User;
   bike: Bike;
   createdAt: string;
   updatedAt: string;

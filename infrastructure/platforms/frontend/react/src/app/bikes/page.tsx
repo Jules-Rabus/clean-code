@@ -1,8 +1,10 @@
+// pages/bikes.tsx (ou selon votre arborescence)
 "use client";
 
 import { useEffect, useState } from "react";
 import { Bike } from "@/types";
 import BikeCard from "@/components/bike/BikeCard";
+import CreateBikeForm from "@/components/bike/CreateBikeForm";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BikesPage() {
@@ -33,12 +35,23 @@ export default function BikesPage() {
   }, [baseUrl]);
 
   const handleDeleteBike = (identifier: string) => {
-    setBikes((prevBikes) => prevBikes.filter((bike) => typeof bike.vin === 'object' ? bike.vin.value !== identifier : true));
+    setBikes((prevBikes) =>
+      prevBikes.filter((bike) =>
+        typeof bike.vin === "object" ? bike.vin.value !== identifier : true
+      )
+    );
+  };
+
+  const handleCreateBike = (createdBike: Bike) => {
+    setBikes((prevBikes) => [createdBike, ...prevBikes]);
   };
 
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6">Liste des Motos</h1>
+      {/* Formulaire de création en haut de la page */}
+      <CreateBikeForm onCreate={handleCreateBike} />
+
       {loading ? (
         <div className="flex justify-center items-center h-32">
           <Skeleton className="h-10 w-10" />
@@ -48,7 +61,13 @@ export default function BikesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {bikes.map((bike) => (
-            <BikeCard key={typeof bike.vin === "object" ? bike.vin.value : bike.vin} bike={bike} onDelete={handleDeleteBike} />
+            <BikeCard
+              key={
+                typeof bike.vin === "object" ? bike.vin.value : bike.vin
+              }
+              bike={bike}
+              onDelete={handleDeleteBike}
+            />
           ))}
         </div>
       )}

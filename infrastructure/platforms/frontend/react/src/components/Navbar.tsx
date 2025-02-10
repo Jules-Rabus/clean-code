@@ -52,13 +52,6 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/bikes/new" legacyBehavior passHref>
-                                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                            Ajouter une moto
-                                        </NavigationMenuLink>
-                                    </Link>
-                                </li>
-                                <li>
                                     <Link href="/maintenances" legacyBehavior passHref>
                                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                             Entretiens
