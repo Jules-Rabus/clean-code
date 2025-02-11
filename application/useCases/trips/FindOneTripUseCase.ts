@@ -1,10 +1,10 @@
-import SequelizeTripRepository from "@app/sequelize/repositories/Trip";
+import TripsRepository from "@app/domain/repositories/TripsRepository";
 import Trip from "@app/domain/entities/Trip";
 import TripNotFoundError from "@app/domain/errors/trips/TripNotFoundError";
 
 export default class FindOneTripUseCase {
   public constructor(
-    private readonly tripRepository: SequelizeTripRepository,
+    private readonly tripRepository: TripsRepository,
   ) {}
 
   public async execute(id: string): Promise<Trip> {

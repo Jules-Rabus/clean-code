@@ -1,9 +1,9 @@
 import Company from "@app/domain/entities/Company";
-import MongooseCompanyRepository from "@app/mongoose/repositories/Company";
+import CompanyRepository from "@app/domain/repositories/CompanyRepository";
 
 export default class CreateCompanyUseCase {
   public constructor(
-    private readonly companyRepository: MongooseCompanyRepository,
+    private readonly companyRepository: CompanyRepository,
   ) {}
 
   public async execute(company: Company): Promise<Company> {

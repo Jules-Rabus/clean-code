@@ -1,9 +1,9 @@
 import CompanyNotFoundError from "@app/domain/errors/companies/CompanyNotFoundError";
-import MongooseCompanyRepository from "@app/mongoose/repositories/Company";
+import CompanyRepository from "@app/domain/repositories/CompanyRepository";
 
 export default class RemoveCompanyUseCase {
   public constructor(
-    private readonly companyRepository: MongooseCompanyRepository,
+    private readonly companyRepository: CompanyRepository,
   ) {}
 
   public async execute(identifier: string): Promise<number> {

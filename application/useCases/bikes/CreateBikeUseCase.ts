@@ -1,9 +1,9 @@
-import SequelizeBikeRepository from "@app/sequelize/repositories/Bike";
 import Bike from "@app/domain/entities/Bike";
+import BikesRepository from "@app/domain/repositories/BikesRepository";
 
 export default class CreateBikeUseCase {
   public constructor(
-    private readonly bikeRepository: SequelizeBikeRepository,
+    private readonly bikeRepository: BikesRepository,
   ) {}
 
   public async execute(bike: Bike): Promise<Bike> {

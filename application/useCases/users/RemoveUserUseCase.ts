@@ -1,9 +1,9 @@
 import UserNotFoundError from "@app/domain/errors/users/UserNotFoundError";
-import SequelizeUserRepository from "@app/sequelize/repositories/User";
+import UsersRepository from "@app/domain/repositories/UsersRepository";
 
 export default class RemoveUserUseCase {
   public constructor(
-    private readonly userRepository: SequelizeUserRepository,
+    private readonly userRepository: UsersRepository,
   ) {}
 
   public async execute(id: string): Promise<number> {

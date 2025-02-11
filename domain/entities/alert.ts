@@ -1,4 +1,4 @@
-import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import PartsRepository from "../repositories/PartsRepository";
 import Part from "./Part";
 import PartNotFoundError from "../errors/parts/PartNotFoundError";
 
@@ -14,7 +14,7 @@ export default class Alert {
 
   static async fromMongoModel(
     mongoAlert: any,
-    partRepository: SequelizePartRepository,
+    partRepository: PartsRepository,
     _includeRelations: boolean = true,
   ): Promise<Alert> {
     return new Alert(
@@ -31,7 +31,7 @@ export default class Alert {
 
   static async findPart(
     partIdentifier: string,
-    partRepository: SequelizePartRepository,
+    partRepository: PartsRepository,
   ): Promise<Part> {
     const part = await partRepository.findOne(partIdentifier);
 

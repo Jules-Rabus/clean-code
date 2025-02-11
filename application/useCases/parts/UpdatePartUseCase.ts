@@ -1,4 +1,4 @@
-import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import PartsRepository from "@app/domain/repositories/PartsRepository";
 import Part from "@app/domain/entities/Part";
 import PartNotFoundError from "@app/domain/errors/parts/PartNotFoundError";
 
@@ -7,7 +7,7 @@ import Alert from "@app/domain/entities/Alert";
 
 export default class UpdatePartUseCase {
   public constructor(
-    private readonly partRepository: SequelizePartRepository,
+    private readonly partRepository: PartsRepository,
     private readonly createAlertUseCase: CreateAlertUseCase,
   ) {}
 

@@ -1,7 +1,7 @@
-import SequelizeUserRepository from "@app/sequelize/repositories/User";
 import Bike from "./Bike";
 import User from "./User";
-import SequelizeBikeRepository from "@app/sequelize/repositories/Bike";
+import BikesRepository from "../repositories/BikesRepository";
+import UsersRepository from "../repositories/UsersRepository";
 import BikeNotFoundError from "../errors/bikes/BikeNotFoundError";
 import VinIdentifier from "../value-objects/VinIdentifier";
 import UserNotFoundError from "../errors/users/UserNotFoundError";
@@ -21,8 +21,8 @@ export default class Company {
 
   static async fromMongoModel(
     mongoCompany: any,
-    userRepository: SequelizeUserRepository,
-    bikeRepository: SequelizeBikeRepository,
+    userRepository: UsersRepository,
+    bikeRepository: BikesRepository,
     _includeRelations: boolean = true,
   ): Promise<Company> {
     return new Company(
@@ -44,7 +44,7 @@ export default class Company {
 
   static async findBikes(
     bikeIdentifiers: string[],
-    bikeRepository: SequelizeBikeRepository,
+    bikeRepository: BikesRepository,
   ): Promise<Bike[]> {
     return await Promise.all(
       bikeIdentifiers.map(async (bikeIdentifier) => {
@@ -62,7 +62,7 @@ export default class Company {
 
   static async findUsers(
     userIdentifiers: string[],
-    userRepository: SequelizeUserRepository,
+    userRepository: UsersRepository,
   ): Promise<User[]> {
     return await Promise.all(
       userIdentifiers.map(async (userIdentifier) => {

@@ -1,10 +1,10 @@
-import MongooseAlertRepository from "@app/mongoose/repositories/Alert";
+import AlertsRepository from "@app/domain/repositories/AlertsRepository";
 import Alert from "@app/domain/entities/Alert";
 import AlertNotFoundError from "@app/domain/errors/alerts/AlertNotFoundError";
 
 export default class UpdateAlertUseCase {
   public constructor(
-    private readonly alertRepository: MongooseAlertRepository,
+    private readonly alertRepository: AlertsRepository,
   ) {}
 
   public async execute(

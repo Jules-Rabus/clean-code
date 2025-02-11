@@ -1,12 +1,12 @@
 import UserNotFoundError from "@app/domain/errors/users/UserNotFoundError";
 import AuthenticationService from "@app/application/services/AuthenticationService";
-import SequelizeUserRepository from "@app/sequelize/repositories/User";
+import UsersRepository from "@app/domain/repositories/UsersRepository";
 import { UnauthorizedError } from "@app/domain/errors/UnauthorizedError";
 
 export default class AuthVerifyUseCase {
   public constructor(
     private readonly authenticationService: AuthenticationService,
-    private readonly userRepository: SequelizeUserRepository,
+    private readonly userRepository: UsersRepository,
   ) {}
 
   public async execute(token: string) {

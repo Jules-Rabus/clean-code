@@ -1,10 +1,10 @@
 import Company from "@app/domain/entities/Company";
 import CompanyNotFoundError from "@app/domain/errors/companies/CompanyNotFoundError";
-import MongooseCompanyRepository from "@app/mongoose/repositories/Company";
+import CompanyRepository from "@app/domain/repositories/CompanyRepository";
 
 export default class UpdateCompanyUseCase {
   public constructor(
-    private readonly companyRepository: MongooseCompanyRepository,
+    private readonly companyRepository: CompanyRepository,
   ) {}
 
   public async execute(

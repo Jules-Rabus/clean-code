@@ -1,10 +1,10 @@
-import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import PartsRepository from "@app/domain/repositories/PartsRepository";
 import Part from "@app/domain/entities/Part";
 import PartNotFoundError from "@app/domain/errors/parts/PartNotFoundError";
 
 export default class FindOnePartUseCase {
   public constructor(
-    private readonly partRepository: SequelizePartRepository,
+    private readonly partRepository: PartsRepository,
   ) {}
 
   public async execute(identifier: string): Promise<Part> {

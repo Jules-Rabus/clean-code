@@ -1,9 +1,9 @@
-import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import PartsRepository from "@app/domain/repositories/PartsRepository";
 import Part from "@app/domain/entities/Part";
 
 export default class CreatePartUseCase {
   public constructor(
-    private readonly partRepository: SequelizePartRepository,
+    private readonly partRepository: PartsRepository,
   ) {}
 
   public async execute(part: Part): Promise<Part> {

@@ -1,10 +1,10 @@
-import SequelizeMaintenanceRepository from "@app/sequelize/repositories/Maintenance";
+import MaintenancesRepository from "@app/domain/repositories/MaintenancesRepository";
 import Maintenance from "@app/domain/entities/Maintenance";
 import MaintenanceNotFoundError from "@app/domain/errors/maintenances/MaintenanceNotFoundError";
 
 export default class UpdateMaintenanceUseCase {
   public constructor(
-    private readonly maintenanceRepository: SequelizeMaintenanceRepository,
+    private readonly maintenanceRepository: MaintenancesRepository,
   ) {}
 
   public async execute(

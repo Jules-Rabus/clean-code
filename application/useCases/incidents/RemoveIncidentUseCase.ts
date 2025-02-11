@@ -1,10 +1,9 @@
-import Incident from "@app/domain/entities/Incident";
 import IncidentNotFoundError from "@app/domain/errors/incidents/IncidentNotFoundError";
-import SequelizeIncidentRepository from "@app/sequelize/repositories/Incident";
+import IncidentsRepository from "@app/domain/repositories/IncidentsRepository";
 
 export default class RemoveIncidentUseCase {
   public constructor(
-    private readonly incidentRepository: SequelizeIncidentRepository,
+    private readonly incidentRepository: IncidentsRepository,
   ) {}
 
   public async execute(identifier: string): Promise<number> {

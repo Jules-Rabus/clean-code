@@ -1,9 +1,9 @@
 import PartNotFoundError from "@app/domain/errors/parts/PartNotFoundError";
-import SequelizePartRepository from "@app/sequelize/repositories/Part";
+import PartsRepository from "@app/domain/repositories/PartsRepository";
 
 export default class RemovePartUseCase {
   public constructor(
-    private readonly partRepository: SequelizePartRepository,
+    private readonly partRepository: PartsRepository,
   ) {}
 
   public async execute(identifier: string): Promise<number> {

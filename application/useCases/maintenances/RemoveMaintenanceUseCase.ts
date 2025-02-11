@@ -1,9 +1,9 @@
 import MaintenanceNotFoundError from "@app/domain/errors/maintenances/MaintenanceNotFoundError";
-import SequelizeMaintenanceRepository from "@app/sequelize/repositories/Maintenance";
+import MaintenancesRepository from "@app/domain/repositories/MaintenancesRepository";
 
 export default class RemoveMaintenanceUseCase {
   public constructor(
-    private readonly maintenanceRepository: SequelizeMaintenanceRepository,
+    private readonly maintenanceRepository: MaintenancesRepository,
   ) {}
 
   public async execute(identifier: string): Promise<number> {

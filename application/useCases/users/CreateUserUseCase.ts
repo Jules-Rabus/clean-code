@@ -1,10 +1,10 @@
-import SequelizeUserRepository from "@app/sequelize/repositories/User";
+import UsersRepository from "@app/domain/repositories/UsersRepository";
 import PasswordService from "@app/application/services/PasswordService";
 import User from "@app/domain/entities/User";
 
 export default class CreateUserUseCase {
   public constructor(
-    private readonly userRepository: SequelizeUserRepository,
+    private readonly userRepository: UsersRepository,
     private readonly passwordService: PasswordService,
   ) {}
 

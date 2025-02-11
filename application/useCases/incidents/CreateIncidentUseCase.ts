@@ -1,9 +1,9 @@
-import SequelizeIncidentRepository from "@app/sequelize/repositories/Incident";
+import IncidentsRepository from "@app/domain/repositories/IncidentsRepository";
 import Incident from "@app/domain/entities/Incident";
 
 export default class CreateIncidentUseCase {
   public constructor(
-    private readonly incidentRepository: SequelizeIncidentRepository,
+    private readonly incidentRepository: IncidentsRepository,
   ) {}
 
   public async execute(incident: Incident): Promise<Incident> {
