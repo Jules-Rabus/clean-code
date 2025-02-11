@@ -19,13 +19,13 @@ import {
 } from "@nestjs/swagger";
 import { Response } from "express";
 
-import CreateTripUseCase from '@app/application/useCases/trips/CreateTripUseCase';
-import FindOneTripUseCase from '@app/application/useCases/trips/FindOneTripUseCase';
-import FindAllTripUseCase from '@app/application/useCases/trips/FindAllTripUseCase';
-import RemoveTripUseCase from '@app/application/useCases/trips/RemoveTripUseCase';
-import UpdateTripUseCase from '@app/application/useCases/trips/UpdateTripUseCase';
+import CreateTripUseCase from "@app/application/useCases/trips/CreateTripUseCase";
+import FindOneTripUseCase from "@app/application/useCases/trips/FindOneTripUseCase";
+import FindAllTripUseCase from "@app/application/useCases/trips/FindAllTripUseCase";
+import RemoveTripUseCase from "@app/application/useCases/trips/RemoveTripUseCase";
+import UpdateTripUseCase from "@app/application/useCases/trips/UpdateTripUseCase";
 
-import { TripDto , UpdateTripDto } from "@app/application/dto/TripDto";
+import { TripDto, UpdateTripDto } from "@app/application/dto/TripDto";
 
 @Controller("trips")
 @ApiBearerAuth()
@@ -52,10 +52,7 @@ export class TripsController {
   @ApiNotFoundResponse({ description: "Trip not found." })
   @ApiBody({ type: UpdateTripDto })
   @ApiResponse({ type: TripDto, status: HttpStatus.OK })
-  async update(
-    @Param("id") identifier: string,
-    @Body() trip: UpdateTripDto,
-  ) {
+  async update(@Param("id") identifier: string, @Body() trip: UpdateTripDto) {
     return await this.UpdateTripUseCase.execute(identifier, trip);
   }
 
@@ -79,5 +76,4 @@ export class TripsController {
     await this.RemoveTripUseCase.execute(identifier);
     return response.status(HttpStatus.NO_CONTENT).json();
   }
-  
 }

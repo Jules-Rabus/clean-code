@@ -18,7 +18,10 @@ export default class UpdatePartUseCase {
       throw new PartNotFoundError();
     }
 
-    if (updatedPart.minStockLevel > updatedPart.stockQuantity && part.stockQuantity) {
+    if (
+      updatedPart.minStockLevel > updatedPart.stockQuantity &&
+      part.stockQuantity
+    ) {
       const alert: Alert = {
         title: "Low stock",
         description: "The stock is low, please order more",

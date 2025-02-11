@@ -10,7 +10,7 @@ export default class UpdateTripUseCase {
   public async execute(id: string, trip: Partial<Trip>): Promise<Trip> {
     const updatedTrip = await this.tripRepository.update(id, trip);
 
-    if(updatedTrip instanceof TripNotFoundError) {
+    if (updatedTrip instanceof TripNotFoundError) {
       throw new TripNotFoundError();
     }
 

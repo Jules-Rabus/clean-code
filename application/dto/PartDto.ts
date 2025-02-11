@@ -31,7 +31,6 @@ export class PartDto implements Partial<Part> {
 }
 
 export class UpdatePartDto implements Partial<Part> {
-
   @ApiProperty({ example: "Front wheel" })
   @IsString()
   @IsOptional()

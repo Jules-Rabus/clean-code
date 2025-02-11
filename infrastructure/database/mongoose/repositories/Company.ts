@@ -9,7 +9,11 @@ export default class MongooseCompanyRepository implements CompanyRepository {
   public async create(company: Company): Promise<Company> {
     const newCompany = await CompanyModel.create(company);
 
-    return Company.fromMongoModel(newCompany, new SequelizeUserRepository(), new SequelizeBikeRepository());
+    return Company.fromMongoModel(
+      newCompany,
+      new SequelizeUserRepository(),
+      new SequelizeBikeRepository(),
+    );
   }
 
   public async update(
@@ -26,7 +30,11 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       return new CompanyNotFoundError();
     }
 
-    return Company.fromMongoModel(updatedCompany, new SequelizeUserRepository(), new SequelizeBikeRepository());
+    return Company.fromMongoModel(
+      updatedCompany,
+      new SequelizeUserRepository(),
+      new SequelizeBikeRepository(),
+    );
   }
 
   public async remove(
@@ -50,13 +58,25 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       return new CompanyNotFoundError();
     }
 
-    return Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository());
+    return Company.fromMongoModel(
+      company,
+      new SequelizeUserRepository(),
+      new SequelizeBikeRepository(),
+    );
   }
 
   public async findAll(): Promise<Company[]> {
     const companies = await CompanyModel.find();
 
-    return await Promise.all(companies.map(async (company) => Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository())));
+    return await Promise.all(
+      companies.map(async (company) =>
+        Company.fromMongoModel(
+          company,
+          new SequelizeUserRepository(),
+          new SequelizeBikeRepository(),
+        ),
+      ),
+    );
   }
 
   public async searchByName(name: string): Promise<Company[]> {
@@ -64,6 +84,14 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       name: { $regex: name, $options: "i" },
     });
 
-    return await Promise.all(companies.map(async (company) => Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository())));
+    return await Promise.all(
+      companies.map(async (company) =>
+        Company.fromMongoModel(
+          company,
+          new SequelizeUserRepository(),
+          new SequelizeBikeRepository(),
+        ),
+      ),
+    );
   }
 }

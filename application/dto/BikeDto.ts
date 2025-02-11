@@ -59,7 +59,12 @@ export class BikeDto implements Partial<Bike> {
   @ApiProperty({ type: Incident, isArray: true, example: [], readOnly: true })
   readonly incidents: Incident[];
 
-  @ApiProperty({ type: Maintenance, isArray: true, example: [], readOnly: true })
+  @ApiProperty({
+    type: Maintenance,
+    isArray: true,
+    example: [],
+    readOnly: true,
+  })
   readonly maintenances: Maintenance[];
 }
 

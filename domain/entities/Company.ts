@@ -31,8 +31,12 @@ export default class Company {
       mongoCompany.email,
       mongoCompany.address,
       mongoCompany.phone,
-      mongoCompany.bikes && _includeRelations ? await this.findBikes(mongoCompany.bikes, bikeRepository) : mongoCompany.bikes,
-      mongoCompany.users && _includeRelations ? await this.findUsers(mongoCompany.users, userRepository) : mongoCompany.users,
+      mongoCompany.bikes && _includeRelations
+        ? await this.findBikes(mongoCompany.bikes, bikeRepository)
+        : mongoCompany.bikes,
+      mongoCompany.users && _includeRelations
+        ? await this.findUsers(mongoCompany.users, userRepository)
+        : mongoCompany.users,
       mongoCompany.createdAt,
       mongoCompany.updatedAt,
     );
@@ -47,12 +51,12 @@ export default class Company {
         const vin = new VinIdentifier(bikeIdentifier);
         const bike = await bikeRepository.findOne(vin);
 
-        if(bike instanceof BikeNotFoundError) {
+        if (bike instanceof BikeNotFoundError) {
           throw new BikeNotFoundError();
         }
 
         return bike;
-      })
+      }),
     );
   }
 
@@ -64,14 +68,12 @@ export default class Company {
       userIdentifiers.map(async (userIdentifier) => {
         const user = await userRepository.findOne(userIdentifier);
 
-        if(user instanceof UserNotFoundError) {
+        if (user instanceof UserNotFoundError) {
           throw new UserNotFoundError();
         }
 
         return user;
-      })
+      }),
     );
   }
-
-
 }

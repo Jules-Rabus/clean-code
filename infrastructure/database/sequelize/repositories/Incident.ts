@@ -53,7 +53,9 @@ export default class SequelizeIncidentRepository
       include: [BikeModel, UserModel],
     });
 
-    return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
+    return incidents.map((incident: IncidentModel) =>
+      Incident.fromSequelizeModel(incident),
+    );
   }
 
   async searchByBikeVin(vin: string): Promise<Incident[]> {
@@ -61,7 +63,9 @@ export default class SequelizeIncidentRepository
       include: [BikeModel, UserModel],
       where: { bike: vin },
     });
-      
-    return incidents.map((incident: IncidentModel) => Incident.fromSequelizeModel(incident));
+
+    return incidents.map((incident: IncidentModel) =>
+      Incident.fromSequelizeModel(incident),
+    );
   }
 }

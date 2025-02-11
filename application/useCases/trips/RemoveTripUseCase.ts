@@ -10,7 +10,7 @@ export default class RemoveTripUseCase {
   public async execute(id: string): Promise<void> {
     const trip = await this.tripRepository.findOne(id);
 
-    if(trip instanceof TripNotFoundError) {
+    if (trip instanceof TripNotFoundError) {
       throw new TripNotFoundError();
     }
 

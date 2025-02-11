@@ -10,7 +10,7 @@ export default class FindOneTripUseCase {
   public async execute(id: string): Promise<Trip> {
     const trip = await this.tripRepository.findOne(id);
 
-    if(trip instanceof TripNotFoundError) {
+    if (trip instanceof TripNotFoundError) {
       throw new TripNotFoundError();
     }
 

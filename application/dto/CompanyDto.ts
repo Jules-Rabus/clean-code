@@ -36,7 +36,7 @@ export class CompanyDto implements Partial<Company> {
   // @ts-ignore
   readonly bikes: any[];
 
-  @ApiProperty({ example: ['286a62bc-247f-479b-a2ee-f643aa136509'] })
+  @ApiProperty({ example: ["286a62bc-247f-479b-a2ee-f643aa136509"] })
   @IsUUID(4, { each: true })
   readonly users: string[];
 }
@@ -68,7 +68,7 @@ export class UpdateCompanyDto implements Partial<Company> {
   @IsOptional()
   readonly bikesVin?: string[];
 
-  @ApiProperty({ example: ['286a62bc-247f-479b-a2ee-f643aa136509'] })
+  @ApiProperty({ example: ["286a62bc-247f-479b-a2ee-f643aa136509"] })
   @IsUUID(4, { each: true })
   @IsOptional()
   readonly users?: string[];

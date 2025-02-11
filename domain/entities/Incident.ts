@@ -25,7 +25,9 @@ export default class Incident {
       sequelizeIncident.description,
       sequelizeIncident.isResolved,
       sequelizeIncident.cost,
-      _includeRelations ? User.fromSequelizeModel(sequelizeIncident.user) : undefined,
+      _includeRelations
+        ? User.fromSequelizeModel(sequelizeIncident.user)
+        : undefined,
       _includeRelations
         ? Bike.fromSequelizeModel(sequelizeIncident.bike, false)
         : undefined,

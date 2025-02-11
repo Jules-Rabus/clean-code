@@ -9,7 +9,7 @@ export default class Alert {
     public part?: string | Part,
     public readonly identifier?: string,
     public readonly createdAt?: Date,
-    public readonly updatedAt?: Date
+    public readonly updatedAt?: Date,
   ) {}
 
   static async fromMongoModel(
