@@ -1,5 +1,7 @@
 import UserModel from "@app/sequelize/models/User";
 import { Role } from "@app/domain/value-objects/Role";
+import Incident from "./Incident";
+import Trip from "./Trip";
 
 export default class User {
   public constructor(
@@ -10,6 +12,8 @@ export default class User {
     public password: string,
     public roles: Role[],
     public isActive: boolean,
+    public incidents?: Incident[],
+    public trips?: Trip[],
     public createdAt?: Date,
     public updatedAt?: Date,
   ) {}
@@ -23,6 +27,12 @@ export default class User {
       sequelizeUser.password,
       sequelizeUser.roles,
       sequelizeUser.isActive,
+      sequelizeUser.incidents?.map((incident) =>
+        Incident.fromSequelizeModel(incident, false),
+      ) || [],
+      sequelizeUser.trips?.map((trip) =>
+        Trip.fromSequelizeModel(trip, false),
+      ) || [],
       sequelizeUser.createdAt,
       sequelizeUser.updatedAt,
     );

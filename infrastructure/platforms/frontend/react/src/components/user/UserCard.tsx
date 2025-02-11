@@ -1,7 +1,7 @@
 // components/user/UserCard.tsx
 "use client";
 
-import { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { User } from "@/types";
 import { z } from "zod";
@@ -27,7 +27,7 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Stock local pour les champs modifiables
+  // Stock local pour les champs éditables
   const [editedUser, setEditedUser] = useState({
     email: user.email,
     firstName: user.firstName,
@@ -36,11 +36,24 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
     isActive: user.isActive,
   });
 
+  // Calculer le total de jours passés en trip
+  const totalTripDays = user.trips.reduce((acc, trip) => {
+    const start = new Date(trip.startDate);
+    const end = new Date(trip.endDate);
+    const diffDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+    return acc + diffDays;
+  }, 0);
+
   const formatDate = (date: string): string =>
-    new Date(date).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" });
+    new Date(date).toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
   const handleDelete = async () => {
-    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) return;
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?"))
+      return;
     setIsDeleting(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost";
@@ -53,7 +66,9 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
       });
       if (!res.ok) throw new Error("Erreur lors de la suppression de l'utilisateur");
       alert("Utilisateur supprimé avec succès");
-      if (onDelete) onDelete(user.identifier);
+      if (onDelete) {
+        onDelete(user.identifier);
+      }
     } catch (error) {
       console.error("Erreur lors de la suppression de l'utilisateur :", error);
       alert("Erreur lors de la suppression de l'utilisateur");
@@ -79,7 +94,7 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
     setIsEditing(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     // @ts-ignore
     const { name, value, type, checked } = e.target;
     setEditedUser((prev) => ({
@@ -105,7 +120,7 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost";
       const port = parseInt(localStorage.getItem("port") || "3001", 10);
-      // Convert roles string to array
+      // Convertir la chaîne des rôles en tableau
       const rolesArray = editedUser.roles.split(",").map((role) => role.trim());
       const payload = {
         email: editedUser.email,
@@ -248,6 +263,12 @@ export default function UserCard({ user, onDelete, onUpdate }: UserCardProps) {
             </p>
             <p className="text-sm text-gray-600">
               <strong>Statut :</strong> {user.isActive ? "Actif" : "Inactif"}
+            </p>
+            <p className="text-sm text-gray-600">
+              <strong>Incidents :</strong> {user.incidents.length}
+            </p>
+            <p className="text-sm text-gray-600">
+              <strong>Trips :</strong> {user.trips.length} (Total: {Math.round(totalTripDays)} jours)
             </p>
             <p className="text-sm text-gray-600">
               <strong>Créé le :</strong> {formatDate(user.createdAt)}

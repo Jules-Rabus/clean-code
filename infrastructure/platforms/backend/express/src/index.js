@@ -12,7 +12,7 @@ const alert_routes_1 = require("@app/express/src/routes/alert.routes");
 const sequelize_1 = require("@app/sequelize/sequelize");
 const mongoose_1 = require("@app/mongoose/mongoose");
 const app = (0, express_1.default)();
-const port = process.env['PORT'] || 3000;
+const port = process.env["PORT"] || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/bikes", bike_routes_1.default);

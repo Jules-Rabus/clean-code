@@ -60,15 +60,4 @@ export default class SequelizePartRepository implements PartsRepository {
     return parts.map((part) => Part.fromSequelizeModel(part));
   }
 
-  async findLowStockParts(): Promise<Part[]> {
-    const parts = await PartModel.findAll({
-      where: {
-        stockQuantity: {
-          [Op.lte]: "minStockLevel",
-        },
-      },
-    });
-
-    return parts.map((part) => Part.fromSequelizeModel(part));
-  }
 }

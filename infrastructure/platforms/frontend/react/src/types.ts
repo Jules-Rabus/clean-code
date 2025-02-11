@@ -9,6 +9,7 @@ export interface Bike {
   ownerId: string;
   isActive: boolean;
   isDecommissioned: boolean;
+  trips: Trip[];
   maintenances: Maintenance[];
   incidents: Incident[];
   createdAt: string;
@@ -21,6 +22,8 @@ export interface User {
   firstName: string;
   lastName: string;
   password: string;
+  trips: Trip[];
+  incidents: Incident[];
   roles: string[];
   isActive: boolean;
   createdAt: string;

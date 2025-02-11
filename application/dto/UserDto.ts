@@ -1,4 +1,5 @@
 import Incident from "@app/domain/entities/Incident";
+import Trip from "@app/domain/entities/Trip";
 import User from "@app/domain/entities/User";
 import { Role } from "@app/domain/value-objects/Role";
 import { ApiProperty } from "@nestjs/swagger";
@@ -44,6 +45,9 @@ export class UserDto implements Partial<User> {
 
   @ApiProperty({ type: Incident, isArray: true, example: [] })
   readonly incidents: Incident[];
+
+  @ApiProperty({ type: Trip, isArray: true, example: [] })
+  readonly trips: Trip[];
 }
 
 export class UpdateUserDto implements Partial<User> {

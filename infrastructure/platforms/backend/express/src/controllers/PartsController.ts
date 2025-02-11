@@ -5,7 +5,6 @@ import FindAllPartsUseCase from "@app/application/useCases/parts/FindAllPartUseC
 import FindOnePartUseCase from "@app/application/useCases/parts/FindOnePartUseCase";
 import UpdatePartUseCase from "@app/application/useCases/parts/UpdatePartUseCase";
 import RemovePartUseCase from "@app/application/useCases/parts/RemovePartUseCase";
-import FindLowStockPartsUseCase from "@app/application/useCases/parts/FindLowStockPartsUseCase";
 
 import CreateAlertUseCase from "@app/application/useCases/alerts/CreateAlertUseCase";
 import MongooseAlertRepository from "@app/mongoose/repositories/Alert";
@@ -16,7 +15,6 @@ export class PartsController {
   private findOnePartUseCase: FindOnePartUseCase;
   private updatePartUseCase: UpdatePartUseCase;
   private removePartUseCase: RemovePartUseCase;
-  private findLowStockPartsUseCase: FindLowStockPartsUseCase;
 
   constructor() {
     const partsRepository = new SequelizePartRepository();
@@ -28,9 +26,6 @@ export class PartsController {
       new CreateAlertUseCase(new MongooseAlertRepository()),
     );
     this.removePartUseCase = new RemovePartUseCase(partsRepository);
-    this.findLowStockPartsUseCase = new FindLowStockPartsUseCase(
-      partsRepository,
-    );
   }
 
   async createPart(req: Request, res: Response): Promise<void> {
@@ -94,16 +89,6 @@ export class PartsController {
       }
     } catch (error) {
       console.error("Erreur dans PartsController.removePart:", error);
-      res.status(500).json({ error: "Erreur interne" });
-    }
-  }
-
-  async getLowStockParts(res: Response): Promise<void> {
-    try {
-      const parts = await this.findLowStockPartsUseCase.execute();
-      res.json(parts);
-    } catch (error) {
-      console.error("Erreur dans PartsController.getLowStockParts:", error);
       res.status(500).json({ error: "Erreur interne" });
     }
   }

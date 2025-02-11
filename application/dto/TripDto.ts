@@ -3,15 +3,10 @@ import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsBoolean,
   IsDateString,
-  IsNumber,
   IsOptional,
-  IsString,
   IsUUID,
   Matches,
-  Min,
-  MinLength,
 } from "class-validator";
 
 export class TripDto implements Partial<Trip> {

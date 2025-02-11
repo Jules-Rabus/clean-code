@@ -57,9 +57,7 @@ export default function CreateUserForm({ onCreate }: CreateUserFormProps) {
         },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        throw new Error("Erreur lors de la création de l'utilisateur");
-      }
+      if (!res.ok) throw new Error("Erreur lors de la création de l'utilisateur");
       const createdUser = await res.json();
       onCreate(createdUser);
       reset();
