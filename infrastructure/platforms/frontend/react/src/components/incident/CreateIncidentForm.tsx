@@ -21,7 +21,7 @@ const incidentCreationSchema = z.object({
     z.number().min(0, "Le coût doit être positif")
   ),
   isResolved: z.boolean().default(false),
-  bikeVin: z.string().nonempty("Le VIN du vélo est requis"),
+  bikeVin: z.string().nonempty("Le VIN de la moto est requis"),
   userId: z.string().nonempty("L'identifiant de l'utilisateur est requis"),
 });
 
@@ -45,11 +45,9 @@ export default function CreateIncidentForm({ onCreate }: CreateIncidentFormProps
     },
   });
 
-  // Récupération des vélos
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [loadingBikes, setLoadingBikes] = useState<boolean>(true);
 
-  // Récupération des utilisateurs
   const [users, setUsers] = useState<User[]>([]);
   const [loadingUsers, setLoadingUsers] = useState<boolean>(true);
 
@@ -62,11 +60,11 @@ export default function CreateIncidentForm({ onCreate }: CreateIncidentFormProps
             Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
           },
         });
-        if (!res.ok) throw new Error("Erreur lors de la récupération des vélos");
+        if (!res.ok) throw new Error("Erreur lors de la récupération des motos");
         const data = await res.json();
         setBikes(data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des vélos :", error);
+        console.error("Erreur lors de la récupération des motos :", error);
       } finally {
         setLoadingBikes(false);
       }
@@ -150,12 +148,12 @@ export default function CreateIncidentForm({ onCreate }: CreateIncidentFormProps
           {errors.isResolved && <p className="text-red-500">{errors.isResolved.message as string}</p>}
         </div>
         <div>
-          <label className="block font-medium">Vélo</label>
+          <label className="block font-medium">Moto</label>
           {loadingBikes ? (
-            <p>Chargement des vélos...</p>
+            <p>Chargement des motos...</p>
           ) : (
             <select {...register("bikeVin")} className="w-full border rounded p-2">
-              <option value="">Sélectionnez un vélo</option>
+              <option value="">Sélectionnez une moto</option>
               {bikes.map((bike) => {
                 const vin = typeof bike.vin === "object" ? bike.vin.value : bike.vin;
                 return (

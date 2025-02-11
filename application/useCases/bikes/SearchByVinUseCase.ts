@@ -8,8 +8,6 @@ export default class SearchByVinUseCase {
   ) {}
 
   public async execute(vin: VinIdentifier): Promise<Bike[]> {
-    // @TODO: Add validation logic here
-
     return this.bikeRepository.searchByVin(vin);
   }
 }

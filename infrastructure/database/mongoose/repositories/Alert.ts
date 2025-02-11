@@ -1,4 +1,4 @@
-import Alert from "@app/domain/entities/alert";
+import Alert from "@app/domain/entities/Alert";
 import AlertRepository from "@app/domain/repositories/AlertsRepository";
 import { AlertModel } from "../models/Alert";
 import AlertNotFoundError from "@app/domain/errors/alerts/AlertNotFoundError";

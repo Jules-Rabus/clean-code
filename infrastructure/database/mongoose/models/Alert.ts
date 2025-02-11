@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import Alert from "@app/domain/entities/alert";
+import Alert from "@app/domain/entities/Alert";
 import { v4 as uuidv4 } from "uuid";
 
 const AlertSchema = new Schema<Alert>(

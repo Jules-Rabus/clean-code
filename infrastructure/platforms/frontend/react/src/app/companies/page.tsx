@@ -1,8 +1,10 @@
+// pages/companies.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { Company } from "@/types";
 import CompanyCard from "@/components/company/CompanyCard";
+import CreateCompanyForm from "@/components/company/CreateCompanyForm";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CompaniesPage() {
@@ -10,35 +12,50 @@ export default function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const fetchCompanies = async () => {
     setLoading(true);
-    async function fetchCompanies() {
-      try {
-        const port = parseInt(localStorage.getItem("port") || "3001", 10);
-        const res = await fetch(`${baseUrl}:${port}/companies`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-        });
-        if (!res.ok) throw new Error("Erreur lors de la récupération des données");
-        const data = await res.json();
-        setCompanies(data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des compagnies :", error);
-      } finally {
-        setLoading(false);
-      }
+    try {
+      const port = parseInt(localStorage.getItem("port") || "3001", 10);
+      const res = await fetch(`${baseUrl}:${port}/companies`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      });
+      if (!res.ok) throw new Error("Erreur lors de la récupération des données");
+      const data = await res.json();
+      setCompanies(data);
+    } catch (error) {
+      console.error("Erreur lors du chargement des compagnies :", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
     fetchCompanies();
   }, [baseUrl]);
 
-    const handleDeleteCompany = (identifier: string) => {
-        setCompanies((prevCompanies) => prevCompanies.filter((company) => company.identifier !== identifier));
-    };
+  const handleDeleteCompany = (identifier: string) => {
+    setCompanies((prev) => prev.filter((company) => company.identifier !== identifier));
+  };
+
+  const handleUpdateCompany = (updatedCompany: Company) => {
+    setCompanies((prev) =>
+      prev.map((company) =>
+        company.identifier === updatedCompany.identifier ? updatedCompany : company
+      )
+    );
+  };
+
+  const handleCreateCompany = (createdCompany: Company) => {
+    fetchCompanies();
+  };
 
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6">Liste des Compagnies</h1>
+      {/* Formulaire de création */}
+      <CreateCompanyForm onCreate={handleCreateCompany} />
       {loading ? (
         <div className="flex justify-center items-center h-32">
           <Skeleton className="h-10 w-10" />
@@ -48,7 +65,12 @@ export default function CompaniesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {companies.map((company) => (
-            <CompanyCard key={company.identifier} company={company} onDelete={handleDeleteCompany} />
+            <CompanyCard
+              key={company.identifier}
+              company={company}
+              onDelete={handleDeleteCompany}
+              onUpdate={handleUpdateCompany}
+            />
           ))}
         </div>
       )}

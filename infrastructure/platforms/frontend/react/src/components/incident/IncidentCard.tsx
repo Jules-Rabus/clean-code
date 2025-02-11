@@ -6,7 +6,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Incident } from "@/types";
 import { z } from "zod";
 
-// Schéma de validation pour la mise à jour d'un incident (les références au vélo et à l'utilisateur ne sont pas modifiables)
 const incidentUpdateSchema = z.object({
   date: z.string().nonempty("La date est requise"),
   description: z.string().nonempty("La description est requise"),

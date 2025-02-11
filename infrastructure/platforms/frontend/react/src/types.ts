@@ -3,7 +3,7 @@ export interface Bike {
   brand: string;
   model: string;
   mileage: number;
-  registrationNumber: string;
+  registrationNumber: string | { value: string };
   purchaseDate: string;
   warrantyExpirationDate: string | null;
   ownerId: string;
@@ -45,6 +45,7 @@ export interface Company {
   address: string;
   phone: string;
   bikes: Bike[];
+  users: User[];
   createdAt: string;
   updatedAt: string;
 }

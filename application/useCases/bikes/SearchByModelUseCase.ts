@@ -7,8 +7,6 @@ export default class SearchByModelUseCase {
   ) {}
 
   public async execute(model: string): Promise<Bike[]> {
-    // @TODO: Add validation logic here
-
     return this.bikeRepository.searchByModel(model);
   }
 }

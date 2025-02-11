@@ -8,11 +8,12 @@ import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Bike from "@app/domain/entities/Bike";
 import IncidentModel from "@app/sequelize/models/Incident";
 import MaintenanceModel from "@app/sequelize/models/Maintenance";
+import TripModel from "@app/sequelize/models/Trip";
 
 export default class SequelizeBikeRepository implements BikesRepository {
   async create(bike: Bike): Promise<Bike> {
     const newBike = await BikeModel.create(bike, {
-      include: [IncidentModel, MaintenanceModel],
+      include: [IncidentModel, MaintenanceModel, TripModel],
     });
 
     return Bike.fromSequelizeModel(newBike);
@@ -23,7 +24,7 @@ export default class SequelizeBikeRepository implements BikesRepository {
     bike: Partial<Bike>,
   ): Promise<Bike | BikeNotFoundError> {
     const bikeToUpdate = await BikeModel.findByPk(vin.value, {
-      include: [IncidentModel, MaintenanceModel],
+      include: [IncidentModel, MaintenanceModel, TripModel],
     });
 
     if (!bikeToUpdate) return new BikeNotFoundError();
@@ -43,7 +44,7 @@ export default class SequelizeBikeRepository implements BikesRepository {
 
   async findOne(vin: VinIdentifier): Promise<Bike | BikeNotFoundError> {
     const bike = await BikeModel.findByPk(vin.value, {
-      include: [IncidentModel, MaintenanceModel],
+      include: [IncidentModel, MaintenanceModel, TripModel],
     });
 
     if (!bike) return new BikeNotFoundError();
@@ -53,7 +54,7 @@ export default class SequelizeBikeRepository implements BikesRepository {
 
   async findAll(): Promise<Bike[]> {
     const bikes = await BikeModel.findAll({
-      include: [IncidentModel, MaintenanceModel],
+      include: [IncidentModel, MaintenanceModel, TripModel],
     });
 
     return bikes.map((bike: BikeModel) => Bike.fromSequelizeModel(bike));
@@ -62,7 +63,7 @@ export default class SequelizeBikeRepository implements BikesRepository {
   async searchByVin(vin: VinIdentifier): Promise<Bike[]> {
     const bikes = await BikeModel.findAll({
       where: { vin: vin.value },
-      include: [IncidentModel, MaintenanceModel],
+      include: [IncidentModel, MaintenanceModel, TripModel],
     });
 
     return bikes.map((bike) => Bike.fromSequelizeModel(bike));

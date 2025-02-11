@@ -1,6 +1,8 @@
 import Bike from "@app/domain/entities/Bike";
 import Incident from "@app/domain/entities/Incident";
 import Maintenance from "@app/domain/entities/Maintenance";
+import Trip from "@app/domain/entities/Trip";
+import Immatriculation from "@app/domain/value-objects/Immatriculation";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import { ApiProperty } from "@nestjs/swagger";
 import {
@@ -9,6 +11,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
   Min,
 } from "class-validator";
 
@@ -29,9 +32,10 @@ export class BikeDto implements Partial<Bike> {
   @Min(0)
   readonly mileage: number;
 
-  @ApiProperty({ example: "AB123CD" })
+  @ApiProperty({ example: "AB-123-CD" })
   @IsString()
-  readonly registrationNumber: string;
+  @Matches(Immatriculation.REGEX)
+  readonly registrationNumber: Immatriculation;
 
   @ApiProperty({ example: "2021-01-01" })
   @IsDateString()
@@ -49,11 +53,14 @@ export class BikeDto implements Partial<Bike> {
   @IsBoolean()
   readonly isDecommissioned: boolean;
 
-  @ApiProperty({ type: Maintenance, isArray: true, example: [] })
-  readonly maintenances: Maintenance[];
+  @ApiProperty({ type: Trip, isArray: true, example: [], readOnly: true })
+  readonly trips: Trip[];
 
-  @ApiProperty({ type: Incident, isArray: true, example: [] })
+  @ApiProperty({ type: Incident, isArray: true, example: [], readOnly: true })
   readonly incidents: Incident[];
+
+  @ApiProperty({ type: Maintenance, isArray: true, example: [], readOnly: true })
+  readonly maintenances: Maintenance[];
 }
 
 export class UpdateBikeDto implements Partial<Bike> {
@@ -73,10 +80,11 @@ export class UpdateBikeDto implements Partial<Bike> {
   @IsOptional()
   readonly mileage?: number;
 
-  @ApiProperty({ example: "AB123CD" })
+  @ApiProperty({ example: "AB-123-CD" })
   @IsString()
+  @Matches(Immatriculation.REGEX)
   @IsOptional()
-  readonly registrationNumber: string;
+  readonly registrationNumber: Immatriculation;
 
   @ApiProperty({ example: "2021-01-01" })
   @IsDateString()

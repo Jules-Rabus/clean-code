@@ -32,6 +32,11 @@ const CompanySchema = new Schema<Company>(
         type: String,
       },
     ],
+    users: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true },
 );

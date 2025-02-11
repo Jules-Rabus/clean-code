@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-// Définition du schéma de validation avec Zod incluant isActive et isDecommissioned
+// Schéma de validation pour la création d'une moto
 const bikeSchema = z.object({
   vin: z.string().nonempty("Le VIN est requis"),
   brand: z.string().nonempty("La marque est requise"),
@@ -36,7 +36,6 @@ const bikeSchema = z.object({
   isDecommissioned: z.boolean().default(false),
 });
 
-// Type généré automatiquement à partir du schéma
 export type BikeFormData = z.infer<typeof bikeSchema>;
 
 interface CreateBikeFormProps {
@@ -94,9 +93,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("vin")}
             className="w-full border rounded p-2"
           />
-          {errors.vin && (
-            <p className="text-red-500">{errors.vin.message as string}</p>
-          )}
+          {errors.vin && <p className="text-red-500">{errors.vin.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Marque</label>
@@ -105,9 +102,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("brand")}
             className="w-full border rounded p-2"
           />
-          {errors.brand && (
-            <p className="text-red-500">{errors.brand.message as string}</p>
-          )}
+          {errors.brand && <p className="text-red-500">{errors.brand.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Modèle</label>
@@ -116,9 +111,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("model")}
             className="w-full border rounded p-2"
           />
-          {errors.model && (
-            <p className="text-red-500">{errors.model.message as string}</p>
-          )}
+          {errors.model && <p className="text-red-500">{errors.model.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Kilométrage</label>
@@ -127,9 +120,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("mileage")}
             className="w-full border rounded p-2"
           />
-          {errors.mileage && (
-            <p className="text-red-500">{errors.mileage.message as string}</p>
-          )}
+          {errors.mileage && <p className="text-red-500">{errors.mileage.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Immatriculation</label>
@@ -138,11 +129,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("registrationNumber")}
             className="w-full border rounded p-2"
           />
-          {errors.registrationNumber && (
-            <p className="text-red-500">
-              {errors.registrationNumber.message as string}
-            </p>
-          )}
+          {errors.registrationNumber && <p className="text-red-500">{errors.registrationNumber.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Date d'achat</label>
@@ -151,11 +138,7 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("purchaseDate")}
             className="w-full border rounded p-2"
           />
-          {errors.purchaseDate && (
-            <p className="text-red-500">
-              {errors.purchaseDate.message as string}
-            </p>
-          )}
+          {errors.purchaseDate && <p className="text-red-500">{errors.purchaseDate.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">Date de fin de garantie</label>
@@ -164,40 +147,21 @@ export default function CreateBikeForm({ onCreate }: CreateBikeFormProps) {
             {...register("warrantyExpirationDate")}
             className="w-full border rounded p-2"
           />
-          {errors.warrantyExpirationDate && (
-            <p className="text-red-500">
-              {errors.warrantyExpirationDate.message as string}
-            </p>
-          )}
+          {errors.warrantyExpirationDate && <p className="text-red-500">{errors.warrantyExpirationDate.message as string}</p>}
         </div>
-        {/* Champs pour isActive et isDecommissioned */}
         <div>
           <label className="block font-medium">
-            <input
-              type="checkbox"
-              {...register("isActive")}
-              defaultChecked={true}
-              className="mr-2"
-            />
+            <input type="checkbox" {...register("isActive")} defaultChecked={true} className="mr-2" />
             Actif
           </label>
-          {errors.isActive && (
-            <p className="text-red-500">{errors.isActive.message as string}</p>
-          )}
+          {errors.isActive && <p className="text-red-500">{errors.isActive.message as string}</p>}
         </div>
         <div>
           <label className="block font-medium">
-            <input
-              type="checkbox"
-              {...register("isDecommissioned")}
-              defaultChecked={false}
-              className="mr-2"
-            />
+            <input type="checkbox" {...register("isDecommissioned")} defaultChecked={false} className="mr-2" />
             Hors service
           </label>
-          {errors.isDecommissioned && (
-            <p className="text-red-500">{errors.isDecommissioned.message as string}</p>
-          )}
+          {errors.isDecommissioned && <p className="text-red-500">{errors.isDecommissioned.message as string}</p>}
         </div>
         <button
           type="submit"

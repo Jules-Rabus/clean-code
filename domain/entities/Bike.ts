@@ -2,6 +2,8 @@ import BikeModel from "@app/sequelize/models/Bike";
 import VinIdentifier from "@app/domain/value-objects/VinIdentifier";
 import Maintenance from "@app/domain/entities/Maintenance";
 import Incident from "@app/domain/entities/Incident";
+import Immatriculation from "../value-objects/Immatriculation";
+import Trip from "./Trip";
 
 export default class Bike {
   public constructor(
@@ -9,11 +11,12 @@ export default class Bike {
     public brand: string,
     public model: string,
     public mileage: number,
-    public registrationNumber: string,
+    public registrationNumber: Immatriculation,
     public purchaseDate: Date,
     public warrantyExpirationDate: Date,
     public isActive: boolean,
     public isDecommissioned: boolean,
+    public trips: Trip[],
     public maintenances: Maintenance[],
     public incidents: Incident[],
     public createdAt?: Date,
@@ -29,11 +32,14 @@ export default class Bike {
       sequelizeBike.brand,
       sequelizeBike.model,
       sequelizeBike.mileage,
-      sequelizeBike.registrationNumber,
+      new Immatriculation(sequelizeBike.registrationNumber),
       sequelizeBike.purchaseDate,
       sequelizeBike.warrantyExpirationDate,
       sequelizeBike.isActive,
       sequelizeBike.isDecommissioned,
+      sequelizeBike.trips?.map((trip) =>
+        Trip.fromSequelizeModel(trip, false),
+      ) || [],
       sequelizeBike.maintenances?.map((maintenance) =>
         Maintenance.fromSequelizeModel(maintenance, false),
       ) || [],

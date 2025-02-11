@@ -1,4 +1,4 @@
-// pages/bikes.tsx (ou selon votre arborescence)
+// pages/bikes.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { Bike } from "@/types";
 import BikeCard from "@/components/bike/BikeCard";
 import CreateBikeForm from "@/components/bike/CreateBikeForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 export default function BikesPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost";
@@ -37,7 +38,7 @@ export default function BikesPage() {
   const handleDeleteBike = (identifier: string) => {
     setBikes((prevBikes) =>
       prevBikes.filter((bike) =>
-        typeof bike.vin === "object" ? bike.vin.value !== identifier : true
+        typeof bike.vin === "object" ? bike.vin.value !== identifier : bike.vin !== identifier
       )
     );
   };
@@ -46,12 +47,20 @@ export default function BikesPage() {
     setBikes((prevBikes) => [createdBike, ...prevBikes]);
   };
 
+  const handleUpdateBike = (updatedBike: Bike) => {
+    setBikes((prevBikes) =>
+      prevBikes.map((bike) => {
+        const vin = typeof bike.vin === "object" ? bike.vin.value : bike.vin;
+        const updatedVin = typeof updatedBike.vin === "object" ? updatedBike.vin.value : updatedBike.vin;
+        return vin === updatedVin ? updatedBike : bike;
+      })
+    );
+  };
+
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6">Liste des Motos</h1>
-      {/* Formulaire de création en haut de la page */}
       <CreateBikeForm onCreate={handleCreateBike} />
-
       {loading ? (
         <div className="flex justify-center items-center h-32">
           <Skeleton className="h-10 w-10" />
@@ -60,15 +69,23 @@ export default function BikesPage() {
         <p className="text-lg">Aucune moto trouvée.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bikes.map((bike) => (
-            <BikeCard
-              key={
-                typeof bike.vin === "object" ? bike.vin.value : bike.vin
-              }
-              bike={bike}
-              onDelete={handleDeleteBike}
-            />
-          ))}
+          {bikes.map((bike) => {
+            const vin = typeof bike.vin === "object" ? bike.vin.value : bike.vin;
+            return (
+              <div key={vin} className="space-y-2">
+                <Link href={`/bikes/${vin}`}>
+                  <h2 className="text-blue-600 hover:underline font-bold">
+                    Voir les détails
+                  </h2>
+                </Link>
+                <BikeCard
+                  bike={bike}
+                  onDelete={handleDeleteBike}
+                  onUpdate={handleUpdateBike}
+                />
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@ import Part from "@app/domain/entities/Part";
 import PartNotFoundError from "@app/domain/errors/parts/PartNotFoundError";
 
 import CreateAlertUseCase from "../alerts/CreateAlertUseCase";
-import Alert from "@app/domain/entities/alert";
+import Alert from "@app/domain/entities/Alert";
 
 export default class UpdatePartUseCase {
   public constructor(

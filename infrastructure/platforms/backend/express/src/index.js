@@ -8,6 +8,7 @@ const incident_routes_1 = require("@app/express/src/routes/incident.routes");
 const maintenance_routes_1 = require("@app/express/src/routes/maintenance.routes");
 const parts_routes_1 = require("@app/express/src/routes/parts.routes");
 const auth_routes_1 = require("@app/express/src/routes/auth.routes");
+const alert_routes_1 = require("@app/express/src/routes/alert.routes");
 const sequelize_1 = require("@app/sequelize/sequelize");
 const mongoose_1 = require("@app/mongoose/mongoose");
 const app = (0, express_1.default)();
@@ -17,9 +18,10 @@ app.use(express_1.default.json());
 app.use("/bikes", bike_routes_1.default);
 app.use("/users", user_routes_1.default);
 app.use("/incidents", incident_routes_1.default);
-app.use("/maintenance", maintenance_routes_1.default);
+app.use("/maintenances", maintenance_routes_1.default);
 app.use("/parts", parts_routes_1.default);
 app.use("/auth", auth_routes_1.default);
+app.use("/alerts", alert_routes_1.default);
 async function start() {
     try {
         const sequelizeConnector = new sequelize_1.default();

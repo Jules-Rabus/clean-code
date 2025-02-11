@@ -13,6 +13,7 @@ import {
 import Bike from "@app/domain/entities/Bike";
 import IncidentModel from "@app/sequelize/models/Incident";
 import MaintenanceModel from "@app/sequelize/models/Maintenance";
+import TripModel from "./Trip";
 
 @Table({
   tableName: "bikes",
@@ -53,6 +54,9 @@ export default class BikeModel extends Model<Bike> {
   @Default(false)
   @Column(DataType.BOOLEAN)
   declare isDecommissioned: boolean;
+
+  @HasMany(() => TripModel)
+  declare trips: TripModel[];
 
   @HasMany(() => MaintenanceModel)
   declare maintenances: MaintenanceModel[];

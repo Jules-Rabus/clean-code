@@ -1,5 +1,5 @@
 import MongooseAlertRepository from "@app/mongoose/repositories/Alert";
-import Alert from "@app/domain/entities/alert";
+import Alert from "@app/domain/entities/Alert";
 
 export default class FindAllAlertUseCase {
   public constructor(

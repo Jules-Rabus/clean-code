@@ -1,5 +1,5 @@
-import Alert from "../entities/alert";
-import AlertNotFoundError from "../errors/alerts/AlertNotFoundError";
+import Alert from "@app/domain/entities/Alert";
+import AlertNotFoundError from "@app/domain/errors/alerts/AlertNotFoundError";
 
 export default interface AlertsRepository {
   create(alert: Alert): Promise<Alert>;

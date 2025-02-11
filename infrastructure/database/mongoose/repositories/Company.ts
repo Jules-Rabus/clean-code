@@ -2,12 +2,14 @@ import Company from "@app/domain/entities/Company";
 import CompanyRepository from "@app/domain/repositories/CompanyRepository";
 import { CompanyModel } from "../models/Company";
 import CompanyNotFoundError from "@app/domain/errors/companies/CompanyNotFoundError";
+import SequelizeBikeRepository from "@app/sequelize/repositories/Bike";
+import SequelizeUserRepository from "@app/sequelize/repositories/User";
 
 export default class MongooseCompanyRepository implements CompanyRepository {
   public async create(company: Company): Promise<Company> {
     const newCompany = await CompanyModel.create(company);
 
-    return Company.fromMongoModel(newCompany);
+    return Company.fromMongoModel(newCompany, new SequelizeUserRepository(), new SequelizeBikeRepository());
   }
 
   public async update(
@@ -24,7 +26,7 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       return new CompanyNotFoundError();
     }
 
-    return Company.fromMongoModel(updatedCompany);
+    return Company.fromMongoModel(updatedCompany, new SequelizeUserRepository(), new SequelizeBikeRepository());
   }
 
   public async remove(
@@ -48,13 +50,13 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       return new CompanyNotFoundError();
     }
 
-    return Company.fromMongoModel(company);
+    return Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository());
   }
 
   public async findAll(): Promise<Company[]> {
     const companies = await CompanyModel.find();
 
-    return companies.map((company) => Company.fromMongoModel(company));
+    return await Promise.all(companies.map(async (company) => Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository())));
   }
 
   public async searchByName(name: string): Promise<Company[]> {
@@ -62,6 +64,6 @@ export default class MongooseCompanyRepository implements CompanyRepository {
       name: { $regex: name, $options: "i" },
     });
 
-    return companies.map((company) => Company.fromMongoModel(company));
+    return await Promise.all(companies.map(async (company) => Company.fromMongoModel(company, new SequelizeUserRepository(), new SequelizeBikeRepository())));
   }
 }

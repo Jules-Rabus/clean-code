@@ -10,7 +10,7 @@ export class UserController {
     this.usersRepository = new SequelizeUserRepository();
   }
 
-  async signUp(req: Request, res: Response): Promise<void> {
+  /*async signUp(req: Request, res: Response): Promise<void> {
     try {
       const { firstName, lastName, email, password } = req.body; // @TODO: Add validation
 
@@ -38,7 +38,7 @@ export class UserController {
       console.error("Error in UserController.signUp:", error);
       res.status(500).json({ error: "Internal server error" });
     }
-  }
+  }*/
 
   async getUsers(res: Response): Promise<void> {
     try {
