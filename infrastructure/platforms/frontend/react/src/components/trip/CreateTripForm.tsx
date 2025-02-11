@@ -25,7 +25,7 @@ const tripSchema = z.object({
     },
     z.string().nonempty("La date de fin est requise")
   ),
-  bikeVin: z.string().nonempty("Le VIN du vélo est requis"),
+  bikeVin: z.string().nonempty("Le VIN de la moto est requis"),
   userIdentifier: z.string().nonempty("L'identifiant de l'utilisateur est requis"),
 });
 
@@ -48,13 +48,11 @@ export default function CreateTripForm({ onCreate }: CreateTripFormProps) {
     resolver: zodResolver(tripSchema),
   });
 
-  // État pour stocker les listes de vélos et d'utilisateurs
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loadingBikes, setLoadingBikes] = useState(true);
   const [loadingUsers, setLoadingUsers] = useState(true);
 
-  // Récupération des vélos
   useEffect(() => {
     async function fetchBikes() {
       try {
@@ -64,11 +62,11 @@ export default function CreateTripForm({ onCreate }: CreateTripFormProps) {
             Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
           },
         });
-        if (!res.ok) throw new Error("Erreur lors de la récupération des vélos");
+        if (!res.ok) throw new Error("Erreur lors de la récupération des motos");
         const data = await res.json();
         setBikes(data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des vélos :", error);
+        console.error("Erreur lors de la récupération des motos :", error);
       } finally {
         setLoadingBikes(false);
       }
@@ -101,7 +99,6 @@ export default function CreateTripForm({ onCreate }: CreateTripFormProps) {
   const onSubmit = async (data: TripFormData) => {
     try {
       const port = parseInt(localStorage.getItem("port") || "3001", 10);
-      // Préparation du payload en imbriquant le vélo et l'utilisateur
       const payload = {
         ...data,
         bikeId:  data.bikeVin,
@@ -143,12 +140,12 @@ export default function CreateTripForm({ onCreate }: CreateTripFormProps) {
           {errors.endDate && <p className="text-red-500">{errors.endDate.message as string}</p>}
         </div>
         <div>
-          <label className="block font-medium">Vélo</label>
+          <label className="block font-medium">Moto</label>
           {loadingBikes ? (
-            <p>Chargement des vélos...</p>
+            <p>Chargement des motos...</p>
           ) : (
             <select {...register("bikeVin")} className="w-full border rounded p-2">
-              <option value="">Sélectionnez un vélo</option>
+              <option value="">Sélectionnez une moto</option>
               {bikes.map((bike) => {
                 const vin = typeof bike.vin === "object" ? bike.vin.value : bike.vin;
                 return (
