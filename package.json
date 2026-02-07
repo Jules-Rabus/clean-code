@@ -10,7 +10,7 @@
     "precommit": "npm run lint && npm run type:check"
   },
   "dependencies": {
-    "@nestjs/cli": "^10.4.9",
+    "@nestjs/cli": "^11.0.16",
     "@nestjs/sequelize": "^10.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
